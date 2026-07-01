@@ -5,6 +5,7 @@ export class BankMapper {
     static toResponse(entity: Bank): BankResponseDto {
         return {
             id: entity.id,
+            country: entity.country.name,
             code: entity.code,
             name: entity.name,
             audit: {

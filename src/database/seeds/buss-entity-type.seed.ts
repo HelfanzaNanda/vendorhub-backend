@@ -1,4 +1,5 @@
-import { BusinessEntityType } from "@modules/master/businness-entity-type/entities/business-entity-type.entity";
+// import { BusinessEntityType } from "@modules/master/businness-entity-type/entities/business-entity-type.entity";
+import { BusinessEntityType } from "@modules/master/business-entity-type/entities/business-entity-type.entity";
 import { DataSource } from "typeorm";
 
 export async function seedBusinessEntityType(dataSource: DataSource) {

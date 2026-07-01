@@ -5,17 +5,15 @@ export class BankResponseDto {
     @ApiProperty()
     id: number;
 
+
+    @ApiProperty()
+    country: string;
+    
+    @ApiProperty()
+    code: string;
+
     @ApiProperty()
     name: string;
-
-    @ApiProperty()
-    iso2Code: string;
-
-    @ApiProperty()
-    iso3Code: string;
-
-    @ApiProperty()
-    phoneCode: string;
 
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;

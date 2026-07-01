@@ -34,8 +34,8 @@ import { LookupModule } from '@modules/lookup/lookup.module';
 
         AuthModule, 
         CountryModule,
-        SiteModule,
-        LookupModule
+        // SiteModule,
+        // LookupModule
     ],
     controllers: [
         AppController,
