@@ -1,6 +1,6 @@
 import { FieldMetaMap } from "@common/pagination/field-meta.type";
 
-export const COUNTRY_FIELDS: FieldMetaMap = {
+export const BANK_FIELDS: FieldMetaMap = {
     id: {
         column: 'c.id',
         orderable: true,

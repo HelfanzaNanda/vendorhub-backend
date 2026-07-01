@@ -6,7 +6,7 @@ import { paginate } from '@common/pagination/pagination.helper';
 import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';;
 import { RequestContext } from '@common/context/request-context';
 import { CreateWorkflowTypeDto } from './dto/create-workflow-type.dto';
-import { WORKFLOW_TYPES_FIELDS } from './query/workflow-type-field.meta';
+import { WORKFLOW_TYPE_FIELDS } from './query/workflow-type-field.meta';
 import { WorkflowTypeMapper } from './mapper/workflow-type.mapper';
 import { UpdateWorkflowTypeDto } from './dto/update-workflow-type.dto';
 
@@ -26,9 +26,9 @@ export class WorkflowTypeService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         
-        const selectColumns = Object.values(WORKFLOW_TYPES_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(WORKFLOW_TYPE_FIELDS).map(f => f.column);
         qb.select(selectColumns);
-        const result = await paginate(qb, query, WORKFLOW_TYPES_FIELDS);
+        const result = await paginate(qb, query, WORKFLOW_TYPE_FIELDS);
         return {
             data : WorkflowTypeMapper.toResponses(result.data),
             meta : result.meta

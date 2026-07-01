@@ -6,8 +6,8 @@ import { paginate } from '@common/pagination/pagination.helper';
 import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { RequestContext } from '@common/context/request-context';
 import { CreateVendorStatusDto } from './dto/create-vendor-status.dto';
-import { VEDNOR_STATUS_FIELDS } from './query/country-field.meta';
-import { VendorStatusMapper } from './mapper/country.mapper';
+import { VENDOR_STATUS_FIELDS } from './query/vendor-status-field.meta';
+import { VendorStatusMapper } from './mapper/vendor-status.mapper';
 import { UpdateVendorStatusDto } from './dto/update-vendor-status.dto';
 
 @Injectable()
@@ -26,9 +26,9 @@ export class VendorStatusService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         
-        const selectColumns = Object.values(VEDNOR_STATUS_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(VENDOR_STATUS_FIELDS).map(f => f.column);
         qb.select(selectColumns);
-        const result = await paginate(qb, query, VEDNOR_STATUS_FIELDS);
+        const result = await paginate(qb, query, VENDOR_STATUS_FIELDS);
         return {
             data : VendorStatusMapper.toResponses(result.data),
             meta : result.meta

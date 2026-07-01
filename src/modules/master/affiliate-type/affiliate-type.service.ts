@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from '@common/pagination/pagination.helper';
 import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { RequestContext } from '@common/context/request-context';
-import { CountryMapper } from './mapper/affiliate-type.mapper';
+import { AffiliateTypeMapper } from './mapper/affiliate-type.mapper';
 import { AFFILIATE_TYPE_FIELDS } from './query/affiliate-type-field.meta';
 import { UpdateAffiliateTypeDto } from './dto/update-affiliate-type.dto';
 
@@ -30,14 +30,14 @@ export class AffiliateTypeService {
         qb.select(selectColumns);
         const result = await paginate(qb, query, AFFILIATE_TYPE_FIELDS);
         return {
-            data : CountryMapper.toResponses(result.data),
+            data : AffiliateTypeMapper.toResponses(result.data),
             meta : result.meta
         };
 
     }
 
     async findOne(id: number) {
-        const country = await this.affiliateRepo.findOne({ 
+        const affiliateType = await this.affiliateRepo.findOne({ 
             select: {
                 createdByUser : {
                     username: true,
@@ -52,25 +52,25 @@ export class AffiliateTypeService {
                 updatedByUser : true 
             }
         });
-        if (!country) throw new NotFoundException();
-        return CountryMapper.toResponse(country);
+        if (!affiliateType) throw new NotFoundException();
+        return AffiliateTypeMapper.toResponse(affiliateType);
     }
 
     async update(id: number, data : UpdateAffiliateTypeDto) {
-        const country = await this.affiliateRepo.findOne({ where: { id } });
-        if (!country) throw new NotFoundException(`Data with id ${id} not found`);
-        Object.assign(country, data);
-        return this.affiliateRepo.save(country);
+        const affiliateType = await this.affiliateRepo.findOne({ where: { id } });
+        if (!affiliateType) throw new NotFoundException(`Data with id ${id} not found`);
+        Object.assign(affiliateType, data);
+        return this.affiliateRepo.save(affiliateType);
     }
 
     async delete(id: number) {
-        const country = await this.affiliateRepo.findOne({ where: { id } });
-        if (!country) throw new NotFoundException(`Data with id ${id} not found`);
+        const affiliateType = await this.affiliateRepo.findOne({ where: { id } });
+        if (!affiliateType) throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
-        country.deletedBy = userId;
-        country.deletedAt = new Date();
+        affiliateType.deletedBy = userId;
+        affiliateType.deletedAt = new Date();
 
-        return this.affiliateRepo.save(country);
+        return this.affiliateRepo.save(affiliateType);
     }
 }

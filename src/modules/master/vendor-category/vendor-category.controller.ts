@@ -7,7 +7,7 @@ import { VendorCategoryService } from "./vendor-category.service";
 import { CreateVendorCategoryDto } from "./dto/create-vendor-category.dto";
 import { UpdateVendorCategoryDto } from "./dto/update-vendor-category.dto";
 
-@Controller('countries')
+@Controller('vendor-categories')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorCategoryController {
 

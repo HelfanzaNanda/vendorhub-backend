@@ -6,7 +6,7 @@ import { Bank } from './entities/bank.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from '@common/pagination/pagination.helper';
 import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
-import { COUNTRY_FIELDS } from './query/bank-field.meta';
+import { BANK_FIELDS } from './query/bank-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { BankMapper } from './mapper/bank.mapper';
 
@@ -26,9 +26,9 @@ export class BankService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         
-        const selectColumns = Object.values(COUNTRY_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(BANK_FIELDS).map(f => f.column);
         qb.select(selectColumns);
-        const result = await paginate(qb, query, COUNTRY_FIELDS);
+        const result = await paginate(qb, query, BANK_FIELDS);
         return {
             data : BankMapper.toResponses(result.data),
             meta : result.meta

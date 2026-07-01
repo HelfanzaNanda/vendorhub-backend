@@ -7,7 +7,7 @@ import { UpdateAreaDto } from "./dto/update-area.dto";
 import { AreaService } from "./area.service";
 import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
 
-@Controller('countries')
+@Controller('areas')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class AreaController {
 

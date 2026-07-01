@@ -9,7 +9,7 @@ import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
 import { CreateAffiliateTypeDto } from "./dto/create-affiliate-type.dto";
 import { UpdateAffiliateTypeDto } from "./dto/update-affiliate-type.dto";
 
-@Controller('countries')
+@Controller('affiliate-types')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class AffiliateTypeController {
 
@@ -17,13 +17,13 @@ export class AffiliateTypeController {
 
 
     @Get()
-    @RequirePermission('affiliate.type.pagination')
+    @RequirePermission('affiliate-type.pagination')
     pagination(@Query() query: PaginationQueryDto) {
         return this.service.pagination(query);
     }
 
     @Post()
-    @RequirePermission('affiliate.type.create')
+    @RequirePermission('affiliate-type.create')
     create(@Body() dto: CreateAffiliateTypeDto) {
         return this.service.create(dto);
     }
@@ -34,13 +34,13 @@ export class AffiliateTypeController {
     }
 
     @Put(':id')
-    @RequirePermission('affiliate.type.update')
+    @RequirePermission('affiliate-type.update')
     update(@Param('id') id: number, @Body() dto: UpdateAffiliateTypeDto) {
         return this.service.update(id, dto);
     }
 
     @Delete(':id')
-    @RequirePermission('affiliate.type.delete')
+    @RequirePermission('affiliate-type.delete')
     remove(@Param('id') id: number) {
         return this.service.delete(id);
     }

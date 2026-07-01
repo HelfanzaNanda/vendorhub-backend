@@ -7,7 +7,7 @@ import { UpdateBankDto } from "./dto/update-bank.dto";
 import { BankService } from "./bank.service";
 import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
 
-@Controller('countries')
+@Controller('banks')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class BankController {
 

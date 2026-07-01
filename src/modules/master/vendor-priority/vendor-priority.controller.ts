@@ -7,7 +7,7 @@ import { VendorPriorityService } from "./vendor-priority.service";
 import { CreateVendorPriorityDto } from "./dto/create-vendor-priority.dto";
 import { UpdateVendorPriorityDto } from "./dto/update-vendor-priority.dto";
 
-@Controller('countries')
+@Controller('vendor-priorities')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorPriorityController {
 

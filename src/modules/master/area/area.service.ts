@@ -6,7 +6,7 @@ import { Area } from './entities/area.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from '@common/pagination/pagination.helper';
 import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
-import { COUNTRY_FIELDS } from './query/area-field.meta';
+import { AREA_FIELDS } from './query/area-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { AreaMapper } from './mapper/area.mapper';
 
@@ -26,9 +26,9 @@ export class AreaService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         
-        const selectColumns = Object.values(COUNTRY_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(AREA_FIELDS).map(f => f.column);
         qb.select(selectColumns);
-        const result = await paginate(qb, query, COUNTRY_FIELDS);
+        const result = await paginate(qb, query, AREA_FIELDS);
         return {
             data : AreaMapper.toResponses(result.data),
             meta : result.meta

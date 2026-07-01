@@ -3,7 +3,7 @@ import { IsNull, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from '@common/pagination/pagination.helper';
 import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
-import { COUNTRY_FIELDS } from './query/site-field.meta';
+import { SITE_FIELDS } from './query/site-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { Site } from './entities/site.entity';
 import { CreateSiteDto } from './dto/create-site.dto';
@@ -27,9 +27,9 @@ export class SiteService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         
-        const selectColumns = Object.values(COUNTRY_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(SITE_FIELDS).map(f => f.column);
         qb.select(selectColumns);
-        const result = await paginate(qb, query, COUNTRY_FIELDS);
+        const result = await paginate(qb, query, SITE_FIELDS);
         return {
             data : SiteMapper.toResponses(result.data),
             meta : result.meta

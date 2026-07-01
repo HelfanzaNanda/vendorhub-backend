@@ -1,7 +1,7 @@
 import { AffiliateTypeResponseDto } from "../dto/response-affiliate-type.dto";
 import { AffiliateType } from "../entities/affiliate-type.entity";
 
-export class CountryMapper {
+export class AffiliateTypeMapper {
     static toResponse(entity: AffiliateType): AffiliateTypeResponseDto {
         return {
             id: entity.id,

@@ -7,7 +7,7 @@ import { WorkflowTypeService } from "./workflow-type.service";
 import { CreateWorkflowTypeDto } from "./dto/create-workflow-type.dto";
 import { UpdateWorkflowTypeDto } from "./dto/update-workflow-type.dto";
 
-@Controller('countries')
+@Controller('workflow-types')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class WorkflowTypeController {
 

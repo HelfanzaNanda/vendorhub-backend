@@ -1,6 +1,6 @@
 import { FieldMetaMap } from "@common/pagination/field-meta.type";
 
-export const WORKFLOW_TYPES_FIELDS: FieldMetaMap = {
+export const WORKFLOW_TYPE_FIELDS: FieldMetaMap = {
     id: {
         column: 'c.id',
         orderable: true,

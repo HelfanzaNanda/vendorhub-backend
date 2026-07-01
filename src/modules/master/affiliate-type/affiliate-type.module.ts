@@ -9,4 +9,4 @@ import { AffiliateTypeService } from './affiliate-type.service';
   controllers: [AffiliateTypeController],
   providers: [AffiliateTypeService],
 })
-export class CountryModule {}
+export class AffiliateTypeModule {}

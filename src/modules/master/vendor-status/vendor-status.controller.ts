@@ -7,7 +7,7 @@ import { VendorStatusService } from "./vendor-status.service";
 import { CreateVendorStatusDto } from "./dto/create-vendor-status.dto";
 import { UpdateVendorStatusDto } from "./dto/update-vendor-status.dto";
 
-@Controller('countries')
+@Controller('vendor-statuses')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorStatusController {
 
