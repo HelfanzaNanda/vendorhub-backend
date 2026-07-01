@@ -1,0 +1,47 @@
+import { FieldMetaMap } from "@common/pagination/field-meta.type";
+
+export const COUNTRY_FIELDS: FieldMetaMap = {
+    id: {
+        column: 'c.id',
+        orderable: true,
+    },
+    area: {
+        column: 'c.area.name',
+        searchable: true,
+        orderable: true,
+    },
+    code: {
+        column: 'c.code',
+        searchable: true,
+        orderable: true,
+    },
+    name: {
+        column: 'c.name',
+        searchable: true,
+        orderable: true,
+    },
+    city: {
+        column: 'c.city',
+        searchable: true,
+        orderable: true,
+    },
+    address: {
+        column: 'c.address',
+        searchable: true,
+        orderable: true,
+    },
+    createdAt: {
+        column: 'c.createdAt',
+        orderable: true,
+    },
+    createdBy: {
+        column: 'createdByUser.username',
+    },
+    updatedAt: {
+        column: 'c.updatedAt',
+        orderable: true,
+    },
+    updatedBy: {
+        column: 'updatedByUser.username',
+    },
+};
