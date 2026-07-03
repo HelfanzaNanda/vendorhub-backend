@@ -31,6 +31,7 @@ import { seedBank } from './bank.seed';
 import { seedBankBranch } from './bank-branch.seed';
 import { seedTermsCondition } from './terms-condition.seed';
 import { seedCompanyPersonnelType } from './company-personnel-type.seed';
+import { seedDocumentType } from './document-type.seed';
 
 async function runSeeder() {
     await AppDataSource.initialize();
@@ -72,7 +73,8 @@ async function runSeeder() {
     // await seedBankBranch(AppDataSource);
 
     // await seedTermsCondition(AppDataSource);
-    await seedCompanyPersonnelType(AppDataSource);
+    // await seedCompanyPersonnelType(AppDataSource);
+    await seedDocumentType(AppDataSource);
 
 
 

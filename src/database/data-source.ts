@@ -15,8 +15,29 @@ import { User } from '@modules/uman/user/entities/user.entity';
 // import { CompanyIdentity } from '@modules/vendor/company-identity/entities/company-identity.entity';
 import { File } from '@modules/master/file/entities/file.entity';
 import { CompanyPersonnelType } from '@modules/master/company-personnel-type/entities/company-personnel-type.entity';
+import { DocumentType } from '@modules/master/document-type/entities/document-type.entity';
 import 'dotenv/config';
 import { DataSource } from "typeorm";
+import { Position } from '@modules/master/position/entities/position.entity';
+
+import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
+import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';
+import { VendorPersonnel } from '@modules/vendor/vendor-personnel/entities/vendor-personnel.entity';
+import { VendorBank } from '@modules/vendor/vendor-bank/entities/vendor-bank.entity';
+import { VendorAffiliation } from '@modules/vendor/vendor-affiliation/entities/vendor-affiliation.entity';
+import { VendorBusinessLicense } from '@modules/vendor/vendor-business-license/entities/vendor-business-license.entity';
+import { VendorBusinessLicenseItem } from '@modules/vendor/vendor-business-license-item/entities/vendor-business-license-item.entity';
+import { VendorFinancialReport } from '@modules/vendor/vendor-financial-report/entities/vendor-financial-report.entity';
+import { VendorDocument } from '@modules/vendor/vendor-document/entities/vendor-document.entity';
+import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendor-temp.entity';
+import { VendorCompanyTemp } from '@modules/vendor/temporary/vendor-company-temp/entities/vendor-company-temp.entity';
+import { VendorPersonnelTemp } from '@modules/vendor/temporary/vendor-personnel-temp/entities/vendor-personnel-temp.entity';
+import { VendorUserTemp } from '@modules/vendor/temporary/vendor-user-temp/entities/vendor-user-temp.entity';
+import { VendorBankTemp } from '@modules/vendor/temporary/vendor-bank-temp/entities/vendor-bank-temp.entity';
+import { VendorAffiliationTemp } from '@modules/vendor/temporary/vendor-affiliation-temp/entities/vendor-affiliation-temp.entity';
+import { VendorBusinessLicenseTemp } from '@modules/vendor/temporary/vendor-business-license-temp/entities/vendor-business-license-temp.entity';
+import { VendorFinancialReportTemp } from '@modules/vendor/temporary/vendor-financial-report-temp/entities/vendor-financial-report-temp.entity';
+import { VendorDocumentTemp } from '@modules/vendor/temporary/vendor-document-temp/entities/vendor-document-temp.entity';
 
 export const AppDataSource = new DataSource({
     type: 'mariadb',
@@ -30,12 +51,31 @@ export const AppDataSource = new DataSource({
 
     entities: [
         User,
+        Position,
         UserHasRole,
         Role,
         Permission,
         Menu,
         // Site, Area, BusinessEntityType, Country, Province, City, VendorStatus,
-        File, CompanyPersonnelType
+        File, CompanyPersonnelType, DocumentType,
+        Vendor,
+        VendorCompany,
+        VendorPersonnel,
+        VendorBank,
+        VendorAffiliation,
+        VendorBusinessLicense,
+        VendorBusinessLicenseItem,
+        VendorFinancialReport,
+        VendorDocument,
+        VendorTemp,
+        VendorCompanyTemp,
+        VendorPersonnelTemp,
+        VendorUserTemp,
+        VendorBankTemp,
+        VendorAffiliationTemp,
+        VendorBusinessLicenseTemp,
+        VendorFinancialReportTemp,
+        VendorDocumentTemp
     ],
     migrations: ['src/database/migrations/*.ts'],
   

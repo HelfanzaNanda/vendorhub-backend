@@ -26,6 +26,7 @@ import { CompetencyCategoryModule } from '@modules/master/competency-category/co
 import { RoleModule } from '@modules/uman/role/role.module';
 import { CompanyPersonnelTypeModule } from '@modules/master/company-personnel-type/company-personnel-type.module';
 import { FileModule } from '@modules/master/file/file.module';
+import { DocumentTypeModule } from '@modules/master/document-type/document-type.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { FileModule } from '@modules/master/file/file.module';
     FinancialPeriodModule,
     CompanyPersonnelTypeModule,
     FileModule,
+    DocumentTypeModule,
   ],
   controllers: [LookupController],
   providers: [LookupService],

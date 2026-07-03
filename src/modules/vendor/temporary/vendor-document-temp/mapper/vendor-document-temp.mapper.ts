@@ -1,0 +1,32 @@
+import { VendorDocumentTempResponseDto } from "../dto/response-vendor-document-temp.dto";
+import { VendorDocumentTemp } from "../entities/vendor-document-temp.entity";
+
+export class VendorDocumentTempMapper {
+    static toResponse(entity: VendorDocumentTemp): VendorDocumentTempResponseDto {
+        return {
+            id: entity.id,
+            vendorTempId: entity.vendorTempId ?? null,
+            vendorDocumentId: entity.vendorDocumentId ?? null,
+            action: entity.action ?? null,
+            reviewStatus: entity.reviewStatus ?? null,
+            reviewNotes: entity.reviewNotes ?? null,
+            documentTypeId: entity.documentTypeId ?? null,
+            documentNumber: entity.documentNumber ?? null,
+            address: entity.address ?? null,
+            taxpayerStatus: entity.taxpayerStatus ?? null,
+            publishDate: entity.publishDate ?? null,
+            expiredDate: entity.expiredDate ?? null,
+            fileId: entity.fileId ?? null,
+            audit: {
+                createdAt: entity.createdAt,
+                updatedAt: entity.updatedAt,
+                createdBy: entity.createdByUser?.username ?? null,
+                updatedBy: entity.updatedByUser?.username ?? null,
+            },
+        };
+    }
+
+    static toResponses(entities: VendorDocumentTemp[]): VendorDocumentTempResponseDto[] {
+        return entities.map(this.toResponse);
+    }
+}

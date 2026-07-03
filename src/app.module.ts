@@ -10,8 +10,7 @@ import { AuditSubscriber } from '@common/subscribers/audit.subscriber';
 import { SiteModule } from '@modules/master/site/site.module';
 import { LookupModule } from '@modules/lookup/lookup.module';
 import { TermsConditionModule } from '@modules/master/terms-condition/term-condition.module';
-
-
+import { VendorModule } from '@modules/vendor/vendor.module';
 
 @Module({
     imports: [
@@ -37,7 +36,8 @@ import { TermsConditionModule } from '@modules/master/terms-condition/term-condi
         CountryModule,
         SiteModule,
         LookupModule,
-        TermsConditionModule
+        TermsConditionModule,
+        VendorModule,
     ],
     controllers: [
         AppController,

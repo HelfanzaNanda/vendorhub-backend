@@ -1,5 +1,6 @@
 import { AuditBaseEntity } from "@common/entities/audit-base.entity";
 import { AuditColumns } from "@common/entities/audit.embedded";
+import { Position } from "@modules/master/position/entities/position.entity";
 import { UserHasRole } from "@modules/uman/user-has-roles/entities/user-has-role.entity";
 // import { CompanyIdentity } from "@modules/vendor/company-identity/entities/company-identity.entity";
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -21,6 +22,28 @@ export class User extends AuditBaseEntity {
 
     @Column()
     password: string;
+
+    @Column({
+        name : 'job_title',
+        nullable: true,
+    })
+    jobTitle: string;
+
+    @Column()
+    phone: string;
+
+    @Column({
+        name: 'area_ids',
+        nullable: true,
+    })
+    areaIds: string;
+
+    @ManyToOne(() => Position, {
+        nullable: true,
+        createForeignKeyConstraints: false,
+    })
+    @JoinColumn({ name: 'position_id' })
+    position: Position;
 
     // @ManyToOne(() => CompanyIdentity, {
     //     nullable: true,

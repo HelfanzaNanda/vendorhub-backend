@@ -22,6 +22,7 @@ import { Injectable } from "@nestjs/common";
 import { LookupMapper } from "./mapper/lookup.mapper";
 import { RoleService } from "@modules/uman/role/role.service";
 import { CompanyPersonnelTypeService } from "@modules/master/company-personnel-type/company-personnel-type.service";
+import { DocumentTypeService } from "@modules/master/document-type/document-type.service";
 
 @Injectable()
 export class LookupService {
@@ -46,6 +47,7 @@ export class LookupService {
         private competencyItemService : CompetencyItemService,
         private financialPeriodService : FinancialPeriodService,
         private companyPersonnelTypeService: CompanyPersonnelTypeService,
+        private documentTypeService: DocumentTypeService,
 
     ) { }
 
@@ -144,5 +146,9 @@ export class LookupService {
     
     async getCompanyPersonnelTypes() {
         return await this.companyPersonnelTypeService.findOptions();
+    }
+
+    async getDocumentTypes() {
+        return await this.documentTypeService.findOptions();
     }
 }

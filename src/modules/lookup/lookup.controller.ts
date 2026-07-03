@@ -115,4 +115,9 @@ export class LookupController {
     getCompanyPersonnelTypes() {
         return this.service.getCompanyPersonnelTypes();
     }
+
+    @Get('document-types')
+    getDocumentTypes() {
+        return this.service.getDocumentTypes();
+    }
 }
