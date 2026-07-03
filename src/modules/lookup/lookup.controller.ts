@@ -12,7 +12,107 @@ export class LookupController {
     constructor(private service: LookupService) { }
 
     @Get('sites')
-    pagination() {
-        return this.service.getSites();
+    getSites(@Query('areaId') areaId: number) {
+        return this.service.getSites(areaId);
+    }
+
+    @Get('areas')
+    getAreas() {
+        return this.service.getAreas();
+    }
+
+    @Get('business-entity-types')
+    getBusinessEntityTypes() {
+        return this.service.getBusinessEntityTypes();
+    }
+
+    @Get('countries')
+    getCountries() {
+        return this.service.getCountries();
+    }
+
+    @Get('provinces')
+    getProvinces(@Query('countryId') countryId: number) {
+        return this.service.getProvinces(countryId);
+    }
+
+    @Get('cities')
+    getCities(@Query('provinceId') provinceId: number) {
+        return this.service.getCities(provinceId);
+    }
+
+    @Get('telco-prefixes')
+    getTelcoPrefixes() {
+        return this.service.getTelcoPrefixes();
+    }
+
+    @Get('titles')
+    getTiles() {
+        return this.service.getTiles();
+    }
+
+    @Get('identity-types')
+    getIdentityTypes() {
+        return this.service.getIdentityTypes();
+    }
+
+    @Get('job-types')
+    getPositionTypes() {
+        return this.service.getJobTypes();
+    }
+
+    @Get('positions')
+    getPositions() {
+        return this.service.getPositions();
+    }
+
+    @Get('roles')
+    getRoles() {
+        return this.service.getRoles();
+    }
+
+    @Get('banks')
+    getBanks(@Query('countryId') countryId: number) {
+        return this.service.getBanks(countryId);
+    }
+
+    @Get('bank-branchs')
+    getBankBranch(@Query('bankId') bankId: number) {
+        return this.service.getBankBranch(bankId);
+    }
+
+    @Get('currencies')
+    getCurrencies() {
+        return this.service.getCurrencies();
+    }
+
+    @Get('affiliate-types')
+    getAffiliateTypes() {
+        return this.service.getAffiliateTypes();
+    }
+
+    @Get('industry-classifications')
+    getIndustryClassifications() {
+        return this.service.getIndustryClassifications();
+    }
+
+    @Get('competencies')
+    getCompetencies(@Query('industryClassificationId') industryClassificationId: number) {
+        return this.service.getCompetencies(industryClassificationId);
+    }
+
+    @Get('years')
+    getYears() {
+        return this.service.getYears();
+    }
+
+    @Get('financial-periods')
+    getFinancialPeriods() {
+        return this.service.getFinancialPeriods();
+    }
+
+    @Get('company-personnel-types')
+    getCompanyPersonnelTypes() {
+        return this.service.getCompanyPersonnelTypes();
     }
 }

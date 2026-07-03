@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { COUNTRY_FIELDS } from './query/country-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { CountryMapper } from './mapper/country.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class CountryService {
@@ -72,5 +73,14 @@ export class CountryService {
         country.deletedAt = new Date();
 
         return this.countryRepo.save(country);
+    }
+
+    async findOptions() {
+        const country = await this.countryRepo.find();
+        return LookupMapper.toResponses(
+            country, 
+            country => country.id,
+            country => country.name
+        );
     }
 }

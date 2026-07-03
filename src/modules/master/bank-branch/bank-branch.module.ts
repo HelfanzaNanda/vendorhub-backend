@@ -8,5 +8,6 @@ import { BankBranchService } from './bank-branch.service';
   imports: [TypeOrmModule.forFeature([BankBranch])],
   controllers: [BankBranchController],
   providers: [BankBranchService],
+  exports:[BankBranchService]
 })
 export class BankBranchModule {}

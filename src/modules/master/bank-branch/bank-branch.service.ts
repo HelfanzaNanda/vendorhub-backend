@@ -10,6 +10,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { BANK_BRANCH_FIELDS } from './query/bank-branch-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { BankBranchMapper } from './mapper/bank-branch.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class BankBranchService {
@@ -80,5 +81,23 @@ export class BankBranchService {
         bankBranch.deletedAt = new Date();
 
         return this.bankBranchRepo.save(bankBranch);
+    }
+
+    async findOptions(bankId : number) {
+        const bankBranch = await this.bankBranchRepo.find({
+            where: {
+                bank : {
+                    id : bankId
+                }
+            }
+        });
+        return LookupMapper.toResponses(
+            bankBranch, 
+            bankBranch => bankBranch.id,
+            bankBranch => `${bankBranch.code} - ${bankBranch.name}`,
+            // bankBranch => ({
+            //     code : bankBranch.code
+            // })
+        );
     }
 }

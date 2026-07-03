@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { AREA_FIELDS } from './query/area-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { AreaMapper } from './mapper/area.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class AreaService {
@@ -72,5 +73,14 @@ export class AreaService {
         area.deletedAt = new Date();
 
         return this.areaRepo.save(area);
+    }
+    
+    async findOptions() {
+        const area = await this.areaRepo.find();
+        return LookupMapper.toResponses(
+            area, 
+            area => area.id,
+            area => area.name
+        );
     }
 }

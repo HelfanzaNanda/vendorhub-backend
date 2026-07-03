@@ -1249,6 +1249,11 @@ export async function seedBank(dataSource: DataSource) {
             where: { name: countryName }
         });
 
+        if (!country) {
+            console.warn(`⚠️ country not found: ${countryName}`);
+            continue;
+        }
+
         for (const obj of data) {
             await repo.save(
                 repo.create({

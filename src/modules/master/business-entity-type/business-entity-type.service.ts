@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { BUSINESS_ENTITY_TYPE_FIELDS } from './query/business-entity-type-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { BusinessEntityTypeMapper } from './mapper/business-entity-type.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class BusinessEntityTypeService {
@@ -72,5 +73,14 @@ export class BusinessEntityTypeService {
         businessEntityType.deletedAt = new Date();
 
         return this.businessEntityTypeRepo.save(businessEntityType);
+    }
+
+    async findOptions() {
+        const businessEntityType = await this.businessEntityTypeRepo.find();
+        return LookupMapper.toResponses(
+            businessEntityType, 
+            businessEntityType => businessEntityType.id,
+            businessEntityType => businessEntityType.code
+        );
     }
 }

@@ -10,6 +10,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { COMPETENCY_ITEM_FIELDS } from './query/competency-item-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { CompetencyItemMapper } from './mapper/competency-item.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class CompetencyItemService {
@@ -80,5 +81,14 @@ export class CompetencyItemService {
         competencyItem.deletedAt = new Date();
 
         return this.competencyItemRepo.save(competencyItem);
+    }
+
+    async findOptions(industryClassificationId : number) {
+        const competencyItem = await this.competencyItemRepo.find();
+        return LookupMapper.toResponses(
+            competencyItem, 
+            competencyItem => competencyItem.id,
+            competencyItem => competencyItem.name
+        );
     }
 }

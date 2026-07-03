@@ -8,5 +8,6 @@ import { FinancialPeriodService } from './financial-period.service';
   imports: [TypeOrmModule.forFeature([FinancialPeriod])],
   controllers: [FinancialPeriodController],
   providers: [FinancialPeriodService],
+  exports:[FinancialPeriodService]
 })
 export class FinancialPeriodModule {}

@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { POSITION_FIELDS } from './query/position-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { PositionMapper } from './mapper/position.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class PositionService {
@@ -72,5 +73,14 @@ export class PositionService {
         position.deletedAt = new Date();
 
         return this.positionRepo.save(position);
+    }
+
+    async findOptions() {
+        const position = await this.positionRepo.find();
+        return LookupMapper.toResponses(
+            position, 
+            position => position.id,
+            position => position.name
+        );
     }
 }

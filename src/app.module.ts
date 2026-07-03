@@ -9,6 +9,7 @@ import { CountryModule } from '@modules/master/country/country.module';
 import { AuditSubscriber } from '@common/subscribers/audit.subscriber';
 import { SiteModule } from '@modules/master/site/site.module';
 import { LookupModule } from '@modules/lookup/lookup.module';
+import { TermsConditionModule } from '@modules/master/terms-condition/term-condition.module';
 
 
 
@@ -34,8 +35,9 @@ import { LookupModule } from '@modules/lookup/lookup.module';
 
         AuthModule, 
         CountryModule,
-        // SiteModule,
-        // LookupModule
+        SiteModule,
+        LookupModule,
+        TermsConditionModule
     ],
     controllers: [
         AppController,

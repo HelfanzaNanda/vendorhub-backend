@@ -8,5 +8,6 @@ import { TelcoPrefixService } from './telco-prefix.service';
   imports: [TypeOrmModule.forFeature([TelcoPrefix])],
   controllers: [TelcoPrefixController],
   providers: [TelcoPrefixService],
+  exports:[TelcoPrefixService]
 })
 export class TelcoPrefixModule {}

@@ -10,6 +10,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { CURRENCY_FIELDS } from './query/currency-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { CurrencyMapper } from './mapper/currency.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class CurrencyService {
@@ -79,5 +80,14 @@ export class CurrencyService {
         currency.deletedAt = new Date();
 
         return this.currencyRepo.save(currency);
+    }
+
+    async findOptions() {
+        const currency = await this.currencyRepo.find();
+        return LookupMapper.toResponses(
+            currency, 
+            currency => currency.id,
+            currency => `${currency.name} (${currency.code})`
+        );
     }
 }

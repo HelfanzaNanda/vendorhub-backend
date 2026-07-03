@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { INDUSTRY_CLASSIFICATION_FIELDS } from './query/industry-classification-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { IndustryClassificationMapper } from './mapper/industry-classification.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class IndustryClassificationService {
@@ -72,5 +73,18 @@ export class IndustryClassificationService {
         industryClassification.deletedAt = new Date();
 
         return this.industryClassificationRepo.save(industryClassification);
+    }
+
+    async findOptions() {
+        const industryClassification = await this.industryClassificationRepo.find();
+        return LookupMapper.toResponses(
+            industryClassification, 
+            industryClassification => industryClassification.id,
+            industryClassification => industryClassification.number,
+            industryClassification => ({
+                name : industryClassification.name,
+                description : industryClassification.description,
+            })
+        );
     }
 }

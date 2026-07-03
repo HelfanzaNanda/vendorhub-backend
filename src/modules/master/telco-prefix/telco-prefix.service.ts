@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { TELCO_PREFIX_FIELDS } from './query/telco-prefix-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { TelcoPrefixMapper } from './mapper/telco-prefix.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class TelcoPrefixService {
@@ -72,5 +73,14 @@ export class TelcoPrefixService {
         telcoPrefix.deletedAt = new Date();
 
         return this.telcoPrefixRepo.save(telcoPrefix);
+    }
+
+    async findOptions() {
+        const telcoPrefix = await this.telcoPrefixRepo.find();
+        return LookupMapper.toResponses(
+            telcoPrefix, 
+            telcoPrefix => telcoPrefix.id,
+            telcoPrefix => telcoPrefix.name
+        );
     }
 }

@@ -1963,6 +1963,11 @@ export async function seedBankBranch(dataSource: DataSource) {
             where: { name: bankName }
         });
 
+        if (!bank) {
+            console.warn(`⚠️ bank not found: ${bankName}`);
+            continue;
+        }
+
         for (const obj of data) {
             await bankBranchrepo.save(
                 bankBranchrepo.create({

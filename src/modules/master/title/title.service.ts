@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { TITLE_FIELDS } from './query/title-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { TitleMapper } from './mapper/title.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class TitleService {
@@ -72,5 +73,14 @@ export class TitleService {
         title.deletedAt = new Date();
 
         return this.titleRepo.save(title);
+    }
+
+    async findOptions() {
+        const title = await this.titleRepo.find();
+        return LookupMapper.toResponses(
+            title, 
+            title => title.id,
+            title => title.name
+        );
     }
 }

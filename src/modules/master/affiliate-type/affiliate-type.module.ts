@@ -8,5 +8,6 @@ import { AffiliateTypeService } from './affiliate-type.service';
   imports: [TypeOrmModule.forFeature([AffiliateType])],
   controllers: [AffiliateTypeController],
   providers: [AffiliateTypeService],
+  exports:[AffiliateTypeService]
 })
 export class AffiliateTypeModule {}

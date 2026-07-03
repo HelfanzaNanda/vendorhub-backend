@@ -8,5 +8,6 @@ import { AreaService } from './area.service';
   imports: [TypeOrmModule.forFeature([Area])],
   controllers: [AreaController],
   providers: [AreaService],
+  exports: [AreaService]
 })
 export class AreaModule {}

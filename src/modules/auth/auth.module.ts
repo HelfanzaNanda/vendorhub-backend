@@ -10,10 +10,21 @@ import { Role } from '@modules/uman/role/entities/role.entity';
 import { UserHasRole } from '@modules/uman/user-has-roles/entities/user-has-role.entity';
 import { Permission } from '@modules/uman/permission/entities/permission.entity';
 import { Menu } from '@modules/uman/menu/entities/menu.entity';
+// import { CompanyIdentity } from '@modules/vendor/company-identity/entities/company-identity.entity';
+import { Site } from '@modules/master/site/entities/site.entity';
+import { BusinessEntityType } from '@modules/master/business-entity-type/entities/business-entity-type.entity';
+import { Country } from '@modules/master/country/entities/country.entity';
+import { Province } from '@modules/master/province/entities/province.entity';
+import { City } from '@modules/master/city/entities/city.entity';
+import { VendorStatus } from '@modules/master/vendor-status/entities/vendor-status.entity';
+import { Area } from '@modules/master/area/entities/area.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User, Role, UserHasRole, Permission, Menu]),
+        TypeOrmModule.forFeature([
+            User, Role, UserHasRole, Permission, Menu,
+            Site, Area, BusinessEntityType, Country, Province, City, VendorStatus
+        ]),
         JwtModule.registerAsync({
             imports: [ConfigModule],
             inject: [ConfigService],

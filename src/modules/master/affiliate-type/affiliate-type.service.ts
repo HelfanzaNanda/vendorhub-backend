@@ -9,6 +9,7 @@ import { RequestContext } from '@common/context/request-context';
 import { AffiliateTypeMapper } from './mapper/affiliate-type.mapper';
 import { AFFILIATE_TYPE_FIELDS } from './query/affiliate-type-field.meta';
 import { UpdateAffiliateTypeDto } from './dto/update-affiliate-type.dto';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class AffiliateTypeService {
@@ -72,5 +73,14 @@ export class AffiliateTypeService {
         affiliateType.deletedAt = new Date();
 
         return this.affiliateRepo.save(affiliateType);
+    }
+
+    async findOptions() {
+        const affiliateType = await this.affiliateRepo.find();
+        return LookupMapper.toResponses(
+            affiliateType, 
+            affiliateType => affiliateType.id,
+            affiliateType => affiliateType.name
+        );
     }
 }

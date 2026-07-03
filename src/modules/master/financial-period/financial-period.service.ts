@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { FINANCIAL_PERIOD_FIELDS } from './query/financial-period-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { FinancialPeriodMapper } from './mapper/financial-period.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class FinancialPeriodService {
@@ -72,5 +73,14 @@ export class FinancialPeriodService {
         financialPeriod.deletedAt = new Date();
 
         return this.financialPeriodRepo.save(financialPeriod);
+    }
+
+    async findOptions() {
+        const financialPeriod = await this.financialPeriodRepo.find();
+        return LookupMapper.toResponses(
+            financialPeriod, 
+            financialPeriod => financialPeriod.id,
+            financialPeriod => financialPeriod.name
+        );
     }
 }

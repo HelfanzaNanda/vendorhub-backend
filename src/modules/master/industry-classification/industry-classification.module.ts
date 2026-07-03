@@ -8,5 +8,6 @@ import { IndustryClassificationService } from './industry-classification.service
   imports: [TypeOrmModule.forFeature([IndustryClassification])],
   controllers: [IndustryClassificationController],
   providers: [IndustryClassificationService],
+  exports:[IndustryClassificationService]
 })
 export class IndustryClassificationModule {}

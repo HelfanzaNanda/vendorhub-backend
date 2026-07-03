@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { IDENTITY_TYPE_FIELDS } from './query/identity-type-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { IdentityTypeMapper } from './mapper/identity-type.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class IdentityTypeService {
@@ -72,5 +73,14 @@ export class IdentityTypeService {
         identityType.deletedAt = new Date();
 
         return this.identityTypeRepo.save(identityType);
+    }
+
+    async findOptions() {
+        const identityType = await this.identityTypeRepo.find();
+        return LookupMapper.toResponses(
+            identityType, 
+            identityType => identityType.id,
+            identityType => identityType.name
+        );
     }
 }

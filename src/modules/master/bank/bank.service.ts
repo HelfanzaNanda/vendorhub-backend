@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { BANK_FIELDS } from './query/bank-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { BankMapper } from './mapper/bank.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class BankService {
@@ -72,5 +73,20 @@ export class BankService {
         bank.deletedAt = new Date();
 
         return this.bankRepo.save(bank);
+    }
+
+    async findOptions(countryId : number) {
+        const bank = await this.bankRepo.find({
+            where: {
+                country : {
+                    id : countryId
+                }
+            }
+        });
+        return LookupMapper.toResponses(
+            bank, 
+            bank => bank.id,
+            bank => bank.name
+        );
     }
 }

@@ -10,6 +10,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { CITY_FIELDS } from './query/city-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { CityMapper } from './mapper/city.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class CityService {
@@ -78,5 +79,20 @@ export class CityService {
         city.deletedAt = new Date();
 
         return this.cityRepo.save(city);
+    }
+
+    async findOptions(provinceId : number) {
+        const city = await this.cityRepo.find({
+            where : {
+                province : {
+                    id : provinceId
+                }
+            }
+        });
+        return LookupMapper.toResponses(
+            city, 
+            city => city.id,
+            city => city.name
+        );
     }
 }

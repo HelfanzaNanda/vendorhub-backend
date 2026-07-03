@@ -9,6 +9,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { JOB_TYPE_FIELDS } from './query/job-type-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { JobTypeMapper } from './mapper/job-type.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class JobTypeService {
@@ -72,5 +73,14 @@ export class JobTypeService {
         jobType.deletedAt = new Date();
 
         return this.jobTypeRepo.save(jobType);
+    }
+
+    async findOptions() {
+        const jobType = await this.jobTypeRepo.find();
+        return LookupMapper.toResponses(
+            jobType, 
+            jobType => jobType.id,
+            jobType => jobType.name
+        );
     }
 }

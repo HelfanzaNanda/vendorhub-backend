@@ -75,10 +75,12 @@ export class SiteService {
         return this.siteRepo.save(site);
     }
 
-    async findOptions() {
+    async findOptions(areaId : number) {
         const sites = await this.siteRepo.find({
             where : {
-                deletedAt : IsNull()
+                area : {
+                    id : areaId
+                }
             }
         });
         return LookupMapper.toResponses(

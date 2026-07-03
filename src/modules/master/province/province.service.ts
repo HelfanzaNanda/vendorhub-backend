@@ -10,6 +10,7 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { PROVINCE_FIELDS } from './query/province-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { ProvinceMapper } from './mapper/province.mapper';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class ProvinceService {
@@ -78,5 +79,20 @@ export class ProvinceService {
         province.deletedAt = new Date();
 
         return this.provinceRepo.save(province);
+    }
+
+    async findOptions(countryId: number) {
+        const province = await this.provinceRepo.find({
+            where : {
+                country : {
+                    id : countryId
+                }
+            }
+        });
+        return LookupMapper.toResponses(
+            province, 
+            province => province.id,
+            province => province.name
+        );
     }
 }

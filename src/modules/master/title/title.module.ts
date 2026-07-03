@@ -8,5 +8,6 @@ import { TitleService } from './title.service';
   imports: [TypeOrmModule.forFeature([Title])],
   controllers: [TitleController],
   providers: [TitleService],
+  exports: [TitleService]
 })
 export class TitleModule {}

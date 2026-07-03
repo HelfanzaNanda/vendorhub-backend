@@ -27,6 +27,10 @@ import { seedVendorCategoryItems } from './vendor-category-item.seed';
 import { seedVendorPriority } from './vendor-priority.seed';
 import { seedPosition } from './position.seed';
 import { seedWorkflowType } from './workflow-type.seed';
+import { seedBank } from './bank.seed';
+import { seedBankBranch } from './bank-branch.seed';
+import { seedTermsCondition } from './terms-condition.seed';
+import { seedCompanyPersonnelType } from './company-personnel-type.seed';
 
 async function runSeeder() {
     await AppDataSource.initialize();
@@ -63,6 +67,12 @@ async function runSeeder() {
     // await seedVendorPriority(AppDataSource);
     // await seedPosition(AppDataSource);
     // await seedWorkflowType(AppDataSource);
+
+    // await seedBank(AppDataSource);
+    // await seedBankBranch(AppDataSource);
+
+    // await seedTermsCondition(AppDataSource);
+    await seedCompanyPersonnelType(AppDataSource);
 
 
 

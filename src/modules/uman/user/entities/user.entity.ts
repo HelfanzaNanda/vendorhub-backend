@@ -1,7 +1,8 @@
 import { AuditBaseEntity } from "@common/entities/audit-base.entity";
 import { AuditColumns } from "@common/entities/audit.embedded";
 import { UserHasRole } from "@modules/uman/user-has-roles/entities/user-has-role.entity";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+// import { CompanyIdentity } from "@modules/vendor/company-identity/entities/company-identity.entity";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
 export class User extends AuditBaseEntity {
@@ -20,6 +21,13 @@ export class User extends AuditBaseEntity {
 
     @Column()
     password: string;
+
+    // @ManyToOne(() => CompanyIdentity, {
+    //     nullable: true,
+    //     createForeignKeyConstraints: false,
+    // })
+    // @JoinColumn({ name: 'company_identity_id' })
+    // companyIdentity: CompanyIdentity;
 
     @Column({
         type: 'varchar',

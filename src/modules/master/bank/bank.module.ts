@@ -8,5 +8,6 @@ import { BankService } from './bank.service';
   imports: [TypeOrmModule.forFeature([Bank])],
   controllers: [BankController],
   providers: [BankService],
+  exports:[BankService]
 })
 export class BankModule {}
