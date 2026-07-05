@@ -11,7 +11,15 @@ import {
     Put,
     Query,
     UseGuards,
+    UseInterceptors,
+    UploadedFile,
+    Res,
+    StreamableFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 import { PermissionsGuard } from 'src/common/guards/permissions.guard';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
@@ -24,15 +32,30 @@ export class FileController {
     constructor(private service: FileService) {}
 
     @Get()
-    @RequirePermission('file.pagination')
+    // @RequirePermission('file.pagination')
     pagination(@Query() query: PaginationQueryDto) {
         return this.service.pagination(query);
     }
 
     @Post()
-    @RequirePermission('file.create')
-    create(@Body() dto: CreateFileDto) {
-        return this.service.create(dto);
+    // @RequirePermission('file.create')
+    @UseInterceptors(FileInterceptor('file'))
+    create(
+        @Body() dto: CreateFileDto,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        return this.service.create(dto, file);
+    }
+
+    @Get('download/:id')
+    async download(@Param('id', ParseIntPipe) id: number, @Res({ passthrough: true }) res: Response) {
+        const fileRecord = await this.service.findOne(id);
+        const file = createReadStream(join(process.cwd(), fileRecord.storagePath));
+        res.set({
+            'Content-Type': fileRecord.mimeType,
+            'Content-Disposition': `attachment; filename="${fileRecord.originalFileName}"`,
+        });
+        return new StreamableFile(file);
     }
 
     @Get(':id')

@@ -24,6 +24,16 @@ export class VendorBusinessLicenseTempResponseDto {
     fileId?: number | null;
 
     @ApiProperty({ nullable: true })
+    file?: {
+        id: number;
+        originalName: string;
+        filename: string;
+        mimeType: string;
+        size: number;
+        url: string;
+    } | null;
+
+    @ApiProperty({ nullable: true })
     number?: string | null;
 
     @ApiProperty({ nullable: true })

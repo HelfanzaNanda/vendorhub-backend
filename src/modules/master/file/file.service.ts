@@ -18,8 +18,24 @@ export class FileService {
         private repo: Repository<File>,
     ) {}
 
-    async create(data: CreateFileDto) {
-        return this.repo.save(this.repo.create(data));
+    async create(data: CreateFileDto, file?: Express.Multer.File) {
+        if (!file) {
+            throw new Error('File is required');
+        }
+
+        const ext = file.originalname.split('.').pop();
+        const fileRecord = this.repo.create({
+            ...data,
+            fileName: file.filename,
+            originalFileName: file.originalname,
+            extension: ext ? `.${ext}` : '',
+            mimeType: file.mimetype,
+            fileSize: file.size,
+            storagePath: file.path,
+            storageDisk: 'local',
+        });
+
+        return this.repo.save(fileRecord);
     }
 
     async pagination(query: PaginationQueryDto) {

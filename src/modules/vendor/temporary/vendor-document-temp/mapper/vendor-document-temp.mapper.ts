@@ -19,6 +19,14 @@ export class VendorDocumentTempMapper {
             publishDate: entity.publishDate ?? null,
             expiredDate: entity.expiredDate ?? null,
             fileId: entity.fileId ?? null,
+            file: entity.file ? {
+                id: entity.file.id,
+                originalName: entity.file.originalFileName,
+                filename: entity.file.fileName,
+                mimeType: entity.file.mimeType,
+                size: entity.file.fileSize,
+                url: `/files/download/${entity.file.id}`,
+            } : null,
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,

@@ -41,6 +41,16 @@ export class VendorDocumentTempResponseDto {
     @ApiProperty({ nullable: true })
     fileId?: number | null;
 
+    @ApiProperty({ nullable: true })
+    file?: {
+        id: number;
+        originalName: string;
+        filename: string;
+        mimeType: string;
+        size: number;
+        url: string;
+    } | null;
+
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;
 }

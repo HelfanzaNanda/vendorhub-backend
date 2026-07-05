@@ -48,6 +48,16 @@ export class VendorFinancialReportTempResponseDto {
     fileId?: number | null;
 
     @ApiProperty({ nullable: true })
+    file?: {
+        id: number;
+        originalName: string;
+        filename: string;
+        mimeType: string;
+        size: number;
+        url: string;
+    } | null;
+
+    @ApiProperty({ nullable: true })
     currencyId?: number | null;
 
     @ApiProperty({ nullable: true })

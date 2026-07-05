@@ -3,20 +3,14 @@ import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import {
     Body,
     Controller,
-    Delete,
     Get,
-    Param,
-    ParseIntPipe,
-    Post,
     Put,
-    Query,
     UseGuards,
 } from '@nestjs/common';
+import { CurrentVendorId } from '@common/decorators/current-vendor-id.decorator';
 import { PermissionsGuard } from 'src/common/guards/permissions.guard';
-import { CreateVendorBusinessLicenseTempDto } from './dto/create-vendor-business-license-temp.dto';
 import { UpdateVendorBusinessLicenseTempDto } from './dto/update-vendor-business-license-temp.dto';
 import { VendorBusinessLicenseTempService } from './vendor-business-license-temp.service';
-import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { Public } from '@common/decorators/public.decorator';
 
 @Controller('vendor-business-license-temps')
@@ -25,38 +19,17 @@ export class VendorBusinessLicenseTempController {
     constructor(private service: VendorBusinessLicenseTempService) {}
 
     @Get()
-    // @RequirePermission('vendor-business-license-temp.pagination')
-    @Public()
-    pagination(@Query() query: PaginationQueryDto) {
-        return this.service.pagination(query);
+    // @RequirePermission('vendor-business-license-temp.read')
+    getSingleton(@CurrentVendorId() vendorId: number) {
+        return this.service.getSingleton(vendorId);
     }
 
-    @Post()
-    // @RequirePermission('vendor-business-license-temp.create')
-    @Public()
-    create(@Body() dto: CreateVendorBusinessLicenseTempDto) {
-        return this.service.create(dto);
-    }
-
-    @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number) {
-        return this.service.findOne(id);
-    }
-
-    @Put(':id')
+    @Put()
     // @RequirePermission('vendor-business-license-temp.update')
-    @Public()
-    update(
-        @Param('id') id: number,
+    upsert(
+        @CurrentVendorId() vendorId: number,
         @Body() dto: UpdateVendorBusinessLicenseTempDto,
     ) {
-        return this.service.update(id, dto);
-    }
-
-    @Delete(':id')
-    // @RequirePermission('vendor-business-license-temp.delete')
-    @Public()
-    remove(@Param('id') id: number) {
-        return this.service.delete(id);
+        return this.service.upsert(vendorId, dto);
     }
 }

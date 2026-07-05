@@ -13,6 +13,14 @@ export class VendorBusinessLicenseTempMapper {
             reviewStatus: entity.reviewStatus ?? null,
             reviewNotes: entity.reviewNotes ?? null,
             fileId: entity.fileId ?? null,
+            file: entity.file ? {
+                id: entity.file.id,
+                originalName: entity.file.originalFileName,
+                filename: entity.file.fileName,
+                mimeType: entity.file.mimeType,
+                size: entity.file.fileSize,
+                url: `/files/download/${entity.file.id}`,
+            } : null,
             number: entity.number ?? null,
             industryClassificationIds: entity.industryClassificationIds ?? null,
             audit: {

@@ -14,32 +14,32 @@ export class CreateFileDto {
     documentTypeId?: number;
 
     @IsString()
-    @IsNotEmpty()
-    fileName: string;
+    @IsOptional()
+    fileName?: string;
 
     @IsString()
-    @IsNotEmpty()
-    originalFileName: string;
+    @IsOptional()
+    originalFileName?: string;
 
     @IsString()
-    @IsNotEmpty()
-    extension: string;
+    @IsOptional()
+    extension?: string;
 
     @IsString()
-    @IsNotEmpty()
-    mimeType: string;
+    @IsOptional()
+    mimeType?: string;
 
     @IsNumber()
-    @IsNotEmpty()
-    fileSize: number;
+    @IsOptional()
+    fileSize?: number;
 
     @IsString()
-    @IsNotEmpty()
-    storagePath: string;
+    @IsOptional()
+    storagePath?: string;
 
     @IsString()
-    @IsNotEmpty()
-    storageDisk: string;
+    @IsOptional()
+    storageDisk?: string;
 
     @IsOptional()
     @IsString()
