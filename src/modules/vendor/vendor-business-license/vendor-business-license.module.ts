@@ -5,9 +5,9 @@ import { VendorBusinessLicenseController } from './vendor-business-license.contr
 import { VendorBusinessLicenseService } from './vendor-business-license.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VendorBusinessLicense])],
-  controllers: [VendorBusinessLicenseController],
-  providers: [VendorBusinessLicenseService],
-  exports: [VendorBusinessLicenseService],
+    imports: [TypeOrmModule.forFeature([VendorBusinessLicense])],
+    controllers: [VendorBusinessLicenseController],
+    providers: [VendorBusinessLicenseService],
+    exports: [VendorBusinessLicenseService],
 })
 export class VendorBusinessLicenseModule {}

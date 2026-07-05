@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateCountryDto } from "./dto/create-country.dto";
-import { UpdateCountryDto } from "./dto/update-country.dto";
-import { CountryService } from "./country.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateCountryDto } from './dto/create-country.dto';
+import { UpdateCountryDto } from './dto/update-country.dto';
+import { CountryService } from './country.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('countries')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class CountryController {
-
-    constructor(private service: CountryService) { }
-
+    constructor(private service: CountryService) {}
 
     @Get()
     @RequirePermission('country.pagination')

@@ -5,9 +5,9 @@ import { VendorFinancialReportController } from './vendor-financial-report.contr
 import { VendorFinancialReportService } from './vendor-financial-report.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VendorFinancialReport])],
-  controllers: [VendorFinancialReportController],
-  providers: [VendorFinancialReportService],
-  exports: [VendorFinancialReportService],
+    imports: [TypeOrmModule.forFeature([VendorFinancialReport])],
+    controllers: [VendorFinancialReportController],
+    providers: [VendorFinancialReportService],
+    exports: [VendorFinancialReportService],
 })
 export class VendorFinancialReportModule {}

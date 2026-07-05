@@ -15,8 +15,8 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class IdentityTypeService {
     constructor(
         @InjectRepository(IdentityType)
-        private identityTypeRepo: Repository<IdentityType>
-    ) { }
+        private identityTypeRepo: Repository<IdentityType>,
+    ) {}
 
     async create(data: CreateIdentityTypeDto) {
         return this.identityTypeRepo.save(this.identityTypeRepo.create(data));
@@ -27,14 +27,15 @@ export class IdentityTypeService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
 
-        const selectColumns = Object.values(IDENTITY_TYPE_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(IDENTITY_TYPE_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, IDENTITY_TYPE_FIELDS);
         return {
             data: IdentityTypeMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
@@ -44,29 +45,35 @@ export class IdentityTypeService {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true
-            }
+                updatedByUser: true,
+            },
         });
         if (!identityType) throw new NotFoundException();
         return IdentityTypeMapper.toResponse(identityType);
     }
 
     async update(id: number, data: UpdateIdentityTypeDto) {
-        const identityType = await this.identityTypeRepo.findOne({ where: { id } });
-        if (!identityType) throw new NotFoundException(`Data with id ${id} not found`);
+        const identityType = await this.identityTypeRepo.findOne({
+            where: { id },
+        });
+        if (!identityType)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(identityType, data);
         return this.identityTypeRepo.save(identityType);
     }
 
     async delete(id: number) {
-        const identityType = await this.identityTypeRepo.findOne({ where: { id } });
-        if (!identityType) throw new NotFoundException(`Data with id ${id} not found`);
+        const identityType = await this.identityTypeRepo.findOne({
+            where: { id },
+        });
+        if (!identityType)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         identityType.deletedBy = userId;
@@ -78,9 +85,9 @@ export class IdentityTypeService {
     async findOptions() {
         const identityType = await this.identityTypeRepo.find();
         return LookupMapper.toResponses(
-            identityType, 
-            identityType => identityType.id,
-            identityType => identityType.name
+            identityType,
+            (identityType) => identityType.id,
+            (identityType) => identityType.name,
         );
     }
 }

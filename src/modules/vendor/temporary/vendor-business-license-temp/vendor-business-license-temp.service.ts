@@ -14,8 +14,8 @@ import { VendorBusinessLicenseTempMapper } from './mapper/vendor-business-licens
 export class VendorBusinessLicenseTempService {
     constructor(
         @InjectRepository(VendorBusinessLicenseTemp)
-        private repo: Repository<VendorBusinessLicenseTemp>
-    ) { }
+        private repo: Repository<VendorBusinessLicenseTemp>,
+    ) {}
 
     async create(data: CreateVendorBusinessLicenseTempDto) {
         return this.repo.save(this.repo.create(data));
@@ -26,37 +26,46 @@ export class VendorBusinessLicenseTempService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         qb.leftJoinAndSelect('c.vendorTemp', 'vendorTemp');
-        qb.leftJoinAndSelect('c.vendorBusinessLicense', 'vendorBusinessLicense');
+        qb.leftJoinAndSelect(
+            'c.vendorBusinessLicense',
+            'vendorBusinessLicense',
+        );
         qb.leftJoinAndSelect('c.file', 'file');
-        
-        const selectColumns = Object.values(VENDORBUSINESSLICENSETEMP_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(
+            VENDORBUSINESSLICENSETEMP_FIELDS,
+        ).map((f) => f.column);
         qb.select(selectColumns);
-        
-        const result = await paginate(qb, query, VENDORBUSINESSLICENSETEMP_FIELDS);
+
+        const result = await paginate(
+            qb,
+            query,
+            VENDORBUSINESSLICENSETEMP_FIELDS,
+        );
         return {
             data: VendorBusinessLicenseTempMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendorTemp: true,
                 vendorBusinessLicense: true,
                 file: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorBusinessLicenseTempMapper.toResponse(item);

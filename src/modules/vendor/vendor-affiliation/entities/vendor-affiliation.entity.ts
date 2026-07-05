@@ -1,5 +1,5 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 import { AffiliateType } from '@modules/master/affiliate-type/entities/affiliate-type.entity';
@@ -22,7 +22,11 @@ export class VendorAffiliation extends AuditBaseEntity {
     @Column({ name: 'business_field', nullable: true })
     businessField?: string;
 
-    @Column({ name: 'company_business_entity_type_id', type: 'int', nullable: true })
+    @Column({
+        name: 'company_business_entity_type_id',
+        type: 'int',
+        nullable: true,
+    })
     companyBusinessEntityTypeId?: number;
 
     @ManyToOne(() => Vendor, { onDelete: 'CASCADE', nullable: true })

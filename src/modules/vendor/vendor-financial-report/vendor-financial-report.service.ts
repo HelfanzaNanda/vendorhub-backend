@@ -14,8 +14,8 @@ import { VendorFinancialReportMapper } from './mapper/vendor-financial-report.ma
 export class VendorFinancialReportService {
     constructor(
         @InjectRepository(VendorFinancialReport)
-        private repo: Repository<VendorFinancialReport>
-    ) { }
+        private repo: Repository<VendorFinancialReport>,
+    ) {}
 
     async create(data: CreateVendorFinancialReportDto) {
         return this.repo.save(this.repo.create(data));
@@ -28,35 +28,37 @@ export class VendorFinancialReportService {
         qb.leftJoinAndSelect('c.vendor', 'vendor');
         qb.leftJoinAndSelect('c.file', 'file');
         qb.leftJoinAndSelect('c.currency', 'currency');
-        
-        const selectColumns = Object.values(VENDORFINANCIALREPORT_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDORFINANCIALREPORT_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
-        
+
         const result = await paginate(qb, query, VENDORFINANCIALREPORT_FIELDS);
         return {
             data: VendorFinancialReportMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendor: true,
                 file: true,
                 currency: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorFinancialReportMapper.toResponse(item);

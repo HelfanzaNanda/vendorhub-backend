@@ -1,5 +1,5 @@
-import { FinancialPeriodResponseDto } from "../dto/response-financial-period.dto";
-import { FinancialPeriod } from "../entities/financial-period.entity";
+import { FinancialPeriodResponseDto } from '../dto/response-financial-period.dto';
+import { FinancialPeriod } from '../entities/financial-period.entity';
 
 export class FinancialPeriodMapper {
     static toResponse(entity: FinancialPeriod): FinancialPeriodResponseDto {
@@ -16,7 +16,9 @@ export class FinancialPeriodMapper {
         };
     }
 
-    static toResponses(entities: FinancialPeriod[]): FinancialPeriodResponseDto[] {
+    static toResponses(
+        entities: FinancialPeriod[],
+    ): FinancialPeriodResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

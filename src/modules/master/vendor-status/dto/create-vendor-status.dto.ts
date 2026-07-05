@@ -1,8 +1,6 @@
-
 import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateVendorStatusDto {
-    
     @IsString()
     @IsNotEmpty()
     name: string;

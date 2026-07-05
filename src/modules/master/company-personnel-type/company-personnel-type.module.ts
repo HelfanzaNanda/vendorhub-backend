@@ -5,9 +5,9 @@ import { CompanyPersonnelTypeController } from './company-personnel-type.control
 import { CompanyPersonnelTypeService } from './company-personnel-type.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CompanyPersonnelType])],
-  controllers: [CompanyPersonnelTypeController],
-  providers: [CompanyPersonnelTypeService],
-  exports: [CompanyPersonnelTypeService]
+    imports: [TypeOrmModule.forFeature([CompanyPersonnelType])],
+    controllers: [CompanyPersonnelTypeController],
+    providers: [CompanyPersonnelTypeService],
+    exports: [CompanyPersonnelTypeService],
 })
 export class CompanyPersonnelTypeModule {}

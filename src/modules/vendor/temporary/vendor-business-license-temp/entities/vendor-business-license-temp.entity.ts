@@ -1,5 +1,5 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendor-temp.entity';
 import { VendorBusinessLicense } from '@modules/vendor/vendor-business-license/entities/vendor-business-license.entity';
@@ -35,7 +35,10 @@ export class VendorBusinessLicenseTemp extends AuditBaseEntity {
     @JoinColumn({ name: 'vendor_temp_id' })
     vendorTemp?: VendorTemp;
 
-    @ManyToOne(() => VendorBusinessLicense, { nullable: true, onDelete: 'SET NULL' })
+    @ManyToOne(() => VendorBusinessLicense, {
+        nullable: true,
+        onDelete: 'SET NULL',
+    })
     @JoinColumn({ name: 'vendor_business_license_id' })
     vendorBusinessLicense?: VendorBusinessLicense;
 

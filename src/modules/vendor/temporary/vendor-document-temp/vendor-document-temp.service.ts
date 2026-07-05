@@ -14,8 +14,8 @@ import { VendorDocumentTempMapper } from './mapper/vendor-document-temp.mapper';
 export class VendorDocumentTempService {
     constructor(
         @InjectRepository(VendorDocumentTemp)
-        private repo: Repository<VendorDocumentTemp>
-    ) { }
+        private repo: Repository<VendorDocumentTemp>,
+    ) {}
 
     async create(data: CreateVendorDocumentTempDto) {
         return this.repo.save(this.repo.create(data));
@@ -29,36 +29,38 @@ export class VendorDocumentTempService {
         qb.leftJoinAndSelect('c.vendorDocument', 'vendorDocument');
         qb.leftJoinAndSelect('c.documentType', 'documentType');
         qb.leftJoinAndSelect('c.file', 'file');
-        
-        const selectColumns = Object.values(VENDORDOCUMENTTEMP_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDORDOCUMENTTEMP_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
-        
+
         const result = await paginate(qb, query, VENDORDOCUMENTTEMP_FIELDS);
         return {
             data: VendorDocumentTempMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendorTemp: true,
                 vendorDocument: true,
                 documentType: true,
                 file: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorDocumentTempMapper.toResponse(item);

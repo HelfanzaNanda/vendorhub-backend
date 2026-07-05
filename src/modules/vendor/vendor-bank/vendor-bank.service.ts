@@ -14,8 +14,8 @@ import { VendorBankMapper } from './mapper/vendor-bank.mapper';
 export class VendorBankService {
     constructor(
         @InjectRepository(VendorBank)
-        private repo: Repository<VendorBank>
-    ) { }
+        private repo: Repository<VendorBank>,
+    ) {}
 
     async create(data: CreateVendorBankDto) {
         return this.repo.save(this.repo.create(data));
@@ -29,36 +29,38 @@ export class VendorBankService {
         qb.leftJoinAndSelect('c.bankBranch', 'bankBranch');
         qb.leftJoinAndSelect('c.currency', 'currency');
         qb.leftJoinAndSelect('c.file', 'file');
-        
-        const selectColumns = Object.values(VENDORBANK_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDORBANK_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
-        
+
         const result = await paginate(qb, query, VENDORBANK_FIELDS);
         return {
             data: VendorBankMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendor: true,
                 bankBranch: true,
                 currency: true,
                 file: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorBankMapper.toResponse(item);

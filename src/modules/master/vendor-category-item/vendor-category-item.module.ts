@@ -5,8 +5,8 @@ import { VendorCategoryItemController } from './vendor-category-item.controller'
 import { VendorCategoryItemService } from './vendor-category-item.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VendorCategoryItem])],
-  controllers: [VendorCategoryItemController],
-  providers: [VendorCategoryItemService],
+    imports: [TypeOrmModule.forFeature([VendorCategoryItem])],
+    controllers: [VendorCategoryItemController],
+    providers: [VendorCategoryItemService],
 })
 export class VendorCategoryItemModule {}

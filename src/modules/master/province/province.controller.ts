@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateProvinceDto } from "./dto/create-province.dto";
-import { UpdateProvinceDto } from "./dto/update-province.dto";
-import { ProvinceService } from "./province.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateProvinceDto } from './dto/create-province.dto';
+import { UpdateProvinceDto } from './dto/update-province.dto';
+import { ProvinceService } from './province.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('provinces')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class ProvinceController {
-
-    constructor(private service: ProvinceService) { }
-
+    constructor(private service: ProvinceService) {}
 
     @Get()
     @RequirePermission('province.pagination')

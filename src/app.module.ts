@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+    MiddlewareConsumer,
+    Module,
+    NestModule,
+    RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -19,7 +24,7 @@ import { VendorModule } from '@modules/vendor/vendor.module';
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
-            useFactory : (config : ConfigService) => ({
+            useFactory: (config: ConfigService) => ({
                 type: config.get<'mariadb'>('DATABASE_TYPE'),
                 host: config.get<string>('DATABASE_HOST'),
                 port: config.get<number>('DATABASE_PORT'),
@@ -28,20 +33,18 @@ import { VendorModule } from '@modules/vendor/vendor.module';
                 database: config.get<string>('DATABASE_DB'),
                 autoLoadEntities: true,
                 synchronize: true, // jangan di production
-                subscribers: [AuditSubscriber]
+                subscribers: [AuditSubscriber],
             }),
         }),
 
-        AuthModule, 
+        AuthModule,
         CountryModule,
         SiteModule,
         LookupModule,
         TermsConditionModule,
         VendorModule,
     ],
-    controllers: [
-        AppController,
-    ],
+    controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

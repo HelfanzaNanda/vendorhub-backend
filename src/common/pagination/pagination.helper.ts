@@ -21,15 +21,15 @@ export async function paginate<T extends ObjectLiteral>(
     /* ================= SEARCH ================= */
     if (search) {
         const searchables = Object.values(fields)
-            .filter(f => f.searchable)
-            .map(f => `${f.column} LIKE :search`);
+            .filter((f) => f.searchable)
+            .map((f) => `${f.column} LIKE :search`);
 
         if (searchables.length) {
             qb.andWhere(`(${searchables.join(' OR ')})`, {
                 search: `%${search}%`,
             });
         }
-        page = 1
+        page = 1;
     }
 
     /* ================= ORDER ================= */

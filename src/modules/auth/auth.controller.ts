@@ -6,7 +6,7 @@ import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private auth: AuthService) { }
+    constructor(private auth: AuthService) {}
 
     @Post('login')
     login(@Body() dto: LoginDto) {

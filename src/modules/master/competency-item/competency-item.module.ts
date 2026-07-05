@@ -6,9 +6,11 @@ import { CompetencyItemService } from './competency-item.service';
 import { CompetencySubCategory } from '../competency-subcategory/entities/competency-subcategory.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CompetencyItem, CompetencySubCategory])],
-  controllers: [CompetencyItemController],
-  providers: [CompetencyItemService],
-  exports:[CompetencyItemService]
+    imports: [
+        TypeOrmModule.forFeature([CompetencyItem, CompetencySubCategory]),
+    ],
+    controllers: [CompetencyItemController],
+    providers: [CompetencyItemService],
+    exports: [CompetencyItemService],
 })
 export class CompetencyItemModule {}

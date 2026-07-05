@@ -1,8 +1,6 @@
-
 import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateSiteDto {
-    
     // @IsString()
     @IsNotEmpty()
     area_id: number;

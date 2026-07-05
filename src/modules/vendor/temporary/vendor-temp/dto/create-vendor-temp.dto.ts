@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, IsString, IsEnum } from "class-validator";
+import { IsOptional, IsInt, IsString, IsEnum } from 'class-validator';
 
 export class CreateVendorTempDto {
     @IsInt()

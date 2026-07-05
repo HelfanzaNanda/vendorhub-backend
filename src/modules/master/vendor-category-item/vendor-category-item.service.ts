@@ -14,58 +14,67 @@ import { UpdateVendorCategoryItemDto } from './dto/update-vendor-category-item.d
 export class VendorCategoryItemService {
     constructor(
         @InjectRepository(VendorCategoryItem)
-        private vendorCategoryItemRepo: Repository<VendorCategoryItem>
-    ) { }
+        private vendorCategoryItemRepo: Repository<VendorCategoryItem>,
+    ) {}
 
-    async create(data : CreateVendorCategoryItemDto) {
-        return this.vendorCategoryItemRepo.save(this.vendorCategoryItemRepo.create(data));
+    async create(data: CreateVendorCategoryItemDto) {
+        return this.vendorCategoryItemRepo.save(
+            this.vendorCategoryItemRepo.create(data),
+        );
     }
 
     async pagination(query: PaginationQueryDto) {
         const qb = this.vendorCategoryItemRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(VENDOR_CATEGORY_ITEM_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDOR_CATEGORY_ITEM_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, VENDOR_CATEGORY_ITEM_FIELDS);
         return {
-            data : VendorCategoryItemMapper.toResponses(result.data),
-            meta : result.meta
+            data: VendorCategoryItemMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const vendorCategoryItem = await this.vendorCategoryItemRepo.findOne({ 
+        const vendorCategoryItem = await this.vendorCategoryItemRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!vendorCategoryItem) throw new NotFoundException();
         return VendorCategoryItemMapper.toResponse(vendorCategoryItem);
     }
 
-    async update(id: number, data : UpdateVendorCategoryItemDto) {
-        const vendorCategoryItem = await this.vendorCategoryItemRepo.findOne({ where: { id } });
-        if (!vendorCategoryItem) throw new NotFoundException(`Data with id ${id} not found`);
+    async update(id: number, data: UpdateVendorCategoryItemDto) {
+        const vendorCategoryItem = await this.vendorCategoryItemRepo.findOne({
+            where: { id },
+        });
+        if (!vendorCategoryItem)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(vendorCategoryItem, data);
         return this.vendorCategoryItemRepo.save(vendorCategoryItem);
     }
 
     async delete(id: number) {
-        const vendorCategoryItem = await this.vendorCategoryItemRepo.findOne({ where: { id } });
-        if (!vendorCategoryItem) throw new NotFoundException(`Data with id ${id} not found`);
+        const vendorCategoryItem = await this.vendorCategoryItemRepo.findOne({
+            where: { id },
+        });
+        if (!vendorCategoryItem)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         vendorCategoryItem.deletedBy = userId;

@@ -1,4 +1,4 @@
-import { FieldMetaMap } from "@common/pagination/field-meta.type";
+import { FieldMetaMap } from '@common/pagination/field-meta.type';
 
 export const TELCO_PREFIX_FIELDS: FieldMetaMap = {
     id: {

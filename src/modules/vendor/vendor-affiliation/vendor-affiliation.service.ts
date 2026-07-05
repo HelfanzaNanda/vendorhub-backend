@@ -14,8 +14,8 @@ import { VendorAffiliationMapper } from './mapper/vendor-affiliation.mapper';
 export class VendorAffiliationService {
     constructor(
         @InjectRepository(VendorAffiliation)
-        private repo: Repository<VendorAffiliation>
-    ) { }
+        private repo: Repository<VendorAffiliation>,
+    ) {}
 
     async create(data: CreateVendorAffiliationDto) {
         return this.repo.save(this.repo.create(data));
@@ -27,36 +27,41 @@ export class VendorAffiliationService {
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         qb.leftJoinAndSelect('c.vendor', 'vendor');
         qb.leftJoinAndSelect('c.affiliateType', 'affiliateType');
-        qb.leftJoinAndSelect('c.companyBusinessEntityType', 'companyBusinessEntityType');
-        
-        const selectColumns = Object.values(VENDORAFFILIATION_FIELDS).map(f => f.column);
+        qb.leftJoinAndSelect(
+            'c.companyBusinessEntityType',
+            'companyBusinessEntityType',
+        );
+
+        const selectColumns = Object.values(VENDORAFFILIATION_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
-        
+
         const result = await paginate(qb, query, VENDORAFFILIATION_FIELDS);
         return {
             data: VendorAffiliationMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendor: true,
                 affiliateType: true,
                 companyBusinessEntityType: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorAffiliationMapper.toResponse(item);

@@ -1,52 +1,51 @@
-import { DocumentType } from "@modules/master/document-type/entities/document-type.entity";
-import { DataSource } from "typeorm";
+import { DocumentType } from '@modules/master/document-type/entities/document-type.entity';
+import { DataSource } from 'typeorm';
 
 export async function seedDocumentType(dataSource: DataSource) {
-
     const arr = [
         {
-            "code": "NPWP",
-            "name": "NPWP"
+            code: 'NPWP',
+            name: 'NPWP',
         },
         {
-            "code": "TAXPAYER_STATUS",
-            "name": "Taxpayer Status"
+            code: 'TAXPAYER_STATUS',
+            name: 'Taxpayer Status',
         },
         {
-            "code": "DEED_OF_ESTABLISHMENT",
-            "name": "Deed of Establishment"
+            code: 'DEED_OF_ESTABLISHMENT',
+            name: 'Deed of Establishment',
         },
         {
-            "code": "DEED_OF_AMENDMENT",
-            "name": "Deed of Amendment"
+            code: 'DEED_OF_AMENDMENT',
+            name: 'Deed of Amendment',
         },
         {
-            "code": "ORGANIZATIONAL_STRUCTURE",
-            "name": "Organizational Structure"
+            code: 'ORGANIZATIONAL_STRUCTURE',
+            name: 'Organizational Structure',
         },
         {
-            "code": "BANK_STATEMENT",
-            "name": "Bank Statement"
+            code: 'BANK_STATEMENT',
+            name: 'Bank Statement',
         },
         {
-            "code": "UMAN",
-            "name": "Uman"
+            code: 'UMAN',
+            name: 'Uman',
         },
         {
-            "code": "FINANCIAL_STATEMENT",
-            "name": "Financial Statement"
+            code: 'FINANCIAL_STATEMENT',
+            name: 'Financial Statement',
         },
         {
-            "code": "CUSTOMER_REFERENCE",
-            "name": "Customer Reference"
+            code: 'CUSTOMER_REFERENCE',
+            name: 'Customer Reference',
         },
         {
-            "code": "BUSINESS_LICENSE",
-            "name": "Business License"
+            code: 'BUSINESS_LICENSE',
+            name: 'Business License',
         },
         {
-            "code": "OTHER",
-            "name": "Other"
+            code: 'OTHER',
+            name: 'Other',
         },
     ];
 
@@ -57,8 +56,8 @@ export async function seedDocumentType(dataSource: DataSource) {
             repo.create({
                 name: obj.name,
                 code: obj.code,
-            })
-        )
+            }),
+        );
     }
 
     console.log('✅ DocumentType seeded');

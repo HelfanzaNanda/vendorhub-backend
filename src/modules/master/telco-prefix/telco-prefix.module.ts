@@ -5,9 +5,9 @@ import { TelcoPrefixController } from './telco-prefix.controller';
 import { TelcoPrefixService } from './telco-prefix.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TelcoPrefix])],
-  controllers: [TelcoPrefixController],
-  providers: [TelcoPrefixService],
-  exports:[TelcoPrefixService]
+    imports: [TypeOrmModule.forFeature([TelcoPrefix])],
+    controllers: [TelcoPrefixController],
+    providers: [TelcoPrefixService],
+    exports: [TelcoPrefixService],
 })
 export class TelcoPrefixModule {}

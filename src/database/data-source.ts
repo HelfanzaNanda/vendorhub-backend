@@ -17,7 +17,7 @@ import { File } from '@modules/master/file/entities/file.entity';
 import { CompanyPersonnelType } from '@modules/master/company-personnel-type/entities/company-personnel-type.entity';
 import { DocumentType } from '@modules/master/document-type/entities/document-type.entity';
 import 'dotenv/config';
-import { DataSource } from "typeorm";
+import { DataSource } from 'typeorm';
 import { Position } from '@modules/master/position/entities/position.entity';
 
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
@@ -38,6 +38,18 @@ import { VendorAffiliationTemp } from '@modules/vendor/temporary/vendor-affiliat
 import { VendorBusinessLicenseTemp } from '@modules/vendor/temporary/vendor-business-license-temp/entities/vendor-business-license-temp.entity';
 import { VendorFinancialReportTemp } from '@modules/vendor/temporary/vendor-financial-report-temp/entities/vendor-financial-report-temp.entity';
 import { VendorDocumentTemp } from '@modules/vendor/temporary/vendor-document-temp/entities/vendor-document-temp.entity';
+import { RunningNumber } from '@modules/running-number/entities/running-number.entity';
+import { Title } from '@modules/master/title/entities/title.entity';
+import { JobType } from '@modules/master/job-type/entities/job-type.entity';
+import { IdentityType } from '@modules/master/identity-type/entities/identity-type.entity';
+import { BankBranch } from '@modules/master/bank-branch/entities/bank-branch.entity';
+import { Bank } from '@modules/master/bank/entities/bank.entity';
+import { Currency } from '@modules/master/currency/entities/currency.entity';
+import { AffiliateType } from '@modules/master/affiliate-type/entities/affiliate-type.entity';
+import { IndustryClassification } from '@modules/master/industry-classification/entities/industry-classification.entity';
+import { CompetencyItem } from '@modules/master/competency-item/entities/competency-item.entity';
+import { CompetencySubCategory } from '@modules/master/competency-subcategory/entities/competency-subcategory.entity';
+import { CompetencyCategory } from '@modules/master/competency-category/entities/competency-category.entity';
 
 export const AppDataSource = new DataSource({
     type: 'mariadb',
@@ -50,15 +62,38 @@ export const AppDataSource = new DataSource({
     // migrations: ['dist/database/migrations/*.js'],
 
     entities: [
+        RunningNumber,
         User,
         Position,
         UserHasRole,
         Role,
         Permission,
         Menu,
-        // Site, Area, BusinessEntityType, Country, Province, City, VendorStatus,
-        File, CompanyPersonnelType, DocumentType,
+        Site,
+        Area,
+        BusinessEntityType,
+        Country,
+        Province,
+        City,
+        VendorStatus,
+        Title,
+        JobType,
+        IdentityType,
+        BankBranch,
+        Bank,
+        Currency,
+        AffiliateType,
+        IndustryClassification,
+        CompetencyItem,
+        CompetencySubCategory,
+        CompetencyCategory, 
+        File,
+        CompanyPersonnelType,
+        DocumentType,
         Vendor,
+        // VendorStatus,
+        // Site,
+        // Area,
         VendorCompany,
         VendorPersonnel,
         VendorBank,
@@ -75,9 +110,9 @@ export const AppDataSource = new DataSource({
         VendorAffiliationTemp,
         VendorBusinessLicenseTemp,
         VendorFinancialReportTemp,
-        VendorDocumentTemp
+        VendorDocumentTemp,
     ],
     migrations: ['src/database/migrations/*.ts'],
-  
+
     synchronize: false,
 });

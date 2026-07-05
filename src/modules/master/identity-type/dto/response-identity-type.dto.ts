@@ -1,5 +1,5 @@
-import { AuditResponseDto } from "@common/dto/audit-response.dto";
-import { ApiProperty } from "@nestjs/swagger";
+import { AuditResponseDto } from '@common/dto/audit-response.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class IdentityTypeResponseDto {
     @ApiProperty()

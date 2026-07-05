@@ -5,9 +5,9 @@ import { IndustryClassificationController } from './industry-classification.cont
 import { IndustryClassificationService } from './industry-classification.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([IndustryClassification])],
-  controllers: [IndustryClassificationController],
-  providers: [IndustryClassificationService],
-  exports:[IndustryClassificationService]
+    imports: [TypeOrmModule.forFeature([IndustryClassification])],
+    controllers: [IndustryClassificationController],
+    providers: [IndustryClassificationService],
+    exports: [IndustryClassificationService],
 })
 export class IndustryClassificationModule {}

@@ -15,8 +15,8 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class TelcoPrefixService {
     constructor(
         @InjectRepository(TelcoPrefix)
-        private telcoPrefixRepo: Repository<TelcoPrefix>
-    ) { }
+        private telcoPrefixRepo: Repository<TelcoPrefix>,
+    ) {}
 
     async create(data: CreateTelcoPrefixDto) {
         return this.telcoPrefixRepo.save(this.telcoPrefixRepo.create(data));
@@ -27,14 +27,15 @@ export class TelcoPrefixService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
 
-        const selectColumns = Object.values(TELCO_PREFIX_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(TELCO_PREFIX_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, TELCO_PREFIX_FIELDS);
         return {
             data: TelcoPrefixMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
@@ -44,29 +45,35 @@ export class TelcoPrefixService {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true
-            }
+                updatedByUser: true,
+            },
         });
         if (!telcoPrefix) throw new NotFoundException();
         return TelcoPrefixMapper.toResponse(telcoPrefix);
     }
 
     async update(id: number, data: UpdateTelcoPrefixDto) {
-        const telcoPrefix = await this.telcoPrefixRepo.findOne({ where: { id } });
-        if (!telcoPrefix) throw new NotFoundException(`Data with id ${id} not found`);
+        const telcoPrefix = await this.telcoPrefixRepo.findOne({
+            where: { id },
+        });
+        if (!telcoPrefix)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(telcoPrefix, data);
         return this.telcoPrefixRepo.save(telcoPrefix);
     }
 
     async delete(id: number) {
-        const telcoPrefix = await this.telcoPrefixRepo.findOne({ where: { id } });
-        if (!telcoPrefix) throw new NotFoundException(`Data with id ${id} not found`);
+        const telcoPrefix = await this.telcoPrefixRepo.findOne({
+            where: { id },
+        });
+        if (!telcoPrefix)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         telcoPrefix.deletedBy = userId;
@@ -78,9 +85,9 @@ export class TelcoPrefixService {
     async findOptions() {
         const telcoPrefix = await this.telcoPrefixRepo.find();
         return LookupMapper.toResponses(
-            telcoPrefix, 
-            telcoPrefix => telcoPrefix.id,
-            telcoPrefix => telcoPrefix.name
+            telcoPrefix,
+            (telcoPrefix) => telcoPrefix.id,
+            (telcoPrefix) => telcoPrefix.name,
         );
     }
 }

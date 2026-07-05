@@ -1,20 +1,29 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
 // import { AffiliateTypeDto } from "./dto/create-affiliate-type.dto";
 // import { AffiliateTypeDto } from "./dto/update-affiliate-type.dto";
-import { AffiliateTypeService } from "./affiliate-type.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
-import { CreateAffiliateTypeDto } from "./dto/create-affiliate-type.dto";
-import { UpdateAffiliateTypeDto } from "./dto/update-affiliate-type.dto";
+import { AffiliateTypeService } from './affiliate-type.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
+import { CreateAffiliateTypeDto } from './dto/create-affiliate-type.dto';
+import { UpdateAffiliateTypeDto } from './dto/update-affiliate-type.dto';
 
 @Controller('affiliate-types')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class AffiliateTypeController {
-
-    constructor(private service: AffiliateTypeService) { }
-
+    constructor(private service: AffiliateTypeService) {}
 
     @Get()
     @RequirePermission('affiliate-type.pagination')

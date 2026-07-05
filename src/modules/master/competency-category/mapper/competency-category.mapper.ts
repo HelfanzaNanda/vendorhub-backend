@@ -1,8 +1,10 @@
-import { CompetencyCategoryResponseDto } from "../dto/response-competency-category.dto";
-import { CompetencyCategory } from "../entities/competency-category.entity";
+import { CompetencyCategoryResponseDto } from '../dto/response-competency-category.dto';
+import { CompetencyCategory } from '../entities/competency-category.entity';
 
 export class CompetencyCategoryMapper {
-    static toResponse(entity: CompetencyCategory): CompetencyCategoryResponseDto {
+    static toResponse(
+        entity: CompetencyCategory,
+    ): CompetencyCategoryResponseDto {
         return {
             id: entity.id,
             name: entity.name,
@@ -15,7 +17,9 @@ export class CompetencyCategoryMapper {
         };
     }
 
-    static toResponses(entities: CompetencyCategory[]): CompetencyCategoryResponseDto[] {
+    static toResponses(
+        entities: CompetencyCategory[],
+    ): CompetencyCategoryResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

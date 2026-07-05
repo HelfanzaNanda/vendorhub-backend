@@ -1,5 +1,5 @@
-import { VendorCompanyResponseDto } from "../dto/response-vendor-company.dto";
-import { VendorCompany } from "../entities/vendor-company.entity";
+import { VendorCompanyResponseDto } from '../dto/response-vendor-company.dto';
+import { VendorCompany } from '../entities/vendor-company.entity';
 
 export class VendorCompanyMapper {
     static toResponse(entity: VendorCompany): VendorCompanyResponseDto {

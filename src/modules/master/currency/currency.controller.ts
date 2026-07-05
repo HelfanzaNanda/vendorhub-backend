@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateCurrencyDto } from "./dto/create-currency.dto";
-import { UpdateCurrencyDto } from "./dto/update-currency.dto";
-import { CurrencyService } from "./currency.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateCurrencyDto } from './dto/create-currency.dto';
+import { UpdateCurrencyDto } from './dto/update-currency.dto';
+import { CurrencyService } from './currency.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('currencies')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class CurrencyController {
-
-    constructor(private service: CurrencyService) { }
-
+    constructor(private service: CurrencyService) {}
 
     @Get()
     @RequirePermission('currency.pagination')

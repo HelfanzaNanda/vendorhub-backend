@@ -1,5 +1,5 @@
-import { TelcoPrefixResponseDto } from "../dto/response-telco-prefix.dto";
-import { TelcoPrefix } from "../entities/telco-prefix.entity";
+import { TelcoPrefixResponseDto } from '../dto/response-telco-prefix.dto';
+import { TelcoPrefix } from '../entities/telco-prefix.entity';
 
 export class TelcoPrefixMapper {
     static toResponse(entity: TelcoPrefix): TelcoPrefixResponseDto {

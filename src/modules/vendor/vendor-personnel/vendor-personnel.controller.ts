@@ -1,16 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateVendorPersonnelDto } from "./dto/create-vendor-personnel.dto";
-import { UpdateVendorPersonnelDto } from "./dto/update-vendor-personnel.dto";
-import { VendorPersonnelService } from "./vendor-personnel.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateVendorPersonnelDto } from './dto/create-vendor-personnel.dto';
+import { UpdateVendorPersonnelDto } from './dto/update-vendor-personnel.dto';
+import { VendorPersonnelService } from './vendor-personnel.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('vendor-personnels')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorPersonnelController {
-    constructor(private service: VendorPersonnelService) { }
+    constructor(private service: VendorPersonnelService) {}
 
     @Get()
     @RequirePermission('vendor-personnel.pagination')

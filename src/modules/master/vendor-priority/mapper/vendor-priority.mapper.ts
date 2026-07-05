@@ -1,5 +1,5 @@
-import { VendorPriorityResponseDto } from "../dto/response-vendor-priority.dto";
-import { VendorPriority } from "../entities/vendor-priority.entity";
+import { VendorPriorityResponseDto } from '../dto/response-vendor-priority.dto';
+import { VendorPriority } from '../entities/vendor-priority.entity';
 
 export class VendorPriorityMapper {
     static toResponse(entity: VendorPriority): VendorPriorityResponseDto {
@@ -16,7 +16,9 @@ export class VendorPriorityMapper {
         };
     }
 
-    static toResponses(entities: VendorPriority[]): VendorPriorityResponseDto[] {
+    static toResponses(
+        entities: VendorPriority[],
+    ): VendorPriorityResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

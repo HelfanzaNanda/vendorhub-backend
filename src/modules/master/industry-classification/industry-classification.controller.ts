@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateIndustryClassificationDto } from "./dto/create-industry-classification.dto";
-import { UpdateIndustryClassificationDto } from "./dto/update-industry-classification.dto";
-import { IndustryClassificationService } from "./industry-classification.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateIndustryClassificationDto } from './dto/create-industry-classification.dto';
+import { UpdateIndustryClassificationDto } from './dto/update-industry-classification.dto';
+import { IndustryClassificationService } from './industry-classification.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('industry-classifications')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class IndustryClassificationController {
-
-    constructor(private service: IndustryClassificationService) { }
-
+    constructor(private service: IndustryClassificationService) {}
 
     @Get()
     @RequirePermission('industry-classification.pagination')
@@ -33,7 +42,10 @@ export class IndustryClassificationController {
 
     @Put(':id')
     @RequirePermission('industry-classification.update')
-    update(@Param('id') id: number, @Body() dto: UpdateIndustryClassificationDto) {
+    update(
+        @Param('id') id: number,
+        @Body() dto: UpdateIndustryClassificationDto,
+    ) {
         return this.service.update(id, dto);
     }
 

@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
-import { VendorCategoryItemService } from "./vendor-category-item.service";
-import { CreateVendorCategoryItemDto } from "./dto/create-vendor-category-item.dto";
-import { UpdateVendorCategoryItemDto } from "./dto/update-vendor-category-item.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
+import { VendorCategoryItemService } from './vendor-category-item.service';
+import { CreateVendorCategoryItemDto } from './dto/create-vendor-category-item.dto';
+import { UpdateVendorCategoryItemDto } from './dto/update-vendor-category-item.dto';
 
 @Controller('vendor-category-items')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorCategoryItemController {
-
-    constructor(private service: VendorCategoryItemService) { }
-
+    constructor(private service: VendorCategoryItemService) {}
 
     @Get()
     @RequirePermission('vendor-category-item.pagination')

@@ -5,8 +5,8 @@ import { WorkflowTypeController } from './workflow-type.controller';
 import { WorkflowTypeService } from './workflow-type.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([WorkflowType])],
-  controllers: [WorkflowTypeController],
-  providers: [WorkflowTypeService],
+    imports: [TypeOrmModule.forFeature([WorkflowType])],
+    controllers: [WorkflowTypeController],
+    providers: [WorkflowTypeService],
 })
 export class WorkflowTypeModule {}

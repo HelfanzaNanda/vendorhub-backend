@@ -15,10 +15,10 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class AffiliateTypeService {
     constructor(
         @InjectRepository(AffiliateType)
-        private affiliateRepo: Repository<AffiliateType>
-    ) { }
+        private affiliateRepo: Repository<AffiliateType>,
+    ) {}
 
-    async create(data : CreateAffiliateTypeDto) {
+    async create(data: CreateAffiliateTypeDto) {
         return this.affiliateRepo.save(this.affiliateRepo.create(data));
     }
 
@@ -26,47 +26,54 @@ export class AffiliateTypeService {
         const qb = this.affiliateRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(AFFILIATE_TYPE_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(AFFILIATE_TYPE_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, AFFILIATE_TYPE_FIELDS);
         return {
-            data : AffiliateTypeMapper.toResponses(result.data),
-            meta : result.meta
+            data: AffiliateTypeMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const affiliateType = await this.affiliateRepo.findOne({ 
+        const affiliateType = await this.affiliateRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!affiliateType) throw new NotFoundException();
         return AffiliateTypeMapper.toResponse(affiliateType);
     }
 
-    async update(id: number, data : UpdateAffiliateTypeDto) {
-        const affiliateType = await this.affiliateRepo.findOne({ where: { id } });
-        if (!affiliateType) throw new NotFoundException(`Data with id ${id} not found`);
+    async update(id: number, data: UpdateAffiliateTypeDto) {
+        const affiliateType = await this.affiliateRepo.findOne({
+            where: { id },
+        });
+        if (!affiliateType)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(affiliateType, data);
         return this.affiliateRepo.save(affiliateType);
     }
 
     async delete(id: number) {
-        const affiliateType = await this.affiliateRepo.findOne({ where: { id } });
-        if (!affiliateType) throw new NotFoundException(`Data with id ${id} not found`);
+        const affiliateType = await this.affiliateRepo.findOne({
+            where: { id },
+        });
+        if (!affiliateType)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         affiliateType.deletedBy = userId;
@@ -78,9 +85,9 @@ export class AffiliateTypeService {
     async findOptions() {
         const affiliateType = await this.affiliateRepo.find();
         return LookupMapper.toResponses(
-            affiliateType, 
-            affiliateType => affiliateType.id,
-            affiliateType => affiliateType.name
+            affiliateType,
+            (affiliateType) => affiliateType.id,
+            (affiliateType) => affiliateType.name,
         );
     }
 }

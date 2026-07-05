@@ -15,10 +15,10 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class CountryService {
     constructor(
         @InjectRepository(Country)
-        private countryRepo: Repository<Country>
-    ) { }
+        private countryRepo: Repository<Country>,
+    ) {}
 
-    async create(data : CreateCountryDto) {
+    async create(data: CreateCountryDto) {
         return this.countryRepo.save(this.countryRepo.create(data));
     }
 
@@ -26,47 +26,50 @@ export class CountryService {
         const qb = this.countryRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(COUNTRY_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(COUNTRY_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, COUNTRY_FIELDS);
         return {
-            data : CountryMapper.toResponses(result.data),
-            meta : result.meta
+            data: CountryMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const country = await this.countryRepo.findOne({ 
+        const country = await this.countryRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!country) throw new NotFoundException();
         return CountryMapper.toResponse(country);
     }
 
-    async update(id: number, data : UpdateCountryDto) {
+    async update(id: number, data: UpdateCountryDto) {
         const country = await this.countryRepo.findOne({ where: { id } });
-        if (!country) throw new NotFoundException(`Data with id ${id} not found`);
+        if (!country)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(country, data);
         return this.countryRepo.save(country);
     }
 
     async delete(id: number) {
         const country = await this.countryRepo.findOne({ where: { id } });
-        if (!country) throw new NotFoundException(`Data with id ${id} not found`);
+        if (!country)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         country.deletedBy = userId;
@@ -78,9 +81,9 @@ export class CountryService {
     async findOptions() {
         const country = await this.countryRepo.find();
         return LookupMapper.toResponses(
-            country, 
-            country => country.id,
-            country => country.name
+            country,
+            (country) => country.id,
+            (country) => country.name,
         );
     }
 }

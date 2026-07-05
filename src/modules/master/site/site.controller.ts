@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateSiteDto } from "./dto/create-site.dto";
-import { UpdateSiteDto } from "./dto/update-site.dto";
-import { SiteService } from "./site.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateSiteDto } from './dto/create-site.dto';
+import { UpdateSiteDto } from './dto/update-site.dto';
+import { SiteService } from './site.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('sites')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class SiteController {
-
-    constructor(private service: SiteService) { }
-
+    constructor(private service: SiteService) {}
 
     @Get()
     @RequirePermission('site.pagination')

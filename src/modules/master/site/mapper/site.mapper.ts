@@ -1,11 +1,11 @@
-import { SiteResponseDto } from "../dto/response-site.dto";
-import { Site } from "../entities/site.entity";
+import { SiteResponseDto } from '../dto/response-site.dto';
+import { Site } from '../entities/site.entity';
 
 export class SiteMapper {
     static toResponse(entity: Site): SiteResponseDto {
         return {
             id: entity.id,
-            area : entity.area.name,
+            area: entity.area.name,
             name: entity.name,
             code: entity.code,
             city: entity.city,

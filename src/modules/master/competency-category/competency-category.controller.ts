@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateCompetencyCategoryDto } from "./dto/create-competency-category.dto";
-import { UpdateCompetencyCategoryDto } from "./dto/update-competency-category.dto";
-import { CompetencyCategoryService } from "./competency-category.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateCompetencyCategoryDto } from './dto/create-competency-category.dto';
+import { UpdateCompetencyCategoryDto } from './dto/update-competency-category.dto';
+import { CompetencyCategoryService } from './competency-category.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('competency-categories')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class CompetencyCategoryController {
-
-    constructor(private service: CompetencyCategoryService) { }
-
+    constructor(private service: CompetencyCategoryService) {}
 
     @Get()
     @RequirePermission('competency-category.pagination')

@@ -5,9 +5,9 @@ import { AreaController } from './area.controller';
 import { AreaService } from './area.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Area])],
-  controllers: [AreaController],
-  providers: [AreaService],
-  exports: [AreaService]
+    imports: [TypeOrmModule.forFeature([Area])],
+    controllers: [AreaController],
+    providers: [AreaService],
+    exports: [AreaService],
 })
 export class AreaModule {}

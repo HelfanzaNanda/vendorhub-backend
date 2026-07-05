@@ -1,6 +1,6 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { User } from "@modules/uman/user/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { User } from '@modules/uman/user/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('document_types')
 export class DocumentType extends AuditBaseEntity {

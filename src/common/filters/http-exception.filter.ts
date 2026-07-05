@@ -18,17 +18,20 @@ export class AllExceptionsFilter implements ExceptionFilter {
         let message = 'Internal server error';
         let errorDetail: any = null;
 
-
         if (exception instanceof HttpException) {
             statusCode = exception.getStatus();
             const res = exception.getResponse();
 
             if (typeof res === 'string') {
                 message = res;
-            }
-            else if (typeof res === 'object' && res !== null && 'message' in res) {
-
-                const messages = Array.isArray(res.message) ? res.message : [res.message];
+            } else if (
+                typeof res === 'object' &&
+                res !== null &&
+                'message' in res
+            ) {
+                const messages = Array.isArray(res.message)
+                    ? res.message
+                    : [res.message];
                 // VALIDATION ERROR
                 if (statusCode === HttpStatus.BAD_REQUEST) {
                     response.status(statusCode).json({
@@ -43,11 +46,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
                 }
 
                 message = messages.join(', ');
-
             }
         } else if (exception instanceof Error) {
             if (AppConfig.APP_DEBUG) {
-                errorDetail = this.parseStack(exception.stack, exception.message);
+                errorDetail = this.parseStack(
+                    exception.stack,
+                    exception.message,
+                );
             }
         }
 
@@ -60,13 +65,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
         });
     }
 
-    private parseStack(stack?: string, exceptionMessage? : string) {
+    private parseStack(stack?: string, exceptionMessage?: string) {
         if (!stack) return null;
         const lines = stack.split('\n');
         const match = lines[1]?.match(/\((.*):(\d+):(\d+)\)/);
 
         return {
-            message : exceptionMessage,
+            message: exceptionMessage,
             file: match?.[1],
             line: match?.[2],
             column: match?.[3],

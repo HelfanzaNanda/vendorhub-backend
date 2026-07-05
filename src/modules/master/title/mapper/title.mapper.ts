@@ -1,5 +1,5 @@
-import { TitleResponseDto } from "../dto/response-title.dto";
-import { Title } from "../entities/title.entity";
+import { TitleResponseDto } from '../dto/response-title.dto';
+import { Title } from '../entities/title.entity';
 
 export class TitleMapper {
     static toResponse(entity: Title): TitleResponseDto {

@@ -5,8 +5,8 @@ import { VendorPriorityController } from './vendor-priority.controller';
 import { VendorPriorityService } from './vendor-priority.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VendorPriority])],
-  controllers: [VendorPriorityController],
-  providers: [VendorPriorityService],
+    imports: [TypeOrmModule.forFeature([VendorPriority])],
+    controllers: [VendorPriorityController],
+    providers: [VendorPriorityService],
 })
 export class VendorPriorityModule {}

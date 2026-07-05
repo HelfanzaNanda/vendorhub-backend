@@ -1,5 +1,5 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendor-temp.entity';
 import { VendorPersonnel } from '@modules/vendor/vendor-personnel/entities/vendor-personnel.entity';
@@ -52,7 +52,13 @@ export class VendorPersonnelTemp extends AuditBaseEntity {
     @Column({ name: 'phone', nullable: true })
     phone?: string;
 
-    @Column({ name: 'ownership_percentage', type: 'decimal', precision: 18, scale: 2, nullable: true })
+    @Column({
+        name: 'ownership_percentage',
+        type: 'decimal',
+        precision: 18,
+        scale: 2,
+        nullable: true,
+    })
     ownershipPercentage?: number;
 
     @Column({ name: 'privy_id', nullable: true })

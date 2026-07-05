@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateBankBranchDto } from "./dto/create-bank-branch.dto";
-import { UpdateBankBranchDto } from "./dto/update-bank-branch.dto";
-import { BankBranchService } from "./bank-branch.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateBankBranchDto } from './dto/create-bank-branch.dto';
+import { UpdateBankBranchDto } from './dto/update-bank-branch.dto';
+import { BankBranchService } from './bank-branch.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('bank-branches')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class BankBranchController {
-
-    constructor(private service: BankBranchService) { }
-
+    constructor(private service: BankBranchService) {}
 
     @Get()
     @RequirePermission('bank-branch.pagination')

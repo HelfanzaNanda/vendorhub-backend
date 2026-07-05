@@ -1,5 +1,5 @@
-import { VendorStatusResponseDto } from "../dto/response-vendor-status.dto";
-import { VendorStatus } from "../entities/vendor-status.entity";
+import { VendorStatusResponseDto } from '../dto/response-vendor-status.dto';
+import { VendorStatus } from '../entities/vendor-status.entity';
 
 export class VendorStatusMapper {
     static toResponse(entity: VendorStatus): VendorStatusResponseDto {

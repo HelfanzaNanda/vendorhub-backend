@@ -1,9 +1,18 @@
-import { AuditResponseDto } from "@common/dto/audit-response.dto";
-import { ApiProperty } from "@nestjs/swagger";
+import { AuditResponseDto } from '@common/dto/audit-response.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class VendorUserTempResponseDto {
     @ApiProperty()
     id: number;
+
+    @ApiProperty({ nullable: true })
+    masterId?: number | null;
+
+    @ApiProperty({ nullable: true })
+    tempId?: number | null;
+
+    @ApiProperty({ nullable: true })
+    source?: string;
 
     @ApiProperty({ nullable: true })
     vendorTempId?: number | null;

@@ -22,10 +22,10 @@ export async function seedTermsCondition(dataSource: DataSource) {
         }),
     );
 
-    const items = TERMS_CONDITION_ITEMS_DATA_SEED.map((item, index) => 
+    const items = TERMS_CONDITION_ITEMS_DATA_SEED.map((item, index) =>
         itemRepo.create({
             termsCondition: {
-                id : termsCondition.id
+                id: termsCondition.id,
             },
             chapter: item.chapter,
             title: item.title,

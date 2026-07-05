@@ -3,11 +3,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { VendorPersonnelTemp } from './entities/vendor-personnel-temp.entity';
 import { VendorPersonnelTempController } from './vendor-personnel-temp.controller';
 import { VendorPersonnelTempService } from './vendor-personnel-temp.service';
+import { CompanyPersonnelType } from '@modules/master/company-personnel-type/entities/company-personnel-type.entity';
+import { VendorTempModule } from '../vendor-temp/vendor-temp.module';
+import { VendorPersonnel } from '@modules/vendor/vendor-personnel/entities/vendor-personnel.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VendorPersonnelTemp])],
-  controllers: [VendorPersonnelTempController],
-  providers: [VendorPersonnelTempService],
-  exports: [VendorPersonnelTempService],
+    imports: [
+        TypeOrmModule.forFeature([VendorPersonnel, VendorPersonnelTemp, CompanyPersonnelType]),
+        VendorTempModule
+    ],
+    controllers: [VendorPersonnelTempController],
+    providers: [VendorPersonnelTempService],
+exports: [VendorPersonnelTempService],
 })
 export class VendorPersonnelTempModule {}

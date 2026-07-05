@@ -5,9 +5,9 @@ import { FinancialPeriodController } from './financial-period.controller';
 import { FinancialPeriodService } from './financial-period.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FinancialPeriod])],
-  controllers: [FinancialPeriodController],
-  providers: [FinancialPeriodService],
-  exports:[FinancialPeriodService]
+    imports: [TypeOrmModule.forFeature([FinancialPeriod])],
+    controllers: [FinancialPeriodController],
+    providers: [FinancialPeriodService],
+    exports: [FinancialPeriodService],
 })
 export class FinancialPeriodModule {}

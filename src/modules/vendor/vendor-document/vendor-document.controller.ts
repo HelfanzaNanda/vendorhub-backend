@@ -1,16 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateVendorDocumentDto } from "./dto/create-vendor-document.dto";
-import { UpdateVendorDocumentDto } from "./dto/update-vendor-document.dto";
-import { VendorDocumentService } from "./vendor-document.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateVendorDocumentDto } from './dto/create-vendor-document.dto';
+import { UpdateVendorDocumentDto } from './dto/update-vendor-document.dto';
+import { VendorDocumentService } from './vendor-document.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('vendor-documents')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorDocumentController {
-    constructor(private service: VendorDocumentService) { }
+    constructor(private service: VendorDocumentService) {}
 
     @Get()
     @RequirePermission('vendor-document.pagination')

@@ -15,57 +15,64 @@ import { UpdateTermsConditionItemDto } from './dto/update-terms-condition-item.d
 export class TermsConditionItemService {
     constructor(
         @InjectRepository(TermsConditionItem)
-        private termsConditionItemRepo: Repository<TermsConditionItem>
-    ) { }
+        private termsConditionItemRepo: Repository<TermsConditionItem>,
+    ) {}
 
-    async create(data : CreateTermsConditionItemDto) {
-        return this.termsConditionItemRepo.save(this.termsConditionItemRepo.create(data));
+    async create(data: CreateTermsConditionItemDto) {
+        return this.termsConditionItemRepo.save(
+            this.termsConditionItemRepo.create(data),
+        );
     }
 
     async pagination(query: PaginationQueryDto) {
         const qb = this.termsConditionItemRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(TERMS_CONDITION_ITEM_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(TERMS_CONDITION_ITEM_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, TERMS_CONDITION_ITEM_FIELDS);
         return {
-            data : TermsConditionItemMapper.toResponses(result.data),
-            meta : result.meta
+            data: TermsConditionItemMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const area = await this.termsConditionItemRepo.findOne({ 
+        const area = await this.termsConditionItemRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!area) throw new NotFoundException();
         return TermsConditionItemMapper.toResponse(area);
     }
 
-    async update(id: number, data : UpdateTermsConditionItemDto) {
-        const area = await this.termsConditionItemRepo.findOne({ where: { id } });
+    async update(id: number, data: UpdateTermsConditionItemDto) {
+        const area = await this.termsConditionItemRepo.findOne({
+            where: { id },
+        });
         if (!area) throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(area, data);
         return this.termsConditionItemRepo.save(area);
     }
 
     async delete(id: number) {
-        const area = await this.termsConditionItemRepo.findOne({ where: { id } });
+        const area = await this.termsConditionItemRepo.findOne({
+            where: { id },
+        });
         if (!area) throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
@@ -74,11 +81,11 @@ export class TermsConditionItemService {
 
         return this.termsConditionItemRepo.save(area);
     }
-    
+
     // async findOptions() {
     //     const area = await this.termsConditionItemRepo.find();
     //     return LookupMapper.toResponses(
-    //         area, 
+    //         area,
     //         area => area.id,
     //         area => area.name
     //     );

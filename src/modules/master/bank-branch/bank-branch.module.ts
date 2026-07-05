@@ -5,9 +5,9 @@ import { BankBranchController } from './bank-branch.controller';
 import { BankBranchService } from './bank-branch.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BankBranch])],
-  controllers: [BankBranchController],
-  providers: [BankBranchService],
-  exports:[BankBranchService]
+    imports: [TypeOrmModule.forFeature([BankBranch])],
+    controllers: [BankBranchController],
+    providers: [BankBranchService],
+    exports: [BankBranchService],
 })
 export class BankBranchModule {}

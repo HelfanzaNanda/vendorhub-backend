@@ -1,5 +1,5 @@
-import { AuditResponseDto } from "@common/dto/audit-response.dto";
-import { ApiProperty } from "@nestjs/swagger";
+import { AuditResponseDto } from '@common/dto/audit-response.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class RoleResponseDto {
     @ApiProperty()
@@ -10,7 +10,6 @@ export class RoleResponseDto {
 
     @ApiProperty()
     name: string;
-
 
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;

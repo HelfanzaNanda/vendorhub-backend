@@ -15,10 +15,10 @@ import { UpdateRoleDto } from './dto/update-role.dto';
 export class RoleService {
     constructor(
         @InjectRepository(Role)
-        private roleRepo: Repository<Role>
-    ) { }
+        private roleRepo: Repository<Role>,
+    ) {}
 
-    async create(data : CreateRoleDto) {
+    async create(data: CreateRoleDto) {
         return this.roleRepo.save(this.roleRepo.create(data));
     }
 
@@ -26,38 +26,37 @@ export class RoleService {
         const qb = this.roleRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(SITE_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(SITE_FIELDS).map((f) => f.column);
         qb.select(selectColumns);
         const result = await paginate(qb, query, SITE_FIELDS);
         return {
-            data : RoleMapper.toResponses(result.data),
-            meta : result.meta
+            data: RoleMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const site = await this.roleRepo.findOne({ 
+        const site = await this.roleRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!site) throw new NotFoundException();
         return RoleMapper.toResponse(site);
     }
 
-    async update(id: number, data : UpdateRoleDto) {
+    async update(id: number, data: UpdateRoleDto) {
         const site = await this.roleRepo.findOne({ where: { id } });
         if (!site) throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(site, data);
@@ -78,9 +77,9 @@ export class RoleService {
     async findOptions() {
         const role = await this.roleRepo.find();
         return LookupMapper.toResponses(
-            role, 
-            role => role.id,
-            role => role.name
+            role,
+            (role) => role.id,
+            (role) => role.name,
         );
     }
 }

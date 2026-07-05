@@ -15,10 +15,10 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class AreaService {
     constructor(
         @InjectRepository(Area)
-        private areaRepo: Repository<Area>
-    ) { }
+        private areaRepo: Repository<Area>,
+    ) {}
 
-    async create(data : CreateAreaDto) {
+    async create(data: CreateAreaDto) {
         return this.areaRepo.save(this.areaRepo.create(data));
     }
 
@@ -26,38 +26,37 @@ export class AreaService {
         const qb = this.areaRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(AREA_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(AREA_FIELDS).map((f) => f.column);
         qb.select(selectColumns);
         const result = await paginate(qb, query, AREA_FIELDS);
         return {
-            data : AreaMapper.toResponses(result.data),
-            meta : result.meta
+            data: AreaMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const area = await this.areaRepo.findOne({ 
+        const area = await this.areaRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!area) throw new NotFoundException();
         return AreaMapper.toResponse(area);
     }
 
-    async update(id: number, data : UpdateAreaDto) {
+    async update(id: number, data: UpdateAreaDto) {
         const area = await this.areaRepo.findOne({ where: { id } });
         if (!area) throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(area, data);
@@ -74,13 +73,13 @@ export class AreaService {
 
         return this.areaRepo.save(area);
     }
-    
+
     async findOptions() {
         const area = await this.areaRepo.find();
         return LookupMapper.toResponses(
-            area, 
-            area => area.id,
-            area => area.name
+            area,
+            (area) => area.id,
+            (area) => area.name,
         );
     }
 }

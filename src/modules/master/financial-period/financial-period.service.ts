@@ -15,11 +15,13 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class FinancialPeriodService {
     constructor(
         @InjectRepository(FinancialPeriod)
-        private financialPeriodRepo: Repository<FinancialPeriod>
-    ) { }
+        private financialPeriodRepo: Repository<FinancialPeriod>,
+    ) {}
 
     async create(data: CreateFinancialPeriodDto) {
-        return this.financialPeriodRepo.save(this.financialPeriodRepo.create(data));
+        return this.financialPeriodRepo.save(
+            this.financialPeriodRepo.create(data),
+        );
     }
 
     async pagination(query: PaginationQueryDto) {
@@ -27,14 +29,15 @@ export class FinancialPeriodService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
 
-        const selectColumns = Object.values(FINANCIAL_PERIOD_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(FINANCIAL_PERIOD_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, FINANCIAL_PERIOD_FIELDS);
         return {
             data: FinancialPeriodMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
@@ -44,29 +47,35 @@ export class FinancialPeriodService {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true
-            }
+                updatedByUser: true,
+            },
         });
         if (!financialPeriod) throw new NotFoundException();
         return FinancialPeriodMapper.toResponse(financialPeriod);
     }
 
     async update(id: number, data: UpdateFinancialPeriodDto) {
-        const financialPeriod = await this.financialPeriodRepo.findOne({ where: { id } });
-        if (!financialPeriod) throw new NotFoundException(`Data with id ${id} not found`);
+        const financialPeriod = await this.financialPeriodRepo.findOne({
+            where: { id },
+        });
+        if (!financialPeriod)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(financialPeriod, data);
         return this.financialPeriodRepo.save(financialPeriod);
     }
 
     async delete(id: number) {
-        const financialPeriod = await this.financialPeriodRepo.findOne({ where: { id } });
-        if (!financialPeriod) throw new NotFoundException(`Data with id ${id} not found`);
+        const financialPeriod = await this.financialPeriodRepo.findOne({
+            where: { id },
+        });
+        if (!financialPeriod)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         financialPeriod.deletedBy = userId;
@@ -78,9 +87,9 @@ export class FinancialPeriodService {
     async findOptions() {
         const financialPeriod = await this.financialPeriodRepo.find();
         return LookupMapper.toResponses(
-            financialPeriod, 
-            financialPeriod => financialPeriod.id,
-            financialPeriod => financialPeriod.name
+            financialPeriod,
+            (financialPeriod) => financialPeriod.id,
+            (financialPeriod) => financialPeriod.name,
         );
     }
 }

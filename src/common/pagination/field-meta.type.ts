@@ -1,5 +1,5 @@
 export type FieldMeta = {
-    column: string;          // alias.column (qb)
+    column: string; // alias.column (qb)
     searchable?: boolean;
     orderable?: boolean;
 };

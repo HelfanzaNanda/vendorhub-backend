@@ -1,8 +1,10 @@
-import { IndustryClassificationResponseDto } from "../dto/response-industry-classification.dto";
-import { IndustryClassification } from "../entities/industry-classification.entity";
+import { IndustryClassificationResponseDto } from '../dto/response-industry-classification.dto';
+import { IndustryClassification } from '../entities/industry-classification.entity';
 
 export class IndustryClassificationMapper {
-    static toResponse(entity: IndustryClassification): IndustryClassificationResponseDto {
+    static toResponse(
+        entity: IndustryClassification,
+    ): IndustryClassificationResponseDto {
         return {
             id: entity.id,
             number: entity.number,
@@ -17,7 +19,9 @@ export class IndustryClassificationMapper {
         };
     }
 
-    static toResponses(entities: IndustryClassification[]): IndustryClassificationResponseDto[] {
+    static toResponses(
+        entities: IndustryClassification[],
+    ): IndustryClassificationResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

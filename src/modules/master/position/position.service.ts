@@ -15,8 +15,8 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class PositionService {
     constructor(
         @InjectRepository(Position)
-        private positionRepo: Repository<Position>
-    ) { }
+        private positionRepo: Repository<Position>,
+    ) {}
 
     async create(data: CreatePositionDto) {
         return this.positionRepo.save(this.positionRepo.create(data));
@@ -27,14 +27,15 @@ export class PositionService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
 
-        const selectColumns = Object.values(POSITION_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(POSITION_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, POSITION_FIELDS);
         return {
             data: PositionMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
@@ -44,14 +45,14 @@ export class PositionService {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true
-            }
+                updatedByUser: true,
+            },
         });
         if (!position) throw new NotFoundException();
         return PositionMapper.toResponse(position);
@@ -59,14 +60,16 @@ export class PositionService {
 
     async update(id: number, data: UpdatePositionDto) {
         const position = await this.positionRepo.findOne({ where: { id } });
-        if (!position) throw new NotFoundException(`Data with id ${id} not found`);
+        if (!position)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(position, data);
         return this.positionRepo.save(position);
     }
 
     async delete(id: number) {
         const position = await this.positionRepo.findOne({ where: { id } });
-        if (!position) throw new NotFoundException(`Data with id ${id} not found`);
+        if (!position)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         position.deletedBy = userId;
@@ -78,9 +81,9 @@ export class PositionService {
     async findOptions() {
         const position = await this.positionRepo.find();
         return LookupMapper.toResponses(
-            position, 
-            position => position.id,
-            position => position.name
+            position,
+            (position) => position.id,
+            (position) => position.name,
         );
     }
 }

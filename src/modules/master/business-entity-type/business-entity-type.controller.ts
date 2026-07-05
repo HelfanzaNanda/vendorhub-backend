@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateBusinessEntityTypeDto } from "./dto/create-business-entity-type.dto";
-import { UpdateBusinessEntityTypeDto } from "./dto/update-business-entity-type.dto";
-import { BusinessEntityTypeService } from "./business-entity-type.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateBusinessEntityTypeDto } from './dto/create-business-entity-type.dto';
+import { UpdateBusinessEntityTypeDto } from './dto/update-business-entity-type.dto';
+import { BusinessEntityTypeService } from './business-entity-type.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('business-entity-types')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class BusinessEntityTypeController {
-
-    constructor(private service: BusinessEntityTypeService) { }
-
+    constructor(private service: BusinessEntityTypeService) {}
 
     @Get()
     @RequirePermission('business-entity-type.pagination')

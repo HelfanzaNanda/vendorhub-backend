@@ -1,8 +1,10 @@
-import { VendorAffiliationTempResponseDto } from "../dto/response-vendor-affiliation-temp.dto";
-import { VendorAffiliationTemp } from "../entities/vendor-affiliation-temp.entity";
+import { VendorAffiliationTempResponseDto } from '../dto/response-vendor-affiliation-temp.dto';
+import { VendorAffiliationTemp } from '../entities/vendor-affiliation-temp.entity';
 
 export class VendorAffiliationTempMapper {
-    static toResponse(entity: VendorAffiliationTemp): VendorAffiliationTempResponseDto {
+    static toResponse(
+        entity: VendorAffiliationTemp,
+    ): VendorAffiliationTempResponseDto {
         return {
             id: entity.id,
             vendorTempId: entity.vendorTempId ?? null,
@@ -14,7 +16,8 @@ export class VendorAffiliationTempMapper {
             companyName: entity.companyName ?? null,
             npwp: entity.npwp ?? null,
             businessField: entity.businessField ?? null,
-            companyBusinessEntityTypeId: entity.companyBusinessEntityTypeId ?? null,
+            companyBusinessEntityTypeId:
+                entity.companyBusinessEntityTypeId ?? null,
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,
@@ -24,7 +27,9 @@ export class VendorAffiliationTempMapper {
         };
     }
 
-    static toResponses(entities: VendorAffiliationTemp[]): VendorAffiliationTempResponseDto[] {
+    static toResponses(
+        entities: VendorAffiliationTemp[],
+    ): VendorAffiliationTempResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

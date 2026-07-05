@@ -1,5 +1,5 @@
-import { JobTypeResponseDto } from "../dto/response-job-type.dto";
-import { JobType } from "../entities/job-type.entity";
+import { JobTypeResponseDto } from '../dto/response-job-type.dto';
+import { JobType } from '../entities/job-type.entity';
 
 export class JobTypeMapper {
     static toResponse(entity: JobType): JobTypeResponseDto {

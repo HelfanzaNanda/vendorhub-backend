@@ -1,5 +1,5 @@
-import { CountryResponseDto } from "../dto/response-country.dto";
-import { Country } from "../entities/country.entity";
+import { CountryResponseDto } from '../dto/response-country.dto';
+import { Country } from '../entities/country.entity';
 
 export class CountryMapper {
     static toResponse(entity: Country): CountryResponseDto {

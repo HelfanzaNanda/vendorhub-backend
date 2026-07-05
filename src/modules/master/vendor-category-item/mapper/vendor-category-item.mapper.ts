@@ -1,8 +1,10 @@
-import { VendorCategoryItemResponseDto } from "../dto/response-vendor-category-item.dto";
-import { VendorCategoryItem } from "../entities/vendor-category-item.entity";
+import { VendorCategoryItemResponseDto } from '../dto/response-vendor-category-item.dto';
+import { VendorCategoryItem } from '../entities/vendor-category-item.entity';
 
 export class VendorCategoryItemMapper {
-    static toResponse(entity: VendorCategoryItem): VendorCategoryItemResponseDto {
+    static toResponse(
+        entity: VendorCategoryItem,
+    ): VendorCategoryItemResponseDto {
         return {
             id: entity.id,
             code: entity.code,
@@ -16,7 +18,9 @@ export class VendorCategoryItemMapper {
         };
     }
 
-    static toResponses(entities: VendorCategoryItem[]): VendorCategoryItemResponseDto[] {
+    static toResponses(
+        entities: VendorCategoryItem[],
+    ): VendorCategoryItemResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

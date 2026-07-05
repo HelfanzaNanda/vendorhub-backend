@@ -14,8 +14,8 @@ import { VendorBusinessLicenseItemMapper } from './mapper/vendor-business-licens
 export class VendorBusinessLicenseItemService {
     constructor(
         @InjectRepository(VendorBusinessLicenseItem)
-        private repo: Repository<VendorBusinessLicenseItem>
-    ) { }
+        private repo: Repository<VendorBusinessLicenseItem>,
+    ) {}
 
     async create(data: CreateVendorBusinessLicenseItemDto) {
         return this.repo.save(this.repo.create(data));
@@ -25,36 +25,48 @@ export class VendorBusinessLicenseItemService {
         const qb = this.repo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        qb.leftJoinAndSelect('c.vendorBusinessLicense', 'vendorBusinessLicense');
-        qb.leftJoinAndSelect('c.industryClassification', 'industryClassification');
-        
-        const selectColumns = Object.values(VENDORBUSINESSLICENSEITEM_FIELDS).map(f => f.column);
+        qb.leftJoinAndSelect(
+            'c.vendorBusinessLicense',
+            'vendorBusinessLicense',
+        );
+        qb.leftJoinAndSelect(
+            'c.industryClassification',
+            'industryClassification',
+        );
+
+        const selectColumns = Object.values(
+            VENDORBUSINESSLICENSEITEM_FIELDS,
+        ).map((f) => f.column);
         qb.select(selectColumns);
-        
-        const result = await paginate(qb, query, VENDORBUSINESSLICENSEITEM_FIELDS);
+
+        const result = await paginate(
+            qb,
+            query,
+            VENDORBUSINESSLICENSEITEM_FIELDS,
+        );
         return {
             data: VendorBusinessLicenseItemMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendorBusinessLicense: true,
                 industryClassification: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorBusinessLicenseItemMapper.toResponse(item);

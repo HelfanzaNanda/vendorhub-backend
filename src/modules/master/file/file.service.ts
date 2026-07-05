@@ -15,8 +15,8 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class FileService {
     constructor(
         @InjectRepository(File)
-        private repo: Repository<File>
-    ) { }
+        private repo: Repository<File>,
+    ) {}
 
     async create(data: CreateFileDto) {
         return this.repo.save(this.repo.create(data));
@@ -26,31 +26,31 @@ export class FileService {
         const qb = this.repo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(FILE_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(FILE_FIELDS).map((f) => f.column);
         qb.select(selectColumns);
         const result = await paginate(qb, query, FILE_FIELDS);
         return {
             data: FileMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const file = await this.repo.findOne({ 
+        const file = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
-                updatedByUser: true 
-            }
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!file) throw new NotFoundException();
         return FileMapper.toResponse(file);
@@ -77,9 +77,9 @@ export class FileService {
     async findOptions() {
         const files = await this.repo.find();
         return LookupMapper.toResponses(
-            files, 
-            f => f.id,
-            f => f.fileName
+            files,
+            (f) => f.id,
+            (f) => f.fileName,
         );
     }
 }

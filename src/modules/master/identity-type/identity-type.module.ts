@@ -5,9 +5,9 @@ import { IdentityTypeController } from './identity-type.controller';
 import { IdentityTypeService } from './identity-type.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([IdentityType])],
-  controllers: [IdentityTypeController],
-  providers: [IdentityTypeService],
-  exports:[IdentityTypeService]
+    imports: [TypeOrmModule.forFeature([IdentityType])],
+    controllers: [IdentityTypeController],
+    providers: [IdentityTypeService],
+    exports: [IdentityTypeService],
 })
 export class IdentityTypeModule {}

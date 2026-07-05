@@ -5,9 +5,9 @@ import { DocumentTypeController } from './document-type.controller';
 import { DocumentTypeService } from './document-type.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DocumentType])],
-  controllers: [DocumentTypeController],
-  providers: [DocumentTypeService],
-  exports: [DocumentTypeService]
+    imports: [TypeOrmModule.forFeature([DocumentType])],
+    controllers: [DocumentTypeController],
+    providers: [DocumentTypeService],
+    exports: [DocumentTypeService],
 })
 export class DocumentTypeModule {}

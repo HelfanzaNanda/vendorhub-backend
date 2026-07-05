@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateAreaDto } from "./dto/create-area.dto";
-import { UpdateAreaDto } from "./dto/update-area.dto";
-import { AreaService } from "./area.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateAreaDto } from './dto/create-area.dto';
+import { UpdateAreaDto } from './dto/update-area.dto';
+import { AreaService } from './area.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('areas')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class AreaController {
-
-    constructor(private service: AreaService) { }
-
+    constructor(private service: AreaService) {}
 
     @Get()
     @RequirePermission('area.pagination')

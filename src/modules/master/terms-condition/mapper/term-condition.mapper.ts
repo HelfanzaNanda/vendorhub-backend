@@ -1,5 +1,5 @@
-import { TermsConditionResponseDto } from "../dto/response-term-condition.dto";
-import { TermsCondition } from "../entities/term-condition.entity";
+import { TermsConditionResponseDto } from '../dto/response-term-condition.dto';
+import { TermsCondition } from '../entities/term-condition.entity';
 
 export class TermsConditionMapper {
     static toResponse(entity: TermsCondition): TermsConditionResponseDto {
@@ -7,7 +7,7 @@ export class TermsConditionMapper {
             id: entity.id,
             title: entity.title,
             version: entity.version,
-            status : entity.status,
+            status: entity.status,
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,
@@ -17,7 +17,9 @@ export class TermsConditionMapper {
         };
     }
 
-    static toResponses(entities: TermsCondition[]): TermsConditionResponseDto[] {
+    static toResponses(
+        entities: TermsCondition[],
+    ): TermsConditionResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

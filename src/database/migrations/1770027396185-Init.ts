@@ -1,168 +1,478 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class Init1770027396185 implements MigrationInterface {
-    name = 'Init1770027396185'
+    name = 'Init1770027396185';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE \`menus\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`path\` varchar(255) NOT NULL, \`icon\` varchar(255) NOT NULL, \`parent_id\` int NOT NULL, \`order\` int NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`permissions\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(255) NULL, UNIQUE INDEX \`IDX_48ce552495d14eae9b187bb671\` (\`name\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`roles\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, UNIQUE INDEX \`IDX_f6d54f95c31b73fb1bdd8e91d0\` (\`code\`), UNIQUE INDEX \`IDX_648e3f5447f725579d7d4ffdfb\` (\`name\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`users\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`firstname\` varchar(255) NOT NULL, \`lastname\` varchar(255) NOT NULL, \`username\` varchar(255) NOT NULL, \`email\` varchar(255) NOT NULL, \`password\` varchar(255) NOT NULL, \`type\` varchar(20) NOT NULL, \`is_active\` tinyint NOT NULL DEFAULT 1, \`effective_start_date\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(), \`effective_end_date\` timestamp NOT NULL, UNIQUE INDEX \`IDX_fe0bb3f6520ee0469504521e71\` (\`username\`), UNIQUE INDEX \`IDX_97672ac88f789774dd47f7c8be\` (\`email\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`user_has_roles\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`is_active\` tinyint NOT NULL DEFAULT 1, \`effective_start_date\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(), \`effective_end_date\` timestamp NOT NULL, \`user_id\` int NULL, \`role_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`workflow_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`vendor_statuses\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(4000) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`vendor_priorities\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`vendor_categories\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`titles\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`telco_prefixes\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(4000) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`areas\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`sites\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`city\` varchar(255) NOT NULL, \`address\` varchar(4000) NULL, \`area_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`countries\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`iso_2_code\` varchar(255) NULL, \`iso_3_code\` varchar(255) NULL, \`phone_code\` varchar(255) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`provinces\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`country_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`positions\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`job_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`competency_categories\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`competency_sub_categories\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`competency_category_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`competency_items\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(4000) NULL, \`competency_sub_category_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`industry_classifications\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`number\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(4000) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`identity_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`financial_periods\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`currencies\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`country_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`cities\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`province_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`business_entity_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`banks\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`country_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`bank_branches\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`address\` varchar(4000) NULL, \`bank_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`affiliate_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(255) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`permission_has_menus\` (\`permission_id\` int NOT NULL, \`menu_id\` int NOT NULL, INDEX \`IDX_c43f976e5e438112c22fca53cb\` (\`permission_id\`), INDEX \`IDX_541d8873b8f5e25a1f0c6c4579\` (\`menu_id\`), PRIMARY KEY (\`permission_id\`, \`menu_id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`role_has_permissions\` (\`role_id\` int NOT NULL, \`permission_id\` int NOT NULL, INDEX \`IDX_9135e97d2d840f7dfd6e664911\` (\`role_id\`), INDEX \`IDX_09ff9df62bd01f8cf45b1b1921\` (\`permission_id\`), PRIMARY KEY (\`role_id\`, \`permission_id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`industry_class_has_competency_items\` (\`industry_classification_id\` int NOT NULL, \`competency_item_id\` int NOT NULL, INDEX \`IDX_b07250203eace6d0513f1f82a3\` (\`industry_classification_id\`), INDEX \`IDX_3e72987ab0a7063a3142933a7e\` (\`competency_item_id\`), PRIMARY KEY (\`industry_classification_id\`, \`competency_item_id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`ALTER TABLE \`vendor_categories\` ADD \`description\` varchar(4000) NULL`);
-        await queryRunner.query(`ALTER TABLE \`vendor_categories\` ADD \`vendor_category_id\` int NULL`);
-        await queryRunner.query(`ALTER TABLE \`user_has_roles\` ADD CONSTRAINT \`FK_d2b980baf026ff8347d88ace6ee\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`user_has_roles\` ADD CONSTRAINT \`FK_386dc0042695c976845d36be948\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`workflow_types\` ADD CONSTRAINT \`FK_e7ab31ca57aef9445aa9f486c7f\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`workflow_types\` ADD CONSTRAINT \`FK_d9e1c066e8f0b13256e6a356324\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`vendor_statuses\` ADD CONSTRAINT \`FK_33aaf6fc242e6bc1aa28bf85e03\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`vendor_statuses\` ADD CONSTRAINT \`FK_da8c8bf4f0256f1cf818914b2da\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`vendor_priorities\` ADD CONSTRAINT \`FK_762006e6822179a548cb3c8b123\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`vendor_priorities\` ADD CONSTRAINT \`FK_b393080a29f7f5d0a210f844b2b\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`vendor_categories\` ADD CONSTRAINT \`FK_79377b5a50ccf775fe3d012b4f9\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`vendor_categories\` ADD CONSTRAINT \`FK_07f96afaa61e5700f20e14c7a83\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`titles\` ADD CONSTRAINT \`FK_e14023392eb3a694a6ca0f9b0b3\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`titles\` ADD CONSTRAINT \`FK_fc9f7bc5585fbdd36f53010cb2d\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`telco_prefixes\` ADD CONSTRAINT \`FK_29a5f3eed31c01d0ff881a7066d\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`telco_prefixes\` ADD CONSTRAINT \`FK_c0ea3f0971a6c447f5bb9209140\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`areas\` ADD CONSTRAINT \`FK_95ebc8018b1437cd51f49f6394c\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`areas\` ADD CONSTRAINT \`FK_a31a42db9c41008dc534478e32b\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`sites\` ADD CONSTRAINT \`FK_e2a9a2377348da2183f26b38fa1\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`sites\` ADD CONSTRAINT \`FK_924cbb76316cb81be8f40927082\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`countries\` ADD CONSTRAINT \`FK_ce2d61e8933e762a07ec723d7d8\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`countries\` ADD CONSTRAINT \`FK_36bc1d0e763087b521f5f0b2fe3\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`provinces\` ADD CONSTRAINT \`FK_ed7e57c8f80a8059a5fb5fd9149\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`provinces\` ADD CONSTRAINT \`FK_f6c2d47fe028f5c0675840a3f41\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`positions\` ADD CONSTRAINT \`FK_000a467d66ec3c711cf81c38efd\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`positions\` ADD CONSTRAINT \`FK_923b6c2bbeb4fd6cd2c0b14c6c2\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`job_types\` ADD CONSTRAINT \`FK_ca3fb55f77928ba4cff01edc3b9\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`job_types\` ADD CONSTRAINT \`FK_3365ef547332e828010440e494c\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`competency_categories\` ADD CONSTRAINT \`FK_c12f8fc0f09d65f152e6022efbf\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`competency_categories\` ADD CONSTRAINT \`FK_5699d240e70c5ba2d2af368dec2\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`competency_sub_categories\` ADD CONSTRAINT \`FK_af3a289a69fb68404a99987e47d\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`competency_sub_categories\` ADD CONSTRAINT \`FK_f9a5c4489f9ed8775bd72bac3d1\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`competency_items\` ADD CONSTRAINT \`FK_616473fe398648453f72249955c\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`competency_items\` ADD CONSTRAINT \`FK_8e763c3dd94cd55a8de1c6e0924\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`industry_classifications\` ADD CONSTRAINT \`FK_38df0d467300a806773add4c857\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`industry_classifications\` ADD CONSTRAINT \`FK_cf3d64e003e1f70614e6d55141e\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`identity_types\` ADD CONSTRAINT \`FK_d99716b5fcbbf5baf26ff56b7af\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`identity_types\` ADD CONSTRAINT \`FK_4fe815509a5a856edc53a0650bd\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`financial_periods\` ADD CONSTRAINT \`FK_82fd572efaaeab9262bf826340a\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`financial_periods\` ADD CONSTRAINT \`FK_9bfffb560716ac093e8a735712c\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`currencies\` ADD CONSTRAINT \`FK_c999e1d171656df16e538737b94\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`currencies\` ADD CONSTRAINT \`FK_fc582d21a9c07bc7f2935885ece\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`cities\` ADD CONSTRAINT \`FK_4916f2a4fc14e0480b15c853687\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`cities\` ADD CONSTRAINT \`FK_91b655c58d487caec2fe5b5de36\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`business_entity_types\` ADD CONSTRAINT \`FK_6f3dc5a88af60d6403e110f6f7b\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`business_entity_types\` ADD CONSTRAINT \`FK_f77c2810fbab3b89865ec30952a\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`banks\` ADD CONSTRAINT \`FK_91fb41eceebaa47ee0b2666041b\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`banks\` ADD CONSTRAINT \`FK_ae0706345f1ac0f4c1a2b3d502c\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`bank_branches\` ADD CONSTRAINT \`FK_42c0cef9110accace57a0d529d6\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`bank_branches\` ADD CONSTRAINT \`FK_93671b93a909385ba56015cdb4f\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`affiliate_types\` ADD CONSTRAINT \`FK_ed2e2a047269e3c9baa73ed4cb8\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`affiliate_types\` ADD CONSTRAINT \`FK_c12d5c36bd94bfa8a33d71cd1d9\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`permission_has_menus\` ADD CONSTRAINT \`FK_c43f976e5e438112c22fca53cba\` FOREIGN KEY (\`permission_id\`) REFERENCES \`permissions\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE \`permission_has_menus\` ADD CONSTRAINT \`FK_541d8873b8f5e25a1f0c6c45798\` FOREIGN KEY (\`menu_id\`) REFERENCES \`menus\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`role_has_permissions\` ADD CONSTRAINT \`FK_9135e97d2d840f7dfd6e6649116\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE \`role_has_permissions\` ADD CONSTRAINT \`FK_09ff9df62bd01f8cf45b1b1921a\` FOREIGN KEY (\`permission_id\`) REFERENCES \`permissions\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`industry_class_has_competency_items\` ADD CONSTRAINT \`FK_b07250203eace6d0513f1f82a3f\` FOREIGN KEY (\`industry_classification_id\`) REFERENCES \`industry_classifications\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE \`industry_class_has_competency_items\` ADD CONSTRAINT \`FK_3e72987ab0a7063a3142933a7ee\` FOREIGN KEY (\`competency_item_id\`) REFERENCES \`competency_items\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(
+            `CREATE TABLE \`menus\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`path\` varchar(255) NOT NULL, \`icon\` varchar(255) NOT NULL, \`parent_id\` int NOT NULL, \`order\` int NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`permissions\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(255) NULL, UNIQUE INDEX \`IDX_48ce552495d14eae9b187bb671\` (\`name\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`roles\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, UNIQUE INDEX \`IDX_f6d54f95c31b73fb1bdd8e91d0\` (\`code\`), UNIQUE INDEX \`IDX_648e3f5447f725579d7d4ffdfb\` (\`name\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`users\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`firstname\` varchar(255) NOT NULL, \`lastname\` varchar(255) NOT NULL, \`username\` varchar(255) NOT NULL, \`email\` varchar(255) NOT NULL, \`password\` varchar(255) NOT NULL, \`type\` varchar(20) NOT NULL, \`is_active\` tinyint NOT NULL DEFAULT 1, \`effective_start_date\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(), \`effective_end_date\` timestamp NOT NULL, UNIQUE INDEX \`IDX_fe0bb3f6520ee0469504521e71\` (\`username\`), UNIQUE INDEX \`IDX_97672ac88f789774dd47f7c8be\` (\`email\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`user_has_roles\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`is_active\` tinyint NOT NULL DEFAULT 1, \`effective_start_date\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(), \`effective_end_date\` timestamp NOT NULL, \`user_id\` int NULL, \`role_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`workflow_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`vendor_statuses\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(4000) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`vendor_priorities\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`vendor_categories\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`titles\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`telco_prefixes\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(4000) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`areas\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`sites\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`city\` varchar(255) NOT NULL, \`address\` varchar(4000) NULL, \`area_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`countries\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`iso_2_code\` varchar(255) NULL, \`iso_3_code\` varchar(255) NULL, \`phone_code\` varchar(255) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`provinces\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`country_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`positions\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`job_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`competency_categories\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`competency_sub_categories\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`competency_category_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`competency_items\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(4000) NULL, \`competency_sub_category_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`industry_classifications\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`number\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(4000) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`identity_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`financial_periods\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`currencies\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`country_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`cities\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`province_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`business_entity_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`banks\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`country_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`bank_branches\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`code\` varchar(255) NOT NULL, \`name\` varchar(255) NOT NULL, \`address\` varchar(4000) NULL, \`bank_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`affiliate_types\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` timestamp(6) NULL, \`created_by\` int NULL, \`updated_by\` int NULL, \`deleted_by\` int NULL, \`name\` varchar(255) NOT NULL, \`description\` varchar(255) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`permission_has_menus\` (\`permission_id\` int NOT NULL, \`menu_id\` int NOT NULL, INDEX \`IDX_c43f976e5e438112c22fca53cb\` (\`permission_id\`), INDEX \`IDX_541d8873b8f5e25a1f0c6c4579\` (\`menu_id\`), PRIMARY KEY (\`permission_id\`, \`menu_id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`role_has_permissions\` (\`role_id\` int NOT NULL, \`permission_id\` int NOT NULL, INDEX \`IDX_9135e97d2d840f7dfd6e664911\` (\`role_id\`), INDEX \`IDX_09ff9df62bd01f8cf45b1b1921\` (\`permission_id\`), PRIMARY KEY (\`role_id\`, \`permission_id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`industry_class_has_competency_items\` (\`industry_classification_id\` int NOT NULL, \`competency_item_id\` int NOT NULL, INDEX \`IDX_b07250203eace6d0513f1f82a3\` (\`industry_classification_id\`), INDEX \`IDX_3e72987ab0a7063a3142933a7e\` (\`competency_item_id\`), PRIMARY KEY (\`industry_classification_id\`, \`competency_item_id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_categories\` ADD \`description\` varchar(4000) NULL`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_categories\` ADD \`vendor_category_id\` int NULL`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`user_has_roles\` ADD CONSTRAINT \`FK_d2b980baf026ff8347d88ace6ee\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`user_has_roles\` ADD CONSTRAINT \`FK_386dc0042695c976845d36be948\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`workflow_types\` ADD CONSTRAINT \`FK_e7ab31ca57aef9445aa9f486c7f\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`workflow_types\` ADD CONSTRAINT \`FK_d9e1c066e8f0b13256e6a356324\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_statuses\` ADD CONSTRAINT \`FK_33aaf6fc242e6bc1aa28bf85e03\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_statuses\` ADD CONSTRAINT \`FK_da8c8bf4f0256f1cf818914b2da\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_priorities\` ADD CONSTRAINT \`FK_762006e6822179a548cb3c8b123\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_priorities\` ADD CONSTRAINT \`FK_b393080a29f7f5d0a210f844b2b\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_categories\` ADD CONSTRAINT \`FK_79377b5a50ccf775fe3d012b4f9\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_categories\` ADD CONSTRAINT \`FK_07f96afaa61e5700f20e14c7a83\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`titles\` ADD CONSTRAINT \`FK_e14023392eb3a694a6ca0f9b0b3\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`titles\` ADD CONSTRAINT \`FK_fc9f7bc5585fbdd36f53010cb2d\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`telco_prefixes\` ADD CONSTRAINT \`FK_29a5f3eed31c01d0ff881a7066d\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`telco_prefixes\` ADD CONSTRAINT \`FK_c0ea3f0971a6c447f5bb9209140\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`areas\` ADD CONSTRAINT \`FK_95ebc8018b1437cd51f49f6394c\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`areas\` ADD CONSTRAINT \`FK_a31a42db9c41008dc534478e32b\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`sites\` ADD CONSTRAINT \`FK_e2a9a2377348da2183f26b38fa1\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`sites\` ADD CONSTRAINT \`FK_924cbb76316cb81be8f40927082\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`countries\` ADD CONSTRAINT \`FK_ce2d61e8933e762a07ec723d7d8\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`countries\` ADD CONSTRAINT \`FK_36bc1d0e763087b521f5f0b2fe3\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`provinces\` ADD CONSTRAINT \`FK_ed7e57c8f80a8059a5fb5fd9149\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`provinces\` ADD CONSTRAINT \`FK_f6c2d47fe028f5c0675840a3f41\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`positions\` ADD CONSTRAINT \`FK_000a467d66ec3c711cf81c38efd\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`positions\` ADD CONSTRAINT \`FK_923b6c2bbeb4fd6cd2c0b14c6c2\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`job_types\` ADD CONSTRAINT \`FK_ca3fb55f77928ba4cff01edc3b9\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`job_types\` ADD CONSTRAINT \`FK_3365ef547332e828010440e494c\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_categories\` ADD CONSTRAINT \`FK_c12f8fc0f09d65f152e6022efbf\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_categories\` ADD CONSTRAINT \`FK_5699d240e70c5ba2d2af368dec2\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_sub_categories\` ADD CONSTRAINT \`FK_af3a289a69fb68404a99987e47d\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_sub_categories\` ADD CONSTRAINT \`FK_f9a5c4489f9ed8775bd72bac3d1\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_items\` ADD CONSTRAINT \`FK_616473fe398648453f72249955c\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_items\` ADD CONSTRAINT \`FK_8e763c3dd94cd55a8de1c6e0924\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`industry_classifications\` ADD CONSTRAINT \`FK_38df0d467300a806773add4c857\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`industry_classifications\` ADD CONSTRAINT \`FK_cf3d64e003e1f70614e6d55141e\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`identity_types\` ADD CONSTRAINT \`FK_d99716b5fcbbf5baf26ff56b7af\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`identity_types\` ADD CONSTRAINT \`FK_4fe815509a5a856edc53a0650bd\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`financial_periods\` ADD CONSTRAINT \`FK_82fd572efaaeab9262bf826340a\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`financial_periods\` ADD CONSTRAINT \`FK_9bfffb560716ac093e8a735712c\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`currencies\` ADD CONSTRAINT \`FK_c999e1d171656df16e538737b94\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`currencies\` ADD CONSTRAINT \`FK_fc582d21a9c07bc7f2935885ece\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`cities\` ADD CONSTRAINT \`FK_4916f2a4fc14e0480b15c853687\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`cities\` ADD CONSTRAINT \`FK_91b655c58d487caec2fe5b5de36\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`business_entity_types\` ADD CONSTRAINT \`FK_6f3dc5a88af60d6403e110f6f7b\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`business_entity_types\` ADD CONSTRAINT \`FK_f77c2810fbab3b89865ec30952a\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`banks\` ADD CONSTRAINT \`FK_91fb41eceebaa47ee0b2666041b\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`banks\` ADD CONSTRAINT \`FK_ae0706345f1ac0f4c1a2b3d502c\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`bank_branches\` ADD CONSTRAINT \`FK_42c0cef9110accace57a0d529d6\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`bank_branches\` ADD CONSTRAINT \`FK_93671b93a909385ba56015cdb4f\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`affiliate_types\` ADD CONSTRAINT \`FK_ed2e2a047269e3c9baa73ed4cb8\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`affiliate_types\` ADD CONSTRAINT \`FK_c12d5c36bd94bfa8a33d71cd1d9\` FOREIGN KEY (\`updated_by\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`permission_has_menus\` ADD CONSTRAINT \`FK_c43f976e5e438112c22fca53cba\` FOREIGN KEY (\`permission_id\`) REFERENCES \`permissions\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`permission_has_menus\` ADD CONSTRAINT \`FK_541d8873b8f5e25a1f0c6c45798\` FOREIGN KEY (\`menu_id\`) REFERENCES \`menus\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`role_has_permissions\` ADD CONSTRAINT \`FK_9135e97d2d840f7dfd6e6649116\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`role_has_permissions\` ADD CONSTRAINT \`FK_09ff9df62bd01f8cf45b1b1921a\` FOREIGN KEY (\`permission_id\`) REFERENCES \`permissions\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`industry_class_has_competency_items\` ADD CONSTRAINT \`FK_b07250203eace6d0513f1f82a3f\` FOREIGN KEY (\`industry_classification_id\`) REFERENCES \`industry_classifications\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`industry_class_has_competency_items\` ADD CONSTRAINT \`FK_3e72987ab0a7063a3142933a7ee\` FOREIGN KEY (\`competency_item_id\`) REFERENCES \`competency_items\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE \`industry_class_has_competency_items\` DROP FOREIGN KEY \`FK_3e72987ab0a7063a3142933a7ee\``);
-        await queryRunner.query(`ALTER TABLE \`industry_class_has_competency_items\` DROP FOREIGN KEY \`FK_b07250203eace6d0513f1f82a3f\``);
-        await queryRunner.query(`ALTER TABLE \`role_has_permissions\` DROP FOREIGN KEY \`FK_09ff9df62bd01f8cf45b1b1921a\``);
-        await queryRunner.query(`ALTER TABLE \`role_has_permissions\` DROP FOREIGN KEY \`FK_9135e97d2d840f7dfd6e6649116\``);
-        await queryRunner.query(`ALTER TABLE \`permission_has_menus\` DROP FOREIGN KEY \`FK_541d8873b8f5e25a1f0c6c45798\``);
-        await queryRunner.query(`ALTER TABLE \`permission_has_menus\` DROP FOREIGN KEY \`FK_c43f976e5e438112c22fca53cba\``);
-        await queryRunner.query(`ALTER TABLE \`affiliate_types\` DROP FOREIGN KEY \`FK_c12d5c36bd94bfa8a33d71cd1d9\``);
-        await queryRunner.query(`ALTER TABLE \`affiliate_types\` DROP FOREIGN KEY \`FK_ed2e2a047269e3c9baa73ed4cb8\``);
-        await queryRunner.query(`ALTER TABLE \`bank_branches\` DROP FOREIGN KEY \`FK_93671b93a909385ba56015cdb4f\``);
-        await queryRunner.query(`ALTER TABLE \`bank_branches\` DROP FOREIGN KEY \`FK_42c0cef9110accace57a0d529d6\``);
-        await queryRunner.query(`ALTER TABLE \`banks\` DROP FOREIGN KEY \`FK_ae0706345f1ac0f4c1a2b3d502c\``);
-        await queryRunner.query(`ALTER TABLE \`banks\` DROP FOREIGN KEY \`FK_91fb41eceebaa47ee0b2666041b\``);
-        await queryRunner.query(`ALTER TABLE \`business_entity_types\` DROP FOREIGN KEY \`FK_f77c2810fbab3b89865ec30952a\``);
-        await queryRunner.query(`ALTER TABLE \`business_entity_types\` DROP FOREIGN KEY \`FK_6f3dc5a88af60d6403e110f6f7b\``);
-        await queryRunner.query(`ALTER TABLE \`cities\` DROP FOREIGN KEY \`FK_91b655c58d487caec2fe5b5de36\``);
-        await queryRunner.query(`ALTER TABLE \`cities\` DROP FOREIGN KEY \`FK_4916f2a4fc14e0480b15c853687\``);
-        await queryRunner.query(`ALTER TABLE \`currencies\` DROP FOREIGN KEY \`FK_fc582d21a9c07bc7f2935885ece\``);
-        await queryRunner.query(`ALTER TABLE \`currencies\` DROP FOREIGN KEY \`FK_c999e1d171656df16e538737b94\``);
-        await queryRunner.query(`ALTER TABLE \`financial_periods\` DROP FOREIGN KEY \`FK_9bfffb560716ac093e8a735712c\``);
-        await queryRunner.query(`ALTER TABLE \`financial_periods\` DROP FOREIGN KEY \`FK_82fd572efaaeab9262bf826340a\``);
-        await queryRunner.query(`ALTER TABLE \`identity_types\` DROP FOREIGN KEY \`FK_4fe815509a5a856edc53a0650bd\``);
-        await queryRunner.query(`ALTER TABLE \`identity_types\` DROP FOREIGN KEY \`FK_d99716b5fcbbf5baf26ff56b7af\``);
-        await queryRunner.query(`ALTER TABLE \`industry_classifications\` DROP FOREIGN KEY \`FK_cf3d64e003e1f70614e6d55141e\``);
-        await queryRunner.query(`ALTER TABLE \`industry_classifications\` DROP FOREIGN KEY \`FK_38df0d467300a806773add4c857\``);
-        await queryRunner.query(`ALTER TABLE \`competency_items\` DROP FOREIGN KEY \`FK_8e763c3dd94cd55a8de1c6e0924\``);
-        await queryRunner.query(`ALTER TABLE \`competency_items\` DROP FOREIGN KEY \`FK_616473fe398648453f72249955c\``);
-        await queryRunner.query(`ALTER TABLE \`competency_sub_categories\` DROP FOREIGN KEY \`FK_f9a5c4489f9ed8775bd72bac3d1\``);
-        await queryRunner.query(`ALTER TABLE \`competency_sub_categories\` DROP FOREIGN KEY \`FK_af3a289a69fb68404a99987e47d\``);
-        await queryRunner.query(`ALTER TABLE \`competency_categories\` DROP FOREIGN KEY \`FK_5699d240e70c5ba2d2af368dec2\``);
-        await queryRunner.query(`ALTER TABLE \`competency_categories\` DROP FOREIGN KEY \`FK_c12f8fc0f09d65f152e6022efbf\``);
-        await queryRunner.query(`ALTER TABLE \`job_types\` DROP FOREIGN KEY \`FK_3365ef547332e828010440e494c\``);
-        await queryRunner.query(`ALTER TABLE \`job_types\` DROP FOREIGN KEY \`FK_ca3fb55f77928ba4cff01edc3b9\``);
-        await queryRunner.query(`ALTER TABLE \`positions\` DROP FOREIGN KEY \`FK_923b6c2bbeb4fd6cd2c0b14c6c2\``);
-        await queryRunner.query(`ALTER TABLE \`positions\` DROP FOREIGN KEY \`FK_000a467d66ec3c711cf81c38efd\``);
-        await queryRunner.query(`ALTER TABLE \`provinces\` DROP FOREIGN KEY \`FK_f6c2d47fe028f5c0675840a3f41\``);
-        await queryRunner.query(`ALTER TABLE \`provinces\` DROP FOREIGN KEY \`FK_ed7e57c8f80a8059a5fb5fd9149\``);
-        await queryRunner.query(`ALTER TABLE \`countries\` DROP FOREIGN KEY \`FK_36bc1d0e763087b521f5f0b2fe3\``);
-        await queryRunner.query(`ALTER TABLE \`countries\` DROP FOREIGN KEY \`FK_ce2d61e8933e762a07ec723d7d8\``);
-        await queryRunner.query(`ALTER TABLE \`sites\` DROP FOREIGN KEY \`FK_924cbb76316cb81be8f40927082\``);
-        await queryRunner.query(`ALTER TABLE \`sites\` DROP FOREIGN KEY \`FK_e2a9a2377348da2183f26b38fa1\``);
-        await queryRunner.query(`ALTER TABLE \`areas\` DROP FOREIGN KEY \`FK_a31a42db9c41008dc534478e32b\``);
-        await queryRunner.query(`ALTER TABLE \`areas\` DROP FOREIGN KEY \`FK_95ebc8018b1437cd51f49f6394c\``);
-        await queryRunner.query(`ALTER TABLE \`telco_prefixes\` DROP FOREIGN KEY \`FK_c0ea3f0971a6c447f5bb9209140\``);
-        await queryRunner.query(`ALTER TABLE \`telco_prefixes\` DROP FOREIGN KEY \`FK_29a5f3eed31c01d0ff881a7066d\``);
-        await queryRunner.query(`ALTER TABLE \`titles\` DROP FOREIGN KEY \`FK_fc9f7bc5585fbdd36f53010cb2d\``);
-        await queryRunner.query(`ALTER TABLE \`titles\` DROP FOREIGN KEY \`FK_e14023392eb3a694a6ca0f9b0b3\``);
-        await queryRunner.query(`ALTER TABLE \`vendor_categories\` DROP FOREIGN KEY \`FK_07f96afaa61e5700f20e14c7a83\``);
-        await queryRunner.query(`ALTER TABLE \`vendor_categories\` DROP FOREIGN KEY \`FK_79377b5a50ccf775fe3d012b4f9\``);
-        await queryRunner.query(`ALTER TABLE \`vendor_priorities\` DROP FOREIGN KEY \`FK_b393080a29f7f5d0a210f844b2b\``);
-        await queryRunner.query(`ALTER TABLE \`vendor_priorities\` DROP FOREIGN KEY \`FK_762006e6822179a548cb3c8b123\``);
-        await queryRunner.query(`ALTER TABLE \`vendor_statuses\` DROP FOREIGN KEY \`FK_da8c8bf4f0256f1cf818914b2da\``);
-        await queryRunner.query(`ALTER TABLE \`vendor_statuses\` DROP FOREIGN KEY \`FK_33aaf6fc242e6bc1aa28bf85e03\``);
-        await queryRunner.query(`ALTER TABLE \`workflow_types\` DROP FOREIGN KEY \`FK_d9e1c066e8f0b13256e6a356324\``);
-        await queryRunner.query(`ALTER TABLE \`workflow_types\` DROP FOREIGN KEY \`FK_e7ab31ca57aef9445aa9f486c7f\``);
-        await queryRunner.query(`ALTER TABLE \`user_has_roles\` DROP FOREIGN KEY \`FK_386dc0042695c976845d36be948\``);
-        await queryRunner.query(`ALTER TABLE \`user_has_roles\` DROP FOREIGN KEY \`FK_d2b980baf026ff8347d88ace6ee\``);
-        await queryRunner.query(`ALTER TABLE \`vendor_categories\` DROP COLUMN \`vendor_category_id\``);
-        await queryRunner.query(`ALTER TABLE \`vendor_categories\` DROP COLUMN \`description\``);
-        await queryRunner.query(`DROP INDEX \`IDX_3e72987ab0a7063a3142933a7e\` ON \`industry_class_has_competency_items\``);
-        await queryRunner.query(`DROP INDEX \`IDX_b07250203eace6d0513f1f82a3\` ON \`industry_class_has_competency_items\``);
-        await queryRunner.query(`DROP TABLE \`industry_class_has_competency_items\``);
-        await queryRunner.query(`DROP INDEX \`IDX_09ff9df62bd01f8cf45b1b1921\` ON \`role_has_permissions\``);
-        await queryRunner.query(`DROP INDEX \`IDX_9135e97d2d840f7dfd6e664911\` ON \`role_has_permissions\``);
+        await queryRunner.query(
+            `ALTER TABLE \`industry_class_has_competency_items\` DROP FOREIGN KEY \`FK_3e72987ab0a7063a3142933a7ee\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`industry_class_has_competency_items\` DROP FOREIGN KEY \`FK_b07250203eace6d0513f1f82a3f\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`role_has_permissions\` DROP FOREIGN KEY \`FK_09ff9df62bd01f8cf45b1b1921a\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`role_has_permissions\` DROP FOREIGN KEY \`FK_9135e97d2d840f7dfd6e6649116\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`permission_has_menus\` DROP FOREIGN KEY \`FK_541d8873b8f5e25a1f0c6c45798\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`permission_has_menus\` DROP FOREIGN KEY \`FK_c43f976e5e438112c22fca53cba\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`affiliate_types\` DROP FOREIGN KEY \`FK_c12d5c36bd94bfa8a33d71cd1d9\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`affiliate_types\` DROP FOREIGN KEY \`FK_ed2e2a047269e3c9baa73ed4cb8\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`bank_branches\` DROP FOREIGN KEY \`FK_93671b93a909385ba56015cdb4f\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`bank_branches\` DROP FOREIGN KEY \`FK_42c0cef9110accace57a0d529d6\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`banks\` DROP FOREIGN KEY \`FK_ae0706345f1ac0f4c1a2b3d502c\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`banks\` DROP FOREIGN KEY \`FK_91fb41eceebaa47ee0b2666041b\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`business_entity_types\` DROP FOREIGN KEY \`FK_f77c2810fbab3b89865ec30952a\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`business_entity_types\` DROP FOREIGN KEY \`FK_6f3dc5a88af60d6403e110f6f7b\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`cities\` DROP FOREIGN KEY \`FK_91b655c58d487caec2fe5b5de36\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`cities\` DROP FOREIGN KEY \`FK_4916f2a4fc14e0480b15c853687\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`currencies\` DROP FOREIGN KEY \`FK_fc582d21a9c07bc7f2935885ece\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`currencies\` DROP FOREIGN KEY \`FK_c999e1d171656df16e538737b94\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`financial_periods\` DROP FOREIGN KEY \`FK_9bfffb560716ac093e8a735712c\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`financial_periods\` DROP FOREIGN KEY \`FK_82fd572efaaeab9262bf826340a\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`identity_types\` DROP FOREIGN KEY \`FK_4fe815509a5a856edc53a0650bd\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`identity_types\` DROP FOREIGN KEY \`FK_d99716b5fcbbf5baf26ff56b7af\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`industry_classifications\` DROP FOREIGN KEY \`FK_cf3d64e003e1f70614e6d55141e\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`industry_classifications\` DROP FOREIGN KEY \`FK_38df0d467300a806773add4c857\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_items\` DROP FOREIGN KEY \`FK_8e763c3dd94cd55a8de1c6e0924\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_items\` DROP FOREIGN KEY \`FK_616473fe398648453f72249955c\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_sub_categories\` DROP FOREIGN KEY \`FK_f9a5c4489f9ed8775bd72bac3d1\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_sub_categories\` DROP FOREIGN KEY \`FK_af3a289a69fb68404a99987e47d\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_categories\` DROP FOREIGN KEY \`FK_5699d240e70c5ba2d2af368dec2\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`competency_categories\` DROP FOREIGN KEY \`FK_c12f8fc0f09d65f152e6022efbf\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`job_types\` DROP FOREIGN KEY \`FK_3365ef547332e828010440e494c\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`job_types\` DROP FOREIGN KEY \`FK_ca3fb55f77928ba4cff01edc3b9\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`positions\` DROP FOREIGN KEY \`FK_923b6c2bbeb4fd6cd2c0b14c6c2\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`positions\` DROP FOREIGN KEY \`FK_000a467d66ec3c711cf81c38efd\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`provinces\` DROP FOREIGN KEY \`FK_f6c2d47fe028f5c0675840a3f41\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`provinces\` DROP FOREIGN KEY \`FK_ed7e57c8f80a8059a5fb5fd9149\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`countries\` DROP FOREIGN KEY \`FK_36bc1d0e763087b521f5f0b2fe3\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`countries\` DROP FOREIGN KEY \`FK_ce2d61e8933e762a07ec723d7d8\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`sites\` DROP FOREIGN KEY \`FK_924cbb76316cb81be8f40927082\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`sites\` DROP FOREIGN KEY \`FK_e2a9a2377348da2183f26b38fa1\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`areas\` DROP FOREIGN KEY \`FK_a31a42db9c41008dc534478e32b\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`areas\` DROP FOREIGN KEY \`FK_95ebc8018b1437cd51f49f6394c\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`telco_prefixes\` DROP FOREIGN KEY \`FK_c0ea3f0971a6c447f5bb9209140\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`telco_prefixes\` DROP FOREIGN KEY \`FK_29a5f3eed31c01d0ff881a7066d\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`titles\` DROP FOREIGN KEY \`FK_fc9f7bc5585fbdd36f53010cb2d\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`titles\` DROP FOREIGN KEY \`FK_e14023392eb3a694a6ca0f9b0b3\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_categories\` DROP FOREIGN KEY \`FK_07f96afaa61e5700f20e14c7a83\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_categories\` DROP FOREIGN KEY \`FK_79377b5a50ccf775fe3d012b4f9\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_priorities\` DROP FOREIGN KEY \`FK_b393080a29f7f5d0a210f844b2b\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_priorities\` DROP FOREIGN KEY \`FK_762006e6822179a548cb3c8b123\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_statuses\` DROP FOREIGN KEY \`FK_da8c8bf4f0256f1cf818914b2da\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_statuses\` DROP FOREIGN KEY \`FK_33aaf6fc242e6bc1aa28bf85e03\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`workflow_types\` DROP FOREIGN KEY \`FK_d9e1c066e8f0b13256e6a356324\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`workflow_types\` DROP FOREIGN KEY \`FK_e7ab31ca57aef9445aa9f486c7f\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`user_has_roles\` DROP FOREIGN KEY \`FK_386dc0042695c976845d36be948\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`user_has_roles\` DROP FOREIGN KEY \`FK_d2b980baf026ff8347d88ace6ee\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_categories\` DROP COLUMN \`vendor_category_id\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`vendor_categories\` DROP COLUMN \`description\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`IDX_3e72987ab0a7063a3142933a7e\` ON \`industry_class_has_competency_items\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`IDX_b07250203eace6d0513f1f82a3\` ON \`industry_class_has_competency_items\``,
+        );
+        await queryRunner.query(
+            `DROP TABLE \`industry_class_has_competency_items\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`IDX_09ff9df62bd01f8cf45b1b1921\` ON \`role_has_permissions\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`IDX_9135e97d2d840f7dfd6e664911\` ON \`role_has_permissions\``,
+        );
         await queryRunner.query(`DROP TABLE \`role_has_permissions\``);
-        await queryRunner.query(`DROP INDEX \`IDX_541d8873b8f5e25a1f0c6c4579\` ON \`permission_has_menus\``);
-        await queryRunner.query(`DROP INDEX \`IDX_c43f976e5e438112c22fca53cb\` ON \`permission_has_menus\``);
+        await queryRunner.query(
+            `DROP INDEX \`IDX_541d8873b8f5e25a1f0c6c4579\` ON \`permission_has_menus\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`IDX_c43f976e5e438112c22fca53cb\` ON \`permission_has_menus\``,
+        );
         await queryRunner.query(`DROP TABLE \`permission_has_menus\``);
         await queryRunner.query(`DROP TABLE \`affiliate_types\``);
         await queryRunner.query(`DROP TABLE \`bank_branches\``);
@@ -189,15 +499,24 @@ export class Init1770027396185 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE \`vendor_statuses\``);
         await queryRunner.query(`DROP TABLE \`workflow_types\``);
         await queryRunner.query(`DROP TABLE \`user_has_roles\``);
-        await queryRunner.query(`DROP INDEX \`IDX_97672ac88f789774dd47f7c8be\` ON \`users\``);
-        await queryRunner.query(`DROP INDEX \`IDX_fe0bb3f6520ee0469504521e71\` ON \`users\``);
+        await queryRunner.query(
+            `DROP INDEX \`IDX_97672ac88f789774dd47f7c8be\` ON \`users\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`IDX_fe0bb3f6520ee0469504521e71\` ON \`users\``,
+        );
         await queryRunner.query(`DROP TABLE \`users\``);
-        await queryRunner.query(`DROP INDEX \`IDX_648e3f5447f725579d7d4ffdfb\` ON \`roles\``);
-        await queryRunner.query(`DROP INDEX \`IDX_f6d54f95c31b73fb1bdd8e91d0\` ON \`roles\``);
+        await queryRunner.query(
+            `DROP INDEX \`IDX_648e3f5447f725579d7d4ffdfb\` ON \`roles\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`IDX_f6d54f95c31b73fb1bdd8e91d0\` ON \`roles\``,
+        );
         await queryRunner.query(`DROP TABLE \`roles\``);
-        await queryRunner.query(`DROP INDEX \`IDX_48ce552495d14eae9b187bb671\` ON \`permissions\``);
+        await queryRunner.query(
+            `DROP INDEX \`IDX_48ce552495d14eae9b187bb671\` ON \`permissions\``,
+        );
         await queryRunner.query(`DROP TABLE \`permissions\``);
         await queryRunner.query(`DROP TABLE \`menus\``);
     }
-
 }

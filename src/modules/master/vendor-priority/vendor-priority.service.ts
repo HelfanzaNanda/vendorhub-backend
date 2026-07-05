@@ -13,58 +13,67 @@ import { UpdateVendorPriorityDto } from './dto/update-vendor-priority.dto';
 export class VendorPriorityService {
     constructor(
         @InjectRepository(VendorPriority)
-        private vendorPriorityRepo: Repository<VendorPriority>
-    ) { }
+        private vendorPriorityRepo: Repository<VendorPriority>,
+    ) {}
 
-    async create(data : CreateVendorPriorityDto) {
-        return this.vendorPriorityRepo.save(this.vendorPriorityRepo.create(data));
+    async create(data: CreateVendorPriorityDto) {
+        return this.vendorPriorityRepo.save(
+            this.vendorPriorityRepo.create(data),
+        );
     }
 
     async pagination(query: PaginationQueryDto) {
         const qb = this.vendorPriorityRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(VENDOR_PRIORITY_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDOR_PRIORITY_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, VENDOR_PRIORITY_FIELDS);
         return {
-            data : VendorPriorityMapper.toResponses(result.data),
-            meta : result.meta
+            data: VendorPriorityMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const vendorPriority = await this.vendorPriorityRepo.findOne({ 
+        const vendorPriority = await this.vendorPriorityRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!vendorPriority) throw new NotFoundException();
         return VendorPriorityMapper.toResponse(vendorPriority);
     }
 
-    async update(id: number, data : UpdateVendorPriorityDto) {
-        const vendorPriority = await this.vendorPriorityRepo.findOne({ where: { id } });
-        if (!vendorPriority) throw new NotFoundException(`Data with id ${id} not found`);
+    async update(id: number, data: UpdateVendorPriorityDto) {
+        const vendorPriority = await this.vendorPriorityRepo.findOne({
+            where: { id },
+        });
+        if (!vendorPriority)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(vendorPriority, data);
         return this.vendorPriorityRepo.save(vendorPriority);
     }
 
     async delete(id: number) {
-        const vendorPriority = await this.vendorPriorityRepo.findOne({ where: { id } });
-        if (!vendorPriority) throw new NotFoundException(`Data with id ${id} not found`);
+        const vendorPriority = await this.vendorPriorityRepo.findOne({
+            where: { id },
+        });
+        if (!vendorPriority)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         vendorPriority.deletedBy = userId;

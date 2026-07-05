@@ -14,8 +14,8 @@ import { VendorBusinessLicenseMapper } from './mapper/vendor-business-license.ma
 export class VendorBusinessLicenseService {
     constructor(
         @InjectRepository(VendorBusinessLicense)
-        private repo: Repository<VendorBusinessLicense>
-    ) { }
+        private repo: Repository<VendorBusinessLicense>,
+    ) {}
 
     async create(data: CreateVendorBusinessLicenseDto) {
         return this.repo.save(this.repo.create(data));
@@ -27,34 +27,36 @@ export class VendorBusinessLicenseService {
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         qb.leftJoinAndSelect('c.vendor', 'vendor');
         qb.leftJoinAndSelect('c.file', 'file');
-        
-        const selectColumns = Object.values(VENDORBUSINESSLICENSE_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDORBUSINESSLICENSE_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
-        
+
         const result = await paginate(qb, query, VENDORBUSINESSLICENSE_FIELDS);
         return {
             data: VendorBusinessLicenseMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendor: true,
                 file: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorBusinessLicenseMapper.toResponse(item);

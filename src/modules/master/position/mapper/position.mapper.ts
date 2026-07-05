@@ -1,5 +1,5 @@
-import { PositionResponseDto } from "../dto/response-position.dto";
-import { Position } from "../entities/position.entity";
+import { PositionResponseDto } from '../dto/response-position.dto';
+import { Position } from '../entities/position.entity';
 
 export class PositionMapper {
     static toResponse(entity: Position): PositionResponseDto {

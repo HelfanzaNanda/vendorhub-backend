@@ -3,7 +3,7 @@ import { CreateCurrencyDto } from './dto/create-currency.dto';
 import { UpdateCurrencyDto } from './dto/update-currency.dto';
 import { Repository } from 'typeorm';
 import { Currency } from './entities/currency.entity';
-import { Country } from "@modules/master/country/entities/country.entity";
+import { Country } from '@modules/master/country/entities/country.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from '@common/pagination/pagination.helper';
 import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
@@ -16,15 +16,17 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class CurrencyService {
     constructor(
         @InjectRepository(Currency)
-        private currencyRepo: Repository<Currency>
-    ) { }
+        private currencyRepo: Repository<Currency>,
+    ) {}
 
     async create(data: CreateCurrencyDto) {
-        return this.currencyRepo.save(this.currencyRepo.create({
-            code: data.code,
-            name: data.name,
-            country: { id: data.countryId } as Country,
-        }));
+        return this.currencyRepo.save(
+            this.currencyRepo.create({
+                code: data.code,
+                name: data.name,
+                country: { id: data.countryId } as Country,
+            }),
+        );
     }
 
     async pagination(query: PaginationQueryDto) {
@@ -33,14 +35,15 @@ export class CurrencyService {
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         qb.leftJoinAndSelect('c.country', 'country');
 
-        const selectColumns = Object.values(CURRENCY_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(CURRENCY_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, CURRENCY_FIELDS);
         return {
             data: CurrencyMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
@@ -50,15 +53,15 @@ export class CurrencyService {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true, 
-                country: true
-            }
+                updatedByUser: true,
+                country: true,
+            },
         });
         if (!currency) throw new NotFoundException();
         return CurrencyMapper.toResponse(currency);
@@ -66,14 +69,16 @@ export class CurrencyService {
 
     async update(id: number, data: UpdateCurrencyDto) {
         const currency = await this.currencyRepo.findOne({ where: { id } });
-        if (!currency) throw new NotFoundException(`Data with id ${id} not found`);
+        if (!currency)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(currency, data);
         return this.currencyRepo.save(currency);
     }
 
     async delete(id: number) {
         const currency = await this.currencyRepo.findOne({ where: { id } });
-        if (!currency) throw new NotFoundException(`Data with id ${id} not found`);
+        if (!currency)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         currency.deletedBy = userId;
@@ -85,9 +90,9 @@ export class CurrencyService {
     async findOptions() {
         const currency = await this.currencyRepo.find();
         return LookupMapper.toResponses(
-            currency, 
-            currency => currency.id,
-            currency => `${currency.name} (${currency.code})`
+            currency,
+            (currency) => currency.id,
+            (currency) => `${currency.name} (${currency.code})`,
         );
     }
 }

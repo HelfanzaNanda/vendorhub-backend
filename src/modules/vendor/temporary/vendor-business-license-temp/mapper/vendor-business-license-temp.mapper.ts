@@ -1,8 +1,10 @@
-import { VendorBusinessLicenseTempResponseDto } from "../dto/response-vendor-business-license-temp.dto";
-import { VendorBusinessLicenseTemp } from "../entities/vendor-business-license-temp.entity";
+import { VendorBusinessLicenseTempResponseDto } from '../dto/response-vendor-business-license-temp.dto';
+import { VendorBusinessLicenseTemp } from '../entities/vendor-business-license-temp.entity';
 
 export class VendorBusinessLicenseTempMapper {
-    static toResponse(entity: VendorBusinessLicenseTemp): VendorBusinessLicenseTempResponseDto {
+    static toResponse(
+        entity: VendorBusinessLicenseTemp,
+    ): VendorBusinessLicenseTempResponseDto {
         return {
             id: entity.id,
             vendorTempId: entity.vendorTempId ?? null,
@@ -22,7 +24,9 @@ export class VendorBusinessLicenseTempMapper {
         };
     }
 
-    static toResponses(entities: VendorBusinessLicenseTemp[]): VendorBusinessLicenseTempResponseDto[] {
+    static toResponses(
+        entities: VendorBusinessLicenseTemp[],
+    ): VendorBusinessLicenseTempResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

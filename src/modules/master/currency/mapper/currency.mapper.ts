@@ -1,5 +1,5 @@
-import { CurrencyResponseDto } from "../dto/response-currency.dto";
-import { Currency } from "../entities/currency.entity";
+import { CurrencyResponseDto } from '../dto/response-currency.dto';
+import { Currency } from '../entities/currency.entity';
 
 export class CurrencyMapper {
     static toResponse(entity: Currency): CurrencyResponseDto {
@@ -7,7 +7,9 @@ export class CurrencyMapper {
             id: entity.id,
             code: entity.code,
             name: entity.name,
-            country: entity.country ? { id: entity.country.id, name: entity.country.name } : null,
+            country: entity.country
+                ? { id: entity.country.id, name: entity.country.name }
+                : null,
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,

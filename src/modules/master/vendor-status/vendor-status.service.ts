@@ -14,10 +14,10 @@ import { UpdateVendorStatusDto } from './dto/update-vendor-status.dto';
 export class VendorStatusService {
     constructor(
         @InjectRepository(VendorStatus)
-        private vendorStatusRepo: Repository<VendorStatus>
-    ) { }
+        private vendorStatusRepo: Repository<VendorStatus>,
+    ) {}
 
-    async create(data : CreateVendorStatusDto) {
+    async create(data: CreateVendorStatusDto) {
         return this.vendorStatusRepo.save(this.vendorStatusRepo.create(data));
     }
 
@@ -25,47 +25,54 @@ export class VendorStatusService {
         const qb = this.vendorStatusRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(VENDOR_STATUS_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDOR_STATUS_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, VENDOR_STATUS_FIELDS);
         return {
-            data : VendorStatusMapper.toResponses(result.data),
-            meta : result.meta
+            data: VendorStatusMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const vendorStatus = await this.vendorStatusRepo.findOne({ 
+        const vendorStatus = await this.vendorStatusRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!vendorStatus) throw new NotFoundException();
         return VendorStatusMapper.toResponse(vendorStatus);
     }
 
-    async update(id: number, data : UpdateVendorStatusDto) {
-        const vendorStatus = await this.vendorStatusRepo.findOne({ where: { id } });
-        if (!vendorStatus) throw new NotFoundException(`Data with id ${id} not found`);
+    async update(id: number, data: UpdateVendorStatusDto) {
+        const vendorStatus = await this.vendorStatusRepo.findOne({
+            where: { id },
+        });
+        if (!vendorStatus)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(vendorStatus, data);
         return this.vendorStatusRepo.save(vendorStatus);
     }
 
     async delete(id: number) {
-        const vendorStatus = await this.vendorStatusRepo.findOne({ where: { id } });
-        if (!vendorStatus) throw new NotFoundException(`Data with id ${id} not found`);
+        const vendorStatus = await this.vendorStatusRepo.findOne({
+            where: { id },
+        });
+        if (!vendorStatus)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         vendorStatus.deletedBy = userId;

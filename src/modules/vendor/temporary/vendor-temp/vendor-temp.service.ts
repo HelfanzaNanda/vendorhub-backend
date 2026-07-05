@@ -9,16 +9,40 @@ import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { VENDORTEMP_FIELDS } from './query/vendor-temp-field.meta';
 import { RequestContext } from '@common/context/request-context';
 import { VendorTempMapper } from './mapper/vendor-temp.mapper';
+import { RunningNumberService } from '@modules/running-number/running-number.service';
+import { VendorTempStatus } from '@common/enums/vendor-temp-status.enum';
+import { RunningNumberCode } from '@common/enums/running-number-code.enum';
 
 @Injectable()
 export class VendorTempService {
     constructor(
         @InjectRepository(VendorTemp)
-        private repo: Repository<VendorTemp>
-    ) { }
+        private repo: Repository<VendorTemp>,
 
-    async create(data: CreateVendorTempDto) {
-        return this.repo.save(this.repo.create(data));
+        private readonly runningNumberService: RunningNumberService,
+    ) {}
+
+    async getOrCreateDraft(vendorId : number) : Promise<VendorTemp> {
+        let vendorTemp = await this.repo.findOne({
+            where: {
+            vendorId,
+            status: VendorTempStatus.DRAFT,
+            },
+        });
+
+        if (vendorTemp) {
+            return vendorTemp;
+        }
+
+        vendorTemp = this.repo.create({
+            vendorId: vendorId,
+            requestNo:
+                await this.runningNumberService.generate(RunningNumberCode.VENDOR_REQUEST),
+            status: VendorTempStatus.DRAFT,
+            submittedAt: new Date(),
+        });
+
+        return this.repo.save(vendorTemp);
     }
 
     async pagination(query: PaginationQueryDto) {
@@ -26,33 +50,35 @@ export class VendorTempService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
         qb.leftJoinAndSelect('c.vendor', 'vendor');
-        
-        const selectColumns = Object.values(VENDORTEMP_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDORTEMP_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
-        
+
         const result = await paginate(qb, query, VENDORTEMP_FIELDS);
         return {
             data: VendorTempMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendor: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorTempMapper.toResponse(item);

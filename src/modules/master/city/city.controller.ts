@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateCityDto } from "./dto/create-city.dto";
-import { UpdateCityDto } from "./dto/update-city.dto";
-import { CityService } from "./city.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateCityDto } from './dto/create-city.dto';
+import { UpdateCityDto } from './dto/update-city.dto';
+import { CityService } from './city.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('cities')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class CityController {
-
-    constructor(private service: CityService) { }
-
+    constructor(private service: CityService) {}
 
     @Get()
     @RequirePermission('city.pagination')

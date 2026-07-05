@@ -1,20 +1,19 @@
-import { CompanyPersonnelType } from "@modules/master/company-personnel-type/entities/company-personnel-type.entity";
-import { DataSource } from "typeorm";
+import { CompanyPersonnelType } from '@modules/master/company-personnel-type/entities/company-personnel-type.entity';
+import { DataSource } from 'typeorm';
 
 export async function seedCompanyPersonnelType(dataSource: DataSource) {
-
     const arr = [
         {
-            "code": "BOARD_OF_DIRECTORS",
-            "name": "Board of Directors"
+            code: 'BOARD_OF_DIRECTORS',
+            name: 'Board of Directors',
         },
         {
-            "code": "SHAREHOLDER",
-            "name": "Shareholder"
+            code: 'SHAREHOLDER',
+            name: 'Shareholder',
         },
         {
-            "code": "AUTHORIZED_SIGNER",
-            "name": "Authorized Signer"
+            code: 'AUTHORIZED_SIGNER',
+            name: 'Authorized Signer',
         },
     ];
 
@@ -25,8 +24,8 @@ export async function seedCompanyPersonnelType(dataSource: DataSource) {
             repo.create({
                 name: obj.name,
                 code: obj.code,
-            })
-        )
+            }),
+        );
     }
 
     console.log('✅ CompanyPersonnelType seeded');

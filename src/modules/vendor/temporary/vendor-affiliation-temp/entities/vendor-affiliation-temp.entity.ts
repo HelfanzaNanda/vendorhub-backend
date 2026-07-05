@@ -1,5 +1,5 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendor-temp.entity';
 import { VendorAffiliation } from '@modules/vendor/vendor-affiliation/entities/vendor-affiliation.entity';
@@ -35,14 +35,21 @@ export class VendorAffiliationTemp extends AuditBaseEntity {
     @Column({ name: 'business_field', nullable: true })
     businessField?: string;
 
-    @Column({ name: 'company_business_entity_type_id', type: 'int', nullable: true })
+    @Column({
+        name: 'company_business_entity_type_id',
+        type: 'int',
+        nullable: true,
+    })
     companyBusinessEntityTypeId?: number;
 
     @ManyToOne(() => VendorTemp, { onDelete: 'CASCADE', nullable: true })
     @JoinColumn({ name: 'vendor_temp_id' })
     vendorTemp?: VendorTemp;
 
-    @ManyToOne(() => VendorAffiliation, { nullable: true, onDelete: 'SET NULL' })
+    @ManyToOne(() => VendorAffiliation, {
+        nullable: true,
+        onDelete: 'SET NULL',
+    })
     @JoinColumn({ name: 'vendor_affiliation_id' })
     vendorAffiliation?: VendorAffiliation;
 

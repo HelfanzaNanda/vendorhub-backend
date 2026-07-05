@@ -15,10 +15,10 @@ import { SITE_FIELDS } from './query/site-field.meta';
 export class SiteService {
     constructor(
         @InjectRepository(Site)
-        private siteRepo: Repository<Site>
-    ) { }
+        private siteRepo: Repository<Site>,
+    ) {}
 
-    async create(data : CreateSiteDto) {
+    async create(data: CreateSiteDto) {
         return this.siteRepo.save(this.siteRepo.create(data));
     }
 
@@ -26,38 +26,37 @@ export class SiteService {
         const qb = this.siteRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(SITE_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(SITE_FIELDS).map((f) => f.column);
         qb.select(selectColumns);
         const result = await paginate(qb, query, SITE_FIELDS);
         return {
-            data : SiteMapper.toResponses(result.data),
-            meta : result.meta
+            data: SiteMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const site = await this.siteRepo.findOne({ 
+        const site = await this.siteRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!site) throw new NotFoundException();
         return SiteMapper.toResponse(site);
     }
 
-    async update(id: number, data : UpdateSiteDto) {
+    async update(id: number, data: UpdateSiteDto) {
         const site = await this.siteRepo.findOne({ where: { id } });
         if (!site) throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(site, data);
@@ -75,18 +74,18 @@ export class SiteService {
         return this.siteRepo.save(site);
     }
 
-    async findOptions(areaId : number) {
+    async findOptions(areaId: number) {
         const sites = await this.siteRepo.find({
-            where : {
-                area : {
-                    id : areaId
-                }
-            }
+            where: {
+                area: {
+                    id: areaId,
+                },
+            },
         });
         return LookupMapper.toResponses(
-            sites, 
-            site => site.id,
-            site => site.name
+            sites,
+            (site) => site.id,
+            (site) => site.name,
         );
     }
 }

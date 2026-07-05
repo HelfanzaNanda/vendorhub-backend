@@ -1,5 +1,5 @@
-import { VendorTempResponseDto } from "../dto/response-vendor-temp.dto";
-import { VendorTemp } from "../entities/vendor-temp.entity";
+import { VendorTempResponseDto } from '../dto/response-vendor-temp.dto';
+import { VendorTemp } from '../entities/vendor-temp.entity';
 
 export class VendorTempMapper {
     static toResponse(entity: VendorTemp): VendorTempResponseDto {

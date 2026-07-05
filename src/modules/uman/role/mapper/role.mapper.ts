@@ -1,5 +1,5 @@
-import { RoleResponseDto } from "../dto/response-role.dto";
-import { Role } from "../entities/role.entity";
+import { RoleResponseDto } from '../dto/response-role.dto';
+import { Role } from '../entities/role.entity';
 
 export class RoleMapper {
     static toResponse(entity: Role): RoleResponseDto {

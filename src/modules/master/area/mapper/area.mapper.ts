@@ -1,5 +1,5 @@
-import { AreaResponseDto } from "../dto/response-area.dto";
-import { Area } from "../entities/area.entity";
+import { AreaResponseDto } from '../dto/response-area.dto';
+import { Area } from '../entities/area.entity';
 
 export class AreaMapper {
     static toResponse(entity: Area): AreaResponseDto {

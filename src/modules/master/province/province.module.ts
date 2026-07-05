@@ -5,9 +5,9 @@ import { ProvinceController } from './province.controller';
 import { ProvinceService } from './province.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Province])],
-  controllers: [ProvinceController],
-  providers: [ProvinceService],
-  exports: [ProvinceService]
+    imports: [TypeOrmModule.forFeature([Province])],
+    controllers: [ProvinceController],
+    providers: [ProvinceService],
+    exports: [ProvinceService],
 })
 export class ProvinceModule {}

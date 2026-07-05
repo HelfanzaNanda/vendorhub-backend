@@ -7,7 +7,6 @@ import {
 } from 'typeorm';
 
 export abstract class AuditBaseEntity {
-
     @PrimaryGeneratedColumn()
     id: number;
 

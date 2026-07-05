@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, IsString } from "class-validator";
+import { IsOptional, IsInt, IsString } from 'class-validator';
 
 export class CreateVendorAffiliationTempDto {
     @IsInt()

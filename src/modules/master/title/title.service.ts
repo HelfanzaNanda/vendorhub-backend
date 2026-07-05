@@ -15,8 +15,8 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class TitleService {
     constructor(
         @InjectRepository(Title)
-        private titleRepo: Repository<Title>
-    ) { }
+        private titleRepo: Repository<Title>,
+    ) {}
 
     async create(data: CreateTitleDto) {
         return this.titleRepo.save(this.titleRepo.create(data));
@@ -27,14 +27,13 @@ export class TitleService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
 
-        const selectColumns = Object.values(TITLE_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(TITLE_FIELDS).map((f) => f.column);
         qb.select(selectColumns);
         const result = await paginate(qb, query, TITLE_FIELDS);
         return {
             data: TitleMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
@@ -44,14 +43,14 @@ export class TitleService {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true
-            }
+                updatedByUser: true,
+            },
         });
         if (!title) throw new NotFoundException();
         return TitleMapper.toResponse(title);
@@ -78,9 +77,9 @@ export class TitleService {
     async findOptions() {
         const title = await this.titleRepo.find();
         return LookupMapper.toResponses(
-            title, 
-            title => title.id,
-            title => title.name
+            title,
+            (title) => title.id,
+            (title) => title.name,
         );
     }
 }

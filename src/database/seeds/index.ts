@@ -50,7 +50,6 @@ async function runSeeder() {
     // await seedCompetencyItems(AppDataSource);
     // await seedIndustryCompetency(AppDataSource);
 
-
     // await seedAreas(AppDataSource);
     // await seedSites(AppDataSource);
     // await seedBusinessEntityType(AppDataSource);
@@ -59,7 +58,7 @@ async function runSeeder() {
     // await seedTitle(AppDataSource);
     // await seedJobType(AppDataSource);
     // await seedIdentityType(AppDataSource);
-    
+
     // await seedCurrency(AppDataSource);
     // await seedAffiliateType(AppDataSource);
     // await seedFinancialPeriod(AppDataSource);
@@ -75,11 +74,6 @@ async function runSeeder() {
     // await seedTermsCondition(AppDataSource);
     // await seedCompanyPersonnelType(AppDataSource);
     await seedDocumentType(AppDataSource);
-
-
-
-
-    
 
     await AppDataSource.destroy();
 }

@@ -1,16 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateVendorBankDto } from "./dto/create-vendor-bank.dto";
-import { UpdateVendorBankDto } from "./dto/update-vendor-bank.dto";
-import { VendorBankService } from "./vendor-bank.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateVendorBankDto } from './dto/create-vendor-bank.dto';
+import { UpdateVendorBankDto } from './dto/update-vendor-bank.dto';
+import { VendorBankService } from './vendor-bank.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('vendor-banks')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorBankController {
-    constructor(private service: VendorBankService) { }
+    constructor(private service: VendorBankService) {}
 
     @Get()
     @RequirePermission('vendor-bank.pagination')

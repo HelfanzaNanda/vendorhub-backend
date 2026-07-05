@@ -14,11 +14,13 @@ import { CompetencyCategoryMapper } from './mapper/competency-category.mapper';
 export class CompetencyCategoryService {
     constructor(
         @InjectRepository(CompetencyCategory)
-        private competencyCategoryRepo: Repository<CompetencyCategory>
-    ) { }
+        private competencyCategoryRepo: Repository<CompetencyCategory>,
+    ) {}
 
     async create(data: CreateCompetencyCategoryDto) {
-        return this.competencyCategoryRepo.save(this.competencyCategoryRepo.create(data));
+        return this.competencyCategoryRepo.save(
+            this.competencyCategoryRepo.create(data),
+        );
     }
 
     async pagination(query: PaginationQueryDto) {
@@ -26,14 +28,15 @@ export class CompetencyCategoryService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
 
-        const selectColumns = Object.values(COMPETENCY_CATEGORY_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(COMPETENCY_CATEGORY_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, COMPETENCY_CATEGORY_FIELDS);
         return {
             data: CompetencyCategoryMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
@@ -43,29 +46,35 @@ export class CompetencyCategoryService {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true
-            }
+                updatedByUser: true,
+            },
         });
         if (!competencyCategory) throw new NotFoundException();
         return CompetencyCategoryMapper.toResponse(competencyCategory);
     }
 
     async update(id: number, data: UpdateCompetencyCategoryDto) {
-        const competencyCategory = await this.competencyCategoryRepo.findOne({ where: { id } });
-        if (!competencyCategory) throw new NotFoundException(`Data with id ${id} not found`);
+        const competencyCategory = await this.competencyCategoryRepo.findOne({
+            where: { id },
+        });
+        if (!competencyCategory)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(competencyCategory, data);
         return this.competencyCategoryRepo.save(competencyCategory);
     }
 
     async delete(id: number) {
-        const competencyCategory = await this.competencyCategoryRepo.findOne({ where: { id } });
-        if (!competencyCategory) throw new NotFoundException(`Data with id ${id} not found`);
+        const competencyCategory = await this.competencyCategoryRepo.findOne({
+            where: { id },
+        });
+        if (!competencyCategory)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         competencyCategory.deletedBy = userId;

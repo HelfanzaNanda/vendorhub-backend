@@ -5,9 +5,9 @@ import { VendorBusinessLicenseTempController } from './vendor-business-license-t
 import { VendorBusinessLicenseTempService } from './vendor-business-license-temp.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VendorBusinessLicenseTemp])],
-  controllers: [VendorBusinessLicenseTempController],
-  providers: [VendorBusinessLicenseTempService],
-  exports: [VendorBusinessLicenseTempService],
+    imports: [TypeOrmModule.forFeature([VendorBusinessLicenseTemp])],
+    controllers: [VendorBusinessLicenseTempController],
+    providers: [VendorBusinessLicenseTempService],
+    exports: [VendorBusinessLicenseTempService],
 })
 export class VendorBusinessLicenseTempModule {}

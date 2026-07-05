@@ -1,10 +1,7 @@
-
-
 import { User } from '@modules/uman/user/entities/user.entity';
 import { DataSource } from 'typeorm';
 import { UserHasRole } from '@modules/uman/user-has-roles/entities/user-has-role.entity';
 import { Role } from '@modules/uman/role/entities/role.entity';
-
 
 export async function seedUserHasRoles(dataSource: DataSource) {
     const userRepo = dataSource.getRepository(User);
@@ -23,23 +20,21 @@ export async function seedUserHasRoles(dataSource: DataSource) {
         throw new Error('User or Role not found for seeding user roles');
     }
 
-
     const now = new Date();
     const threeYearsLater = new Date(now);
     threeYearsLater.setFullYear(now.getFullYear() + 10);
 
-
     await repo.save(
         repo.create({
-            user : {
-                id : admin.id
+            user: {
+                id: admin.id,
             },
-            role : {
-                id : superAdminRole.id,
+            role: {
+                id: superAdminRole.id,
             },
             isActive: true,
             effectiveStartDate: now,
-            effectiveEndDate: threeYearsLater
+            effectiveEndDate: threeYearsLater,
         }),
     );
 

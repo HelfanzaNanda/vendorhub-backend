@@ -1,5 +1,5 @@
-import { IdentityTypeResponseDto } from "../dto/response-identity-type.dto";
-import { IdentityType } from "../entities/identity-type.entity";
+import { IdentityTypeResponseDto } from '../dto/response-identity-type.dto';
+import { IdentityType } from '../entities/identity-type.entity';
 
 export class IdentityTypeMapper {
     static toResponse(entity: IdentityType): IdentityTypeResponseDto {

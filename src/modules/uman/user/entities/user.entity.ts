@@ -1,19 +1,33 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { AuditColumns } from "@common/entities/audit.embedded";
-import { Position } from "@modules/master/position/entities/position.entity";
-import { UserHasRole } from "@modules/uman/user-has-roles/entities/user-has-role.entity";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { AuditColumns } from '@common/entities/audit.embedded';
+import { Position } from '@modules/master/position/entities/position.entity';
+import { UserHasRole } from '@modules/uman/user-has-roles/entities/user-has-role.entity';
+import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 // import { CompanyIdentity } from "@modules/vendor/company-identity/entities/company-identity.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class User extends AuditBaseEntity {
-
-    @Column()
+    @Column({
+        nullable: true,
+    })
     firstname: string;
 
-    @Column()
+    @Column({
+        nullable: true,
+
+    })
     lastname: string;
-    
+
     @Column({ unique: true })
     username: string;
 
@@ -24,12 +38,14 @@ export class User extends AuditBaseEntity {
     password: string;
 
     @Column({
-        name : 'job_title',
+        name: 'job_title',
         nullable: true,
     })
     jobTitle: string;
 
-    @Column()
+    @Column({
+        nullable: true,
+    })
     phone: string;
 
     @Column({
@@ -45,12 +61,12 @@ export class User extends AuditBaseEntity {
     @JoinColumn({ name: 'position_id' })
     position: Position;
 
-    // @ManyToOne(() => CompanyIdentity, {
-    //     nullable: true,
-    //     createForeignKeyConstraints: false,
-    // })
-    // @JoinColumn({ name: 'company_identity_id' })
-    // companyIdentity: CompanyIdentity;
+    @ManyToOne(() => Vendor, {
+        nullable: true,
+        createForeignKeyConstraints: false,
+    })
+    @JoinColumn({ name: 'vendor_id' })
+    vendor: Vendor;
 
     @Column({
         type: 'varchar',
@@ -61,24 +77,23 @@ export class User extends AuditBaseEntity {
     @Column({
         name: 'is_active',
         default: true,
-        type: 'boolean'
+        type: 'boolean',
     })
     isActive: boolean;
 
     @Column({
         name: 'effective_start_date',
         type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP'
+        default: () => 'CURRENT_TIMESTAMP',
     })
     effectiveStartDate: Date;
 
     @Column({
         name: 'effective_end_date',
-        type: 'timestamp'
+        type: 'timestamp',
     })
     effectiveEndDate: Date;
 
-
-    @OneToMany(() => UserHasRole, uhr => uhr.user)
+    @OneToMany(() => UserHasRole, (uhr) => uhr.user)
     userHasRoles: UserHasRole[];
 }

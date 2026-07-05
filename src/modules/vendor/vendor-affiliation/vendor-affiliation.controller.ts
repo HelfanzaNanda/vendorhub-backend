@@ -1,16 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateVendorAffiliationDto } from "./dto/create-vendor-affiliation.dto";
-import { UpdateVendorAffiliationDto } from "./dto/update-vendor-affiliation.dto";
-import { VendorAffiliationService } from "./vendor-affiliation.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateVendorAffiliationDto } from './dto/create-vendor-affiliation.dto';
+import { UpdateVendorAffiliationDto } from './dto/update-vendor-affiliation.dto';
+import { VendorAffiliationService } from './vendor-affiliation.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('vendor-affiliations')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorAffiliationController {
-    constructor(private service: VendorAffiliationService) { }
+    constructor(private service: VendorAffiliationService) {}
 
     @Get()
     @RequirePermission('vendor-affiliation.pagination')

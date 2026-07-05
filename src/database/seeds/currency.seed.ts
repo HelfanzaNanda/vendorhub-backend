@@ -1,944 +1,942 @@
-import { Country } from "@modules/master/country/entities/country.entity";
-import { Currency } from "@modules/master/currency/entities/currency.entity";
-import { DataSource } from "typeorm";
+import { Country } from '@modules/master/country/entities/country.entity';
+import { Currency } from '@modules/master/currency/entities/currency.entity';
+import { DataSource } from 'typeorm';
 
 export async function seedCurrency(dataSource: DataSource) {
-
     const arr: Record<string, Record<string, string>[]> = {
-        "Albania": [
+        Albania: [
             {
-                "code": "ALL",
-                "name": "Lek"
-            }
+                code: 'ALL',
+                name: 'Lek',
+            },
         ],
-        "Algeria": [
+        Algeria: [
             {
-                "code": "DZD",
-                "name": "Dinar"
-            }
+                code: 'DZD',
+                name: 'Dinar',
+            },
         ],
-        "American Samoa": [
+        'American Samoa': [
             {
-                "code": "USD",
-                "name": "US Dollar"
-            }
+                code: 'USD',
+                name: 'US Dollar',
+            },
         ],
-        "Angola": [
+        Angola: [
             {
-                "code": "AOA",
-                "name": "Kwanza"
-            }
+                code: 'AOA',
+                name: 'Kwanza',
+            },
         ],
-        "Argentina": [
+        Argentina: [
             {
-                "code": "ARS",
-                "name": "Peso"
-            }
+                code: 'ARS',
+                name: 'Peso',
+            },
         ],
-        "Armenia": [
+        Armenia: [
             {
-                "code": "AMD",
-                "name": "Dram"
-            }
+                code: 'AMD',
+                name: 'Dram',
+            },
         ],
-        "Australia": [
+        Australia: [
             {
-                "code": "AUD",
-                "name": "Australia Dollar"
-            }
+                code: 'AUD',
+                name: 'Australia Dollar',
+            },
         ],
-        "Austria": [
+        Austria: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Azerbaijan": [
+        Azerbaijan: [
             {
-                "code": "AZN",
-                "name": "Manat"
-            }
+                code: 'AZN',
+                name: 'Manat',
+            },
         ],
-        "Bahrain": [
+        Bahrain: [
             {
-                "code": "BHD",
-                "name": "Dinar"
-            }
+                code: 'BHD',
+                name: 'Dinar',
+            },
         ],
-        "Barbados": [
+        Barbados: [
             {
-                "code": "BBD",
-                "name": "Dollar"
-            }
+                code: 'BBD',
+                name: 'Dollar',
+            },
         ],
-        "Belarus": [
+        Belarus: [
             {
-                "code": "BYN",
-                "name": "Rouble"
-            }
+                code: 'BYN',
+                name: 'Rouble',
+            },
         ],
-        "Belgium": [
+        Belgium: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Bermuda": [
+        Bermuda: [
             {
-                "code": "BMD",
-                "name": "Dollar"
-            }
+                code: 'BMD',
+                name: 'Dollar',
+            },
         ],
-        "Bolivia": [
+        Bolivia: [
             {
-                "code": "BOB",
-                "name": "Boliviano"
-            }
+                code: 'BOB',
+                name: 'Boliviano',
+            },
         ],
-        "Bosnia and Herzegovina": [
+        'Bosnia and Herzegovina': [
             {
-                "code": "BAM",
-                "name": "Konvertibilna marka"
-            }
+                code: 'BAM',
+                name: 'Konvertibilna marka',
+            },
         ],
-        "Botswana": [
+        Botswana: [
             {
-                "code": "BWP",
-                "name": "Pula"
-            }
+                code: 'BWP',
+                name: 'Pula',
+            },
         ],
-        "Brazil": [
+        Brazil: [
             {
-                "code": "BRL",
-                "name": "Real"
-            }
+                code: 'BRL',
+                name: 'Real',
+            },
         ],
-        "Bulgaria": [
+        Bulgaria: [
             {
-                "code": "BGN",
-                "name": "Lev"
-            }
+                code: 'BGN',
+                name: 'Lev',
+            },
         ],
-        "Cambodia": [
+        Cambodia: [
             {
-                "code": "KHR",
-                "name": "Riel"
-            }
+                code: 'KHR',
+                name: 'Riel',
+            },
         ],
-        "Cameroon": [
+        Cameroon: [
             {
-                "code": "XAF",
-                "name": "Cfa franc beac"
-            }
+                code: 'XAF',
+                name: 'Cfa franc beac',
+            },
         ],
-        "Canada": [
+        Canada: [
             {
-                "code": "CAD",
-                "name": "Dollar"
-            }
+                code: 'CAD',
+                name: 'Dollar',
+            },
         ],
-        "Cape Verde": [
+        'Cape Verde': [
             {
-                "code": "CVE",
-                "name": "Escudo"
-            }
+                code: 'CVE',
+                name: 'Escudo',
+            },
         ],
-        "Cayman Islands": [
+        'Cayman Islands': [
             {
-                "code": "KYD",
-                "name": "Dollar"
-            }
+                code: 'KYD',
+                name: 'Dollar',
+            },
         ],
-        "Chad": [
+        Chad: [
             {
-                "code": "XAF",
-                "name": "Cfa franc beac"
-            }
+                code: 'XAF',
+                name: 'Cfa franc beac',
+            },
         ],
-        "Chile": [
+        Chile: [
             {
-                "code": "CLP",
-                "name": "Peso"
-            }
+                code: 'CLP',
+                name: 'Peso',
+            },
         ],
-        "China": [
+        China: [
             {
-                "code": "CNY",
-                "name": "Yuan"
-            }
+                code: 'CNY',
+                name: 'Yuan',
+            },
         ],
-        "Colombia": [
+        Colombia: [
             {
-                "code": "COP",
-                "name": "Peso"
-            }
+                code: 'COP',
+                name: 'Peso',
+            },
         ],
-        "Congo (Brazzaville)": [
+        'Congo (Brazzaville)': [
             {
-                "code": "XAF",
-                "name": "Cfa franc beac"
-            }
+                code: 'XAF',
+                name: 'Cfa franc beac',
+            },
         ],
-        "Congo, (Kinshasa)": [
+        'Congo, (Kinshasa)': [
             {
-                "code": "CDF",
-                "name": "Franc"
-            }
+                code: 'CDF',
+                name: 'Franc',
+            },
         ],
-        "Costa Rica": [
+        'Costa Rica': [
             {
-                "code": "CRC",
-                "name": "Colon"
-            }
+                code: 'CRC',
+                name: 'Colon',
+            },
         ],
-        "Croatia": [
+        Croatia: [
             {
-                "code": "HRK",
-                "name": "Kuna"
-            }
+                code: 'HRK',
+                name: 'Kuna',
+            },
         ],
-        "Cyprus": [
+        Cyprus: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Czech Republic": [
+        'Czech Republic': [
             {
-                "code": "CZK",
-                "name": "Koruna"
-            }
+                code: 'CZK',
+                name: 'Koruna',
+            },
         ],
         "Côte d'Ivoire": [
             {
-                "code": "XOF",
-                "name": "Cfa franc bceao"
-            }
+                code: 'XOF',
+                name: 'Cfa franc bceao',
+            },
         ],
-        "Denmark": [
+        Denmark: [
             {
-                "code": "DKK",
-                "name": "Kroner"
-            }
+                code: 'DKK',
+                name: 'Kroner',
+            },
         ],
-        "Dominican Republic": [
+        'Dominican Republic': [
             {
-                "code": "DOP",
-                "name": "Peso"
-            }
+                code: 'DOP',
+                name: 'Peso',
+            },
         ],
-        "Ecuador": [
+        Ecuador: [
             {
-                "code": "USD",
-                "name": "Dollar"
-            }
+                code: 'USD',
+                name: 'Dollar',
+            },
         ],
-        "Egypt": [
+        Egypt: [
             {
-                "code": "EGP",
-                "name": "Pound"
-            }
+                code: 'EGP',
+                name: 'Pound',
+            },
         ],
-        "El Salvador": [
+        'El Salvador': [
             {
-                "code": "USD",
-                "name": "Dollar"
-            }
+                code: 'USD',
+                name: 'Dollar',
+            },
         ],
-        "Equatorial Guinea": [
+        'Equatorial Guinea': [
             {
-                "code": "XAF",
-                "name": "Cfa franc beac"
-            }
+                code: 'XAF',
+                name: 'Cfa franc beac',
+            },
         ],
-        "Estonia": [
+        Estonia: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Ethiopia": [
+        Ethiopia: [
             {
-                "code": "ETB",
-                "name": "Birr"
-            }
+                code: 'ETB',
+                name: 'Birr',
+            },
         ],
-        "Fiji": [
+        Fiji: [
             {
-                "code": "FJD",
-                "name": "Dollar"
-            }
+                code: 'FJD',
+                name: 'Dollar',
+            },
         ],
-        "Finland": [
+        Finland: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "France": [
+        France: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Gabon": [
+        Gabon: [
             {
-                "code": "XAF",
-                "name": "Cfa franc beac"
-            }
+                code: 'XAF',
+                name: 'Cfa franc beac',
+            },
         ],
-        "Georgia": [
+        Georgia: [
             {
-                "code": "GEL",
-                "name": "Lari"
-            }
+                code: 'GEL',
+                name: 'Lari',
+            },
         ],
-        "Germany": [
+        Germany: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Ghana": [
+        Ghana: [
             {
-                "code": "GHS",
-                "name": "Cedi"
-            }
+                code: 'GHS',
+                name: 'Cedi',
+            },
         ],
-        "Gibraltar": [
+        Gibraltar: [
             {
-                "code": "GIP",
-                "name": "Pound"
-            }
+                code: 'GIP',
+                name: 'Pound',
+            },
         ],
-        "Greece": [
+        Greece: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Greenland": [
+        Greenland: [
             {
-                "code": "DKK",
-                "name": "Danish krone"
-            }
+                code: 'DKK',
+                name: 'Danish krone',
+            },
         ],
-        "Guatemala": [
+        Guatemala: [
             {
-                "code": "GTQ",
-                "name": "Quetzal"
-            }
+                code: 'GTQ',
+                name: 'Quetzal',
+            },
         ],
-        "Guernsey": [
+        Guernsey: [
             {
-                "code": "GBP",
-                "name": "British pound sterling"
-            }
+                code: 'GBP',
+                name: 'British pound sterling',
+            },
         ],
-        "Guyana": [
+        Guyana: [
             {
-                "code": "GYD",
-                "name": "Dollar"
-            }
+                code: 'GYD',
+                name: 'Dollar',
+            },
         ],
-        "Honduras": [
+        Honduras: [
             {
-                "code": "HNL",
-                "name": "Lempira"
-            }
+                code: 'HNL',
+                name: 'Lempira',
+            },
         ],
-        "Hong Kong, SAR China": [
+        'Hong Kong, SAR China': [
             {
-                "code": "HKD",
-                "name": "Dollar"
-            }
+                code: 'HKD',
+                name: 'Dollar',
+            },
         ],
-        "Hungary": [
+        Hungary: [
             {
-                "code": "HUF",
-                "name": "Forint"
-            }
+                code: 'HUF',
+                name: 'Forint',
+            },
         ],
-        "Iceland": [
+        Iceland: [
             {
-                "code": "ISK",
-                "name": "Krona"
-            }
+                code: 'ISK',
+                name: 'Krona',
+            },
         ],
-        "India": [
+        India: [
             {
-                "code": "INR",
-                "name": "Rupee"
-            }
+                code: 'INR',
+                name: 'Rupee',
+            },
         ],
-        "Indonesia": [
+        Indonesia: [
             {
-                "code": "IDR",
-                "name": "Rupiah"
-            }
+                code: 'IDR',
+                name: 'Rupiah',
+            },
         ],
-        "Iraq": [
+        Iraq: [
             {
-                "code": "IQD",
-                "name": "Dinar"
-            }
+                code: 'IQD',
+                name: 'Dinar',
+            },
         ],
-        "Ireland": [
+        Ireland: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Isle of Man": [
+        'Isle of Man': [
             {
-                "code": "IMP",
-                "name": "Pound"
-            }
+                code: 'IMP',
+                name: 'Pound',
+            },
         ],
-        "Israel": [
+        Israel: [
             {
-                "code": "ILS",
-                "name": "Shekel"
-            }
+                code: 'ILS',
+                name: 'Shekel',
+            },
         ],
-        "Italy": [
+        Italy: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Jamaica": [
+        Jamaica: [
             {
-                "code": "JMD",
-                "name": "Dollar"
-            }
+                code: 'JMD',
+                name: 'Dollar',
+            },
         ],
-        "Japan": [
+        Japan: [
             {
-                "code": "JPY",
-                "name": "Yen"
-            }
+                code: 'JPY',
+                name: 'Yen',
+            },
         ],
-        "Jersey": [
+        Jersey: [
             {
-                "code": "GBP",
-                "name": "British pound sterling"
-            }
+                code: 'GBP',
+                name: 'British pound sterling',
+            },
         ],
-        "Jordan": [
+        Jordan: [
             {
-                "code": "JOD",
-                "name": "Dinar"
-            }
+                code: 'JOD',
+                name: 'Dinar',
+            },
         ],
-        "Kazakhstan": [
+        Kazakhstan: [
             {
-                "code": "KZT",
-                "name": "Tenge"
-            }
+                code: 'KZT',
+                name: 'Tenge',
+            },
         ],
-        "Kenya": [
+        Kenya: [
             {
-                "code": "KES",
-                "name": "Shilling"
-            }
+                code: 'KES',
+                name: 'Shilling',
+            },
         ],
-        "Korea (North)": [
+        'Korea (North)': [
             {
-                "code": "KRW",
-                "name": "Won"
-            }
+                code: 'KRW',
+                name: 'Won',
+            },
         ],
-        "Kuwait": [
+        Kuwait: [
             {
-                "code": "KWD",
-                "name": "Dinar"
-            }
+                code: 'KWD',
+                name: 'Dinar',
+            },
         ],
-        "Kyrgyzstan": [
+        Kyrgyzstan: [
             {
-                "code": "KGS",
-                "name": "Som"
-            }
+                code: 'KGS',
+                name: 'Som',
+            },
         ],
-        "Lao PDR": [
+        'Lao PDR': [
             {
-                "code": "LAK",
-                "name": "Kip"
-            }
+                code: 'LAK',
+                name: 'Kip',
+            },
         ],
-        "Latvia": [
+        Latvia: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Lebanon": [
+        Lebanon: [
             {
-                "code": "LBP",
-                "name": "Pound"
-            }
+                code: 'LBP',
+                name: 'Pound',
+            },
         ],
-        "Libya": [
+        Libya: [
             {
-                "code": "LYD",
-                "name": "Dinar"
-            }
+                code: 'LYD',
+                name: 'Dinar',
+            },
         ],
-        "Liechtenstein": [
+        Liechtenstein: [
             {
-                "code": "CHF",
-                "name": "Franc"
-            }
+                code: 'CHF',
+                name: 'Franc',
+            },
         ],
-        "Lithuania": [
+        Lithuania: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Luxembourg": [
+        Luxembourg: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Macao, SAR China": [
+        'Macao, SAR China': [
             {
-                "code": "MOP",
-                "name": "Pataca"
-            }
+                code: 'MOP',
+                name: 'Pataca',
+            },
         ],
-        "Macedonia, Republic of": [
+        'Macedonia, Republic of': [
             {
-                "code": "MKD",
-                "name": "Denar"
-            }
+                code: 'MKD',
+                name: 'Denar',
+            },
         ],
-        "Madagascar": [
+        Madagascar: [
             {
-                "code": "MGA",
-                "name": "Ariary"
-            }
+                code: 'MGA',
+                name: 'Ariary',
+            },
         ],
-        "Malawi": [
+        Malawi: [
             {
-                "code": "MWK",
-                "name": "Kwacha"
-            }
+                code: 'MWK',
+                name: 'Kwacha',
+            },
         ],
-        "Malaysia": [
+        Malaysia: [
             {
-                "code": "MYR",
-                "name": "Ringgit"
-            }
+                code: 'MYR',
+                name: 'Ringgit',
+            },
         ],
-        "Maldives": [
+        Maldives: [
             {
-                "code": "MVR",
-                "name": "Rufiyaa"
-            }
+                code: 'MVR',
+                name: 'Rufiyaa',
+            },
         ],
-        "Malta": [
+        Malta: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Mauritania": [
+        Mauritania: [
             {
-                "code": "MRU",
-                "name": "Ouguiya"
-            }
+                code: 'MRU',
+                name: 'Ouguiya',
+            },
         ],
-        "Mauritius": [
+        Mauritius: [
             {
-                "code": "MUR",
-                "name": "Rupee"
-            }
+                code: 'MUR',
+                name: 'Rupee',
+            },
         ],
-        "Mexico": [
+        Mexico: [
             {
-                "code": "MXN",
-                "name": "Peso"
-            }
+                code: 'MXN',
+                name: 'Peso',
+            },
         ],
-        "Moldova": [
+        Moldova: [
             {
-                "code": "MDL",
-                "name": "Leu"
-            }
+                code: 'MDL',
+                name: 'Leu',
+            },
         ],
-        "Mongolia": [
+        Mongolia: [
             {
-                "code": "MNT",
-                "name": "Tugrik"
-            }
+                code: 'MNT',
+                name: 'Tugrik',
+            },
         ],
-        "Montenegro": [
+        Montenegro: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Morocco": [
+        Morocco: [
             {
-                "code": "MAD",
-                "name": "Dirham"
-            }
+                code: 'MAD',
+                name: 'Dirham',
+            },
         ],
-        "Mozambique": [
+        Mozambique: [
             {
-                "code": "MZN",
-                "name": "Metical"
-            }
+                code: 'MZN',
+                name: 'Metical',
+            },
         ],
-        "Myanmar": [
+        Myanmar: [
             {
-                "code": "MMK",
-                "name": "Kyat"
-            }
+                code: 'MMK',
+                name: 'Kyat',
+            },
         ],
-        "Namibia": [
+        Namibia: [
             {
-                "code": "NAD",
-                "name": "Dollar"
-            }
+                code: 'NAD',
+                name: 'Dollar',
+            },
         ],
-        "Netherlands": [
+        Netherlands: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "New Caledonia": [
+        'New Caledonia': [
             {
-                "code": "XPF",
-                "name": "Cfp franc"
-            }
+                code: 'XPF',
+                name: 'Cfp franc',
+            },
         ],
-        "New Zealand": [
+        'New Zealand': [
             {
-                "code": "NZD",
-                "name": "Dollar"
-            }
+                code: 'NZD',
+                name: 'Dollar',
+            },
         ],
-        "Nicaragua": [
+        Nicaragua: [
             {
-                "code": "NIO",
-                "name": "Cordoba oro"
-            }
+                code: 'NIO',
+                name: 'Cordoba oro',
+            },
         ],
-        "Nigeria": [
+        Nigeria: [
             {
-                "code": "NGN",
-                "name": "Naira"
-            }
+                code: 'NGN',
+                name: 'Naira',
+            },
         ],
-        "Norway": [
+        Norway: [
             {
-                "code": "NOK",
-                "name": "Kroner"
-            }
+                code: 'NOK',
+                name: 'Kroner',
+            },
         ],
-        "Oman": [
+        Oman: [
             {
-                "code": "OMR",
-                "name": "Rial"
-            }
+                code: 'OMR',
+                name: 'Rial',
+            },
         ],
-        "Pakistan": [
+        Pakistan: [
             {
-                "code": "PKR",
-                "name": "Rupee"
-            }
+                code: 'PKR',
+                name: 'Rupee',
+            },
         ],
-        "Palestinian Territory": [
+        'Palestinian Territory': [
             {
-                "code": "ILS, USD, and JOD",
-                "name": "Shekel, dollar, and dinar"
-            }
+                code: 'ILS, USD, and JOD',
+                name: 'Shekel, dollar, and dinar',
+            },
         ],
-        "Panama": [
+        Panama: [
             {
-                "code": "PAB¿ and USD",
-                "name": "Balboa¿ and dollar"
-            }
+                code: 'PAB¿ and USD',
+                name: 'Balboa¿ and dollar',
+            },
         ],
-        "Papua New Guinea": [
+        'Papua New Guinea': [
             {
-                "code": "PGK",
-                "name": "Kina"
-            }
+                code: 'PGK',
+                name: 'Kina',
+            },
         ],
-        "Paraguay": [
+        Paraguay: [
             {
-                "code": "PYG",
-                "name": "Guarani"
-            }
+                code: 'PYG',
+                name: 'Guarani',
+            },
         ],
-        "Peru": [
+        Peru: [
             {
-                "code": "PEN",
-                "name": "Nuevo sol"
-            }
+                code: 'PEN',
+                name: 'Nuevo sol',
+            },
         ],
-        "Philippines": [
+        Philippines: [
             {
-                "code": "PHP",
-                "name": "Peso"
-            }
+                code: 'PHP',
+                name: 'Peso',
+            },
         ],
-        "Poland": [
+        Poland: [
             {
-                "code": "PLN",
-                "name": "Zloty"
-            }
+                code: 'PLN',
+                name: 'Zloty',
+            },
         ],
-        "Portugal": [
+        Portugal: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Puerto Rico": [
+        'Puerto Rico': [
             {
-                "code": "USD",
-                "name": "Dollar"
-            }
+                code: 'USD',
+                name: 'Dollar',
+            },
         ],
-        "Qatar": [
+        Qatar: [
             {
-                "code": "QAR",
-                "name": "Riyal"
-            }
+                code: 'QAR',
+                name: 'Riyal',
+            },
         ],
-        "Romania": [
+        Romania: [
             {
-                "code": "RON",
-                "name": "Leu"
-            }
+                code: 'RON',
+                name: 'Leu',
+            },
         ],
-        "Russian Federation": [
+        'Russian Federation': [
             {
-                "code": "RUB",
-                "name": "Ruble"
-            }
+                code: 'RUB',
+                name: 'Ruble',
+            },
         ],
-        "Rwanda": [
+        Rwanda: [
             {
-                "code": "RWF",
-                "name": "Franc"
-            }
+                code: 'RWF',
+                name: 'Franc',
+            },
         ],
-        "Saint Lucia": [
+        'Saint Lucia': [
             {
-                "code": "XCD",
-                "name": "Dollar"
-            }
+                code: 'XCD',
+                name: 'Dollar',
+            },
         ],
-        "Saudi Arabia": [
+        'Saudi Arabia': [
             {
-                "code": "SAR",
-                "name": "Riyal"
-            }
+                code: 'SAR',
+                name: 'Riyal',
+            },
         ],
-        "Senegal": [
+        Senegal: [
             {
-                "code": "XOF",
-                "name": "Cfa franc bceao"
-            }
+                code: 'XOF',
+                name: 'Cfa franc bceao',
+            },
         ],
-        "Serbia": [
+        Serbia: [
             {
-                "code": "RSD",
-                "name": "Dinar"
-            }
+                code: 'RSD',
+                name: 'Dinar',
+            },
         ],
-        "Singapore": [
+        Singapore: [
             {
-                "code": "SGD",
-                "name": "Singapore Dollar"
-            }
+                code: 'SGD',
+                name: 'Singapore Dollar',
+            },
         ],
-        "Slovakia": [
+        Slovakia: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Slovenia": [
+        Slovenia: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "South Africa": [
+        'South Africa': [
             {
-                "code": "ZAR",
-                "name": "Rand"
-            }
+                code: 'ZAR',
+                name: 'Rand',
+            },
         ],
-        "Spain": [
+        Spain: [
             {
-                "code": "EUR",
-                "name": "Euro"
-            }
+                code: 'EUR',
+                name: 'Euro',
+            },
         ],
-        "Sri Lanka": [
+        'Sri Lanka': [
             {
-                "code": "LKR",
-                "name": "Rupee"
-            }
+                code: 'LKR',
+                name: 'Rupee',
+            },
         ],
-        "Swaziland": [
+        Swaziland: [
             {
-                "code": "SZL",
-                "name": "Lilangeni"
-            }
+                code: 'SZL',
+                name: 'Lilangeni',
+            },
         ],
-        "Sweden": [
+        Sweden: [
             {
-                "code": "SEK",
-                "name": "Krona"
-            }
+                code: 'SEK',
+                name: 'Krona',
+            },
         ],
-        "Switzerland": [
+        Switzerland: [
             {
-                "code": "CHF",
-                "name": "Franc"
-            }
+                code: 'CHF',
+                name: 'Franc',
+            },
         ],
-        "Taiwan, Republic of China": [
+        'Taiwan, Republic of China': [
             {
-                "code": "TWD",
-                "name": "Dollar"
-            }
+                code: 'TWD',
+                name: 'Dollar',
+            },
         ],
-        "Tajikistan": [
+        Tajikistan: [
             {
-                "code": "TJS",
-                "name": "Somoni"
-            }
+                code: 'TJS',
+                name: 'Somoni',
+            },
         ],
-        "Tanzania, United Republic of": [
+        'Tanzania, United Republic of': [
             {
-                "code": "TZS",
-                "name": "Shilling"
-            }
+                code: 'TZS',
+                name: 'Shilling',
+            },
         ],
-        "Thailand": [
+        Thailand: [
             {
-                "code": "THB",
-                "name": "Baht"
-            }
+                code: 'THB',
+                name: 'Baht',
+            },
         ],
-        "Timor-Leste": [
+        'Timor-Leste': [
             {
-                "code": "USD",
-                "name": "Us dollar"
-            }
+                code: 'USD',
+                name: 'Us dollar',
+            },
         ],
-        "Trinidad and Tobago": [
+        'Trinidad and Tobago': [
             {
-                "code": "TTD",
-                "name": "Dollar"
-            }
+                code: 'TTD',
+                name: 'Dollar',
+            },
         ],
-        "Tunisia": [
+        Tunisia: [
             {
-                "code": "TND",
-                "name": "Dinar"
-            }
+                code: 'TND',
+                name: 'Dinar',
+            },
         ],
-        "Turkey": [
+        Turkey: [
             {
-                "code": "TRY",
-                "name": "Lira"
-            }
+                code: 'TRY',
+                name: 'Lira',
+            },
         ],
-        "Turkmenistan": [
+        Turkmenistan: [
             {
-                "code": "TMT",
-                "name": "Manat"
-            }
+                code: 'TMT',
+                name: 'Manat',
+            },
         ],
-        "Uganda": [
+        Uganda: [
             {
-                "code": "UGX",
-                "name": "Shilling"
-            }
+                code: 'UGX',
+                name: 'Shilling',
+            },
         ],
-        "Ukraine": [
+        Ukraine: [
             {
-                "code": "UAH",
-                "name": "Hryvnia"
-            }
+                code: 'UAH',
+                name: 'Hryvnia',
+            },
         ],
-        "United Arab Emirates": [
+        'United Arab Emirates': [
             {
-                "code": "AED",
-                "name": "Dirham"
-            }
+                code: 'AED',
+                name: 'Dirham',
+            },
         ],
-        "United Kingdom": [
+        'United Kingdom': [
             {
-                "code": "GBP",
-                "name": "Pound Sterling"
-            }
+                code: 'GBP',
+                name: 'Pound Sterling',
+            },
         ],
-        "United States of America": [
+        'United States of America': [
             {
-                "code": "USD",
-                "name": "Dollar"
-            }
+                code: 'USD',
+                name: 'Dollar',
+            },
         ],
-        "Uruguay": [
+        Uruguay: [
             {
-                "code": "UYU",
-                "name": "Peso"
-            }
+                code: 'UYU',
+                name: 'Peso',
+            },
         ],
-        "Uzbekistan": [
+        Uzbekistan: [
             {
-                "code": "UZS",
-                "name": "Soum"
-            }
+                code: 'UZS',
+                name: 'Soum',
+            },
         ],
-        "Venezuela (Bolivarian Republic)": [
+        'Venezuela (Bolivarian Republic)': [
             {
-                "code": "VEF",
-                "name": "Bolivar"
-            }
+                code: 'VEF',
+                name: 'Bolivar',
+            },
         ],
-        "Viet Nam": [
+        'Viet Nam': [
             {
-                "code": "VND",
-                "name": "Dong"
-            }
+                code: 'VND',
+                name: 'Dong',
+            },
         ],
-        "Zambia": [
+        Zambia: [
             {
-                "code": "ZMW",
-                "name": "Kwacha"
-            }
+                code: 'ZMW',
+                name: 'Kwacha',
+            },
         ],
-        "Zimbabwe": [
+        Zimbabwe: [
             {
-                "code": "ZWD",
-                "name": "Dollar"
-            }
-        ]
+                code: 'ZWD',
+                name: 'Dollar',
+            },
+        ],
     };
 
     const countryRepo = dataSource.getRepository(Country);
     const currencyRepo = dataSource.getRepository(Currency);
 
-
     for (const [countryName, data] of Object.entries(arr)) {
         // 1️⃣ upsert country
         const country = await countryRepo.findOne({
-            where: { name: countryName }
+            where: { name: countryName },
         });
 
         if (!country) {
@@ -952,10 +950,10 @@ export async function seedCurrency(dataSource: DataSource) {
                     name: obj.name,
                     code: obj.code,
                     country: {
-                        id : country.id,
-                    }
-                })
-            )
+                        id: country.id,
+                    },
+                }),
+            );
         }
 
         console.log(`✅ Seeded ${countryName} (${data.length} currencies)`);

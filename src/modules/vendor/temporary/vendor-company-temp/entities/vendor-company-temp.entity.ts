@@ -1,5 +1,5 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendor-temp.entity';
 import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';

@@ -1,212 +1,212 @@
-import { CompetencyCategory } from "@modules/master/competency-category/entities/competency-category.entity";
-import { CompetencySubCategory } from "@modules/master/competency-subcategory/entities/competency-subcategory.entity";
-import { DataSource } from "typeorm";
+import { CompetencyCategory } from '@modules/master/competency-category/entities/competency-category.entity';
+import { CompetencySubCategory } from '@modules/master/competency-subcategory/entities/competency-subcategory.entity';
+import { DataSource } from 'typeorm';
 
 export async function seedCompetencySubCategory(dataSource: DataSource) {
-
     const arr: Record<string, Record<string, string>[]> = {
-        "Building & Office Facilities": [
+        'Building & Office Facilities': [
             {
-                "name": "Building & Construction"
+                name: 'Building & Construction',
             },
             {
-                "name": "Food & Beverage"
+                name: 'Food & Beverage',
             },
             {
-                "name": "Furniture & Furnishings"
+                name: 'Furniture & Furnishings',
             },
             {
-                "name": "Office Machines & Accessories"
+                name: 'Office Machines & Accessories',
             },
             {
-                "name": "Office Supplies & Corporate Products"
+                name: 'Office Supplies & Corporate Products',
             },
             {
-                "name": "Packaging Supplies"
+                name: 'Packaging Supplies',
             },
             {
-                "name": "Published Products"
+                name: 'Published Products',
             },
             {
-                "name": "Utilities"
-            }
+                name: 'Utilities',
+            },
         ],
-        "Corporate Services": [
+        'Corporate Services': [
             {
-                "name": "Advisory Services"
+                name: 'Advisory Services',
             },
             {
-                "name": "Education & Training Services"
+                name: 'Education & Training Services',
             },
             {
-                "name": "Financial & Insurance Services"
+                name: 'Financial & Insurance Services',
             },
             {
-                "name": "Human Resources Services"
+                name: 'Human Resources Services',
             },
             {
-                "name": "Managed Services"
+                name: 'Managed Services',
             },
             {
-                "name": "Organization & Clubs"
+                name: 'Organization & Clubs',
             },
             {
-                "name": "Permit Services"
+                name: 'Permit Services',
             },
             {
-                "name": "Production & Printing Services"
+                name: 'Production & Printing Services',
             },
             {
-                "name": "Public Relations & Prof. Comm. Svcs"
+                name: 'Public Relations & Prof. Comm. Svcs',
             },
             {
-                "name": "Security & Safety "
+                name: 'Security & Safety ',
             },
             {
-                "name": "Transportation & Mail Services"
+                name: 'Transportation & Mail Services',
             },
             {
-                "name": "Travel & Entertainment"
+                name: 'Travel & Entertainment',
             },
             {
-                "name": "Warehouse & Storage"
-            }
+                name: 'Warehouse & Storage',
+            },
         ],
-        "Devices": [
+        Devices: [
             {
-                "name": "Call Management Systems Or Accessories"
+                name: 'Call Management Systems Or Accessories',
             },
             {
-                "name": "Handset Accessories"
+                name: 'Handset Accessories',
             },
             {
-                "name": "Handsets"
+                name: 'Handsets',
             },
             {
-                "name": "M2M Device"
+                name: 'M2M Device',
             },
             {
-                "name": "Modems"
+                name: 'Modems',
             },
             {
-                "name": "Payment Device"
+                name: 'Payment Device',
             },
             {
-                "name": "SIM Cards"
+                name: 'SIM Cards',
             },
             {
-                "name": "Scratch Card"
-            }
+                name: 'Scratch Card',
+            },
         ],
-        "IT": [
+        IT: [
             {
-                "name": "IT Infrastructure"
+                name: 'IT Infrastructure',
             },
             {
-                "name": "IT Services"
+                name: 'IT Services',
             },
             {
-                "name": "Office IT Equipment"
+                name: 'Office IT Equipment',
             },
             {
-                "name": "Software/Application"
+                name: 'Software/Application',
             },
             {
-                "name": "Svc Delivery & Content Mgmt Platform"
-            }
+                name: 'Svc Delivery & Content Mgmt Platform',
+            },
         ],
-        "Marketing": [
+        Marketing: [
             {
-                "name": "Advertisement Material"
+                name: 'Advertisement Material',
             },
             {
-                "name": "Creative Agency Services"
+                name: 'Creative Agency Services',
             },
             {
-                "name": "Digital Placement"
+                name: 'Digital Placement',
             },
             {
-                "name": "Marketing & Distribution"
+                name: 'Marketing & Distribution',
             },
             {
-                "name": "Traditional Placement"
-            }
+                name: 'Traditional Placement',
+            },
         ],
-        "Network": [
+        Network: [
             {
-                "name": "CS Core"
+                name: 'CS Core',
             },
             {
-                "name": "IMS"
+                name: 'IMS',
             },
             {
-                "name": "Mobile Network Services"
+                name: 'Mobile Network Services',
             },
             {
-                "name": "Network Core Service"
+                name: 'Network Core Service',
             },
             {
-                "name": "Network Security Equipment"
+                name: 'Network Security Equipment',
             },
             {
-                "name": "Network Service Equipment"
+                name: 'Network Service Equipment',
             },
             {
-                "name": "Network Transmission Service"
+                name: 'Network Transmission Service',
             },
             {
-                "name": "Operating Support System (OSS)"
+                name: 'Operating Support System (OSS)',
             },
             {
-                "name": "PS Core"
+                name: 'PS Core',
             },
             {
-                "name": "Radio Access Network"
+                name: 'Radio Access Network',
             },
             {
-                "name": "Signalling Control Network"
+                name: 'Signalling Control Network',
             },
             {
-                "name": "Subscriber Management"
+                name: 'Subscriber Management',
             },
             {
-                "name": "Supporting Tools"
+                name: 'Supporting Tools',
             },
             {
-                "name": "Transmission"
-            }
+                name: 'Transmission',
+            },
         ],
-        "Power": [
+        Power: [
             {
-                "name": "Batteries & Rectifiers"
+                name: 'Batteries & Rectifiers',
             },
             {
-                "name": "Power Generator and Power Supplies"
+                name: 'Power Generator and Power Supplies',
             },
             {
-                "name": "Power Systems Services"
+                name: 'Power Systems Services',
             },
             {
-                "name": "Racks and Power Integrated Solutions"
-            }
+                name: 'Racks and Power Integrated Solutions',
+            },
         ],
-        "REV": [
+        REV: [
             {
-                "name": "Digital Revenue (DRE)"
+                name: 'Digital Revenue (DRE)',
             },
             {
-                "name": "Network Lease (NLE)"
-            }
-        ]
+                name: 'Network Lease (NLE)',
+            },
+        ],
     };
 
     const competencyCategoryRepo = dataSource.getRepository(CompetencyCategory);
-    const competencySubCategoryRepo = dataSource.getRepository(CompetencySubCategory);
-
+    const competencySubCategoryRepo = dataSource.getRepository(
+        CompetencySubCategory,
+    );
 
     for (const [categoryName, data] of Object.entries(arr)) {
         const category = await competencyCategoryRepo.findOne({
-            where: { name: categoryName }
+            where: { name: categoryName },
         });
 
         for (const obj of data) {
@@ -214,10 +214,10 @@ export async function seedCompetencySubCategory(dataSource: DataSource) {
                 competencySubCategoryRepo.create({
                     name: obj.name,
                     competencyCategory: {
-                        id : category?.id
-                    }
-                })
-            )
+                        id: category?.id,
+                    },
+                }),
+            );
         }
 
         console.log(`✅ Seeded ${category} (${data.length})`);

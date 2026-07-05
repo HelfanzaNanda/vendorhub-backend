@@ -15,8 +15,8 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class JobTypeService {
     constructor(
         @InjectRepository(JobType)
-        private jobTypeRepo: Repository<JobType>
-    ) { }
+        private jobTypeRepo: Repository<JobType>,
+    ) {}
 
     async create(data: CreateJobTypeDto) {
         return this.jobTypeRepo.save(this.jobTypeRepo.create(data));
@@ -27,14 +27,15 @@ export class JobTypeService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
 
-        const selectColumns = Object.values(JOB_TYPE_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(JOB_TYPE_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, JOB_TYPE_FIELDS);
         return {
             data: JobTypeMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
@@ -44,14 +45,14 @@ export class JobTypeService {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true
-            }
+                updatedByUser: true,
+            },
         });
         if (!jobType) throw new NotFoundException();
         return JobTypeMapper.toResponse(jobType);
@@ -59,14 +60,16 @@ export class JobTypeService {
 
     async update(id: number, data: UpdateJobTypeDto) {
         const jobType = await this.jobTypeRepo.findOne({ where: { id } });
-        if (!jobType) throw new NotFoundException(`Data with id ${id} not found`);
+        if (!jobType)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(jobType, data);
         return this.jobTypeRepo.save(jobType);
     }
 
     async delete(id: number) {
         const jobType = await this.jobTypeRepo.findOne({ where: { id } });
-        if (!jobType) throw new NotFoundException(`Data with id ${id} not found`);
+        if (!jobType)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         jobType.deletedBy = userId;
@@ -78,9 +81,9 @@ export class JobTypeService {
     async findOptions() {
         const jobType = await this.jobTypeRepo.find();
         return LookupMapper.toResponses(
-            jobType, 
-            jobType => jobType.id,
-            jobType => jobType.name
+            jobType,
+            (jobType) => jobType.id,
+            (jobType) => jobType.name,
         );
     }
 }

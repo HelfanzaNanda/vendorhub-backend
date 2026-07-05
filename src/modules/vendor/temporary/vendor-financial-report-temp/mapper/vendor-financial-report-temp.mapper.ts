@@ -1,8 +1,10 @@
-import { VendorFinancialReportTempResponseDto } from "../dto/response-vendor-financial-report-temp.dto";
-import { VendorFinancialReportTemp } from "../entities/vendor-financial-report-temp.entity";
+import { VendorFinancialReportTempResponseDto } from '../dto/response-vendor-financial-report-temp.dto';
+import { VendorFinancialReportTemp } from '../entities/vendor-financial-report-temp.entity';
 
 export class VendorFinancialReportTempMapper {
-    static toResponse(entity: VendorFinancialReportTemp): VendorFinancialReportTempResponseDto {
+    static toResponse(
+        entity: VendorFinancialReportTemp,
+    ): VendorFinancialReportTempResponseDto {
         return {
             id: entity.id,
             vendorTempId: entity.vendorTempId ?? null,
@@ -32,7 +34,9 @@ export class VendorFinancialReportTempMapper {
         };
     }
 
-    static toResponses(entities: VendorFinancialReportTemp[]): VendorFinancialReportTempResponseDto[] {
+    static toResponses(
+        entities: VendorFinancialReportTemp[],
+    ): VendorFinancialReportTempResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

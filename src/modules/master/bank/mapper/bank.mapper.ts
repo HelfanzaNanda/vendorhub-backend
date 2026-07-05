@@ -1,5 +1,5 @@
-import { BankResponseDto } from "../dto/response-bank.dto";
-import { Bank } from "../entities/bank.entity";
+import { BankResponseDto } from '../dto/response-bank.dto';
+import { Bank } from '../entities/bank.entity';
 
 export class BankMapper {
     static toResponse(entity: Bank): BankResponseDto {

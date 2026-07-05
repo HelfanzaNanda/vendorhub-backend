@@ -1,16 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateVendorBusinessLicenseItemDto } from "./dto/create-vendor-business-license-item.dto";
-import { UpdateVendorBusinessLicenseItemDto } from "./dto/update-vendor-business-license-item.dto";
-import { VendorBusinessLicenseItemService } from "./vendor-business-license-item.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateVendorBusinessLicenseItemDto } from './dto/create-vendor-business-license-item.dto';
+import { UpdateVendorBusinessLicenseItemDto } from './dto/update-vendor-business-license-item.dto';
+import { VendorBusinessLicenseItemService } from './vendor-business-license-item.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('vendor-business-license-items')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorBusinessLicenseItemController {
-    constructor(private service: VendorBusinessLicenseItemService) { }
+    constructor(private service: VendorBusinessLicenseItemService) {}
 
     @Get()
     @RequirePermission('vendor-business-license-item.pagination')
@@ -31,7 +42,10 @@ export class VendorBusinessLicenseItemController {
 
     @Put(':id')
     @RequirePermission('vendor-business-license-item.update')
-    update(@Param('id') id: number, @Body() dto: UpdateVendorBusinessLicenseItemDto) {
+    update(
+        @Param('id') id: number,
+        @Body() dto: UpdateVendorBusinessLicenseItemDto,
+    ) {
         return this.service.update(id, dto);
     }
 

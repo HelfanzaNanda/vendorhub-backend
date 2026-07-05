@@ -1,5 +1,5 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 
@@ -11,7 +11,12 @@ export class VendorTemp extends AuditBaseEntity {
     @Column({ name: 'request_no', nullable: true })
     requestNo?: string;
 
-    @Column({ name: 'status', type: 'enum', enum: ['DRAFT', 'SUBMITTED'], nullable: true })
+    @Column({
+        name: 'status',
+        type: 'enum',
+        enum: ['DRAFT', 'SUBMITTED'],
+        nullable: true,
+    })
     status?: 'DRAFT' | 'SUBMITTED';
 
     @Column({ name: 'submitted_at', type: 'timestamp', nullable: true })

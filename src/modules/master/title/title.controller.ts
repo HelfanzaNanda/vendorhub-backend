@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateTitleDto } from "./dto/create-title.dto";
-import { UpdateTitleDto } from "./dto/update-title.dto";
-import { TitleService } from "./title.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateTitleDto } from './dto/create-title.dto';
+import { UpdateTitleDto } from './dto/update-title.dto';
+import { TitleService } from './title.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('titles')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class TitleController {
-
-    constructor(private service: TitleService) { }
-
+    constructor(private service: TitleService) {}
 
     @Get()
     @RequirePermission('title.pagination')

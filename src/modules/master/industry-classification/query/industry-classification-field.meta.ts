@@ -1,4 +1,4 @@
-import { FieldMetaMap } from "@common/pagination/field-meta.type";
+import { FieldMetaMap } from '@common/pagination/field-meta.type';
 
 export const INDUSTRY_CLASSIFICATION_FIELDS: FieldMetaMap = {
     id: {

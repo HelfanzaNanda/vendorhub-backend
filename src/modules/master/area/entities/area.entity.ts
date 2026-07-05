@@ -1,17 +1,21 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { User } from "@modules/uman/user/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { User } from '@modules/uman/user/entities/user.entity';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('areas')
 export class Area extends AuditBaseEntity {
-
     @Column()
     code: string;
 
     @Column()
     name: string;
 
-    
     @ManyToOne(() => User)
     @JoinColumn({ name: 'created_by' })
     createdByUser: User;
@@ -19,5 +23,4 @@ export class Area extends AuditBaseEntity {
     @ManyToOne(() => User)
     @JoinColumn({ name: 'updated_by' })
     updatedByUser: User;
-
 }

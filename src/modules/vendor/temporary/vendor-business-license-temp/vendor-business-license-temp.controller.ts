@@ -1,25 +1,39 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateVendorBusinessLicenseTempDto } from "./dto/create-vendor-business-license-temp.dto";
-import { UpdateVendorBusinessLicenseTempDto } from "./dto/update-vendor-business-license-temp.dto";
-import { VendorBusinessLicenseTempService } from "./vendor-business-license-temp.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateVendorBusinessLicenseTempDto } from './dto/create-vendor-business-license-temp.dto';
+import { UpdateVendorBusinessLicenseTempDto } from './dto/update-vendor-business-license-temp.dto';
+import { VendorBusinessLicenseTempService } from './vendor-business-license-temp.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
+import { Public } from '@common/decorators/public.decorator';
 
 @Controller('vendor-business-license-temps')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorBusinessLicenseTempController {
-    constructor(private service: VendorBusinessLicenseTempService) { }
+    constructor(private service: VendorBusinessLicenseTempService) {}
 
     @Get()
-    @RequirePermission('vendor-business-license-temp.pagination')
+    // @RequirePermission('vendor-business-license-temp.pagination')
+    @Public()
     pagination(@Query() query: PaginationQueryDto) {
         return this.service.pagination(query);
     }
 
     @Post()
-    @RequirePermission('vendor-business-license-temp.create')
+    // @RequirePermission('vendor-business-license-temp.create')
+    @Public()
     create(@Body() dto: CreateVendorBusinessLicenseTempDto) {
         return this.service.create(dto);
     }
@@ -30,13 +44,18 @@ export class VendorBusinessLicenseTempController {
     }
 
     @Put(':id')
-    @RequirePermission('vendor-business-license-temp.update')
-    update(@Param('id') id: number, @Body() dto: UpdateVendorBusinessLicenseTempDto) {
+    // @RequirePermission('vendor-business-license-temp.update')
+    @Public()
+    update(
+        @Param('id') id: number,
+        @Body() dto: UpdateVendorBusinessLicenseTempDto,
+    ) {
         return this.service.update(id, dto);
     }
 
     @Delete(':id')
-    @RequirePermission('vendor-business-license-temp.delete')
+    // @RequirePermission('vendor-business-license-temp.delete')
+    @Public()
     remove(@Param('id') id: number) {
         return this.service.delete(id);
     }

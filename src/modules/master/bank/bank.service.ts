@@ -15,10 +15,10 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class BankService {
     constructor(
         @InjectRepository(Bank)
-        private bankRepo: Repository<Bank>
-    ) { }
+        private bankRepo: Repository<Bank>,
+    ) {}
 
-    async create(data : CreateBankDto) {
+    async create(data: CreateBankDto) {
         return this.bankRepo.save(this.bankRepo.create(data));
     }
 
@@ -26,38 +26,37 @@ export class BankService {
         const qb = this.bankRepo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(BANK_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(BANK_FIELDS).map((f) => f.column);
         qb.select(selectColumns);
         const result = await paginate(qb, query, BANK_FIELDS);
         return {
-            data : BankMapper.toResponses(result.data),
-            meta : result.meta
+            data: BankMapper.toResponses(result.data),
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
-        const bank = await this.bankRepo.findOne({ 
+        const bank = await this.bankRepo.findOne({
             select: {
-                createdByUser : {
+                createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username : true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
-            relations : {
-                createdByUser : true, 
-                updatedByUser : true 
-            }
+            where: { id },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!bank) throw new NotFoundException();
         return BankMapper.toResponse(bank);
     }
 
-    async update(id: number, data : UpdateBankDto) {
+    async update(id: number, data: UpdateBankDto) {
         const bank = await this.bankRepo.findOne({ where: { id } });
         if (!bank) throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(bank, data);
@@ -75,18 +74,18 @@ export class BankService {
         return this.bankRepo.save(bank);
     }
 
-    async findOptions(countryId : number) {
+    async findOptions(countryId: number) {
         const bank = await this.bankRepo.find({
             where: {
-                country : {
-                    id : countryId
-                }
-            }
+                country: {
+                    id: countryId,
+                },
+            },
         });
         return LookupMapper.toResponses(
-            bank, 
-            bank => bank.id,
-            bank => bank.name
+            bank,
+            (bank) => bank.id,
+            (bank) => bank.name,
         );
     }
 }

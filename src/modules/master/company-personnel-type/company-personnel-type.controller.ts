@@ -1,16 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateCompanyPersonnelTypeDto } from "./dto/create-company-personnel-type.dto";
-import { UpdateCompanyPersonnelTypeDto } from "./dto/update-company-personnel-type.dto";
-import { CompanyPersonnelTypeService } from "./company-personnel-type.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateCompanyPersonnelTypeDto } from './dto/create-company-personnel-type.dto';
+import { UpdateCompanyPersonnelTypeDto } from './dto/update-company-personnel-type.dto';
+import { CompanyPersonnelTypeService } from './company-personnel-type.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('company-personnel-types')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class CompanyPersonnelTypeController {
-    constructor(private service: CompanyPersonnelTypeService) { }
+    constructor(private service: CompanyPersonnelTypeService) {}
 
     @Get()
     @RequirePermission('company-personnel-type.pagination')
@@ -31,7 +42,10 @@ export class CompanyPersonnelTypeController {
 
     @Put(':id')
     @RequirePermission('company-personnel-type.update')
-    update(@Param('id') id: number, @Body() dto: UpdateCompanyPersonnelTypeDto) {
+    update(
+        @Param('id') id: number,
+        @Body() dto: UpdateCompanyPersonnelTypeDto,
+    ) {
         return this.service.update(id, dto);
     }
 

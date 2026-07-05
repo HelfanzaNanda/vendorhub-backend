@@ -14,8 +14,8 @@ import { VendorCompanyMapper } from './mapper/vendor-company.mapper';
 export class VendorCompanyService {
     constructor(
         @InjectRepository(VendorCompany)
-        private repo: Repository<VendorCompany>
-    ) { }
+        private repo: Repository<VendorCompany>,
+    ) {}
 
     async create(data: CreateVendorCompanyDto) {
         return this.repo.save(this.repo.create(data));
@@ -31,30 +31,32 @@ export class VendorCompanyService {
         qb.leftJoinAndSelect('c.country', 'country');
         qb.leftJoinAndSelect('c.province', 'province');
         qb.leftJoinAndSelect('c.city', 'city');
-        
-        const selectColumns = Object.values(VENDORCOMPANY_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDORCOMPANY_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
-        
+
         const result = await paginate(qb, query, VENDORCOMPANY_FIELDS);
         return {
             data: VendorCompanyMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendor: true,
                 site: true,
@@ -62,7 +64,7 @@ export class VendorCompanyService {
                 country: true,
                 province: true,
                 city: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorCompanyMapper.toResponse(item);

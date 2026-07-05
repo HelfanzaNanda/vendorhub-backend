@@ -18,20 +18,38 @@ import { Province } from '@modules/master/province/entities/province.entity';
 import { City } from '@modules/master/city/entities/city.entity';
 import { VendorStatus } from '@modules/master/vendor-status/entities/vendor-status.entity';
 import { Area } from '@modules/master/area/entities/area.entity';
+import { DocumentType } from '@modules/master/document-type/entities/document-type.entity';
+import { VendorDocument } from '@modules/vendor/vendor-document/entities/vendor-document.entity';
+import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';
+import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
-            User, Role, UserHasRole, Permission, Menu,
-            Site, Area, BusinessEntityType, Country, Province, City, VendorStatus
+            User,
+            Role,
+            UserHasRole,
+            Permission,
+            Menu,
+            Site,
+            Area,
+            BusinessEntityType,
+            Country,
+            Province,
+            City,
+            Vendor,
+            DocumentType,
+            VendorStatus,
+            VendorDocument,
+            VendorCompany
         ]),
         JwtModule.registerAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
-            useFactory: (config : ConfigService) => ({
+            useFactory: (config: ConfigService) => ({
                 secret: config.get<string>('JWT_SECRET'),
-                signOptions: { 
-                    expiresIn: config.get('JWT_EXPIRES_IN', '1d') 
+                signOptions: {
+                    expiresIn: config.get('JWT_EXPIRES_IN', '1d'),
                 },
             }),
         }),
@@ -39,4 +57,4 @@ import { Area } from '@modules/master/area/entities/area.entity';
     controllers: [AuthController],
     providers: [AuthService, JwtStrategy],
 })
-export class AuthModule { }
+export class AuthModule {}

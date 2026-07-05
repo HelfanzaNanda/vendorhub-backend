@@ -1,8 +1,6 @@
-
 import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateAreaDto {
-    
     @IsString()
     @IsNotEmpty()
     code: string;
@@ -10,5 +8,4 @@ export class CreateAreaDto {
     @IsString()
     @IsNotEmpty()
     name: string;
-
 }

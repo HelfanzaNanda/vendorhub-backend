@@ -1,5 +1,5 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { VendorBusinessLicense } from '@modules/vendor/vendor-business-license/entities/vendor-business-license.entity';
 import { IndustryClassification } from '@modules/master/industry-classification/entities/industry-classification.entity';
@@ -12,7 +12,10 @@ export class VendorBusinessLicenseItem extends AuditBaseEntity {
     @Column({ name: 'industry_classification_id', type: 'int', nullable: true })
     industryClassificationId?: number;
 
-    @ManyToOne(() => VendorBusinessLicense, { onDelete: 'CASCADE', nullable: true })
+    @ManyToOne(() => VendorBusinessLicense, {
+        onDelete: 'CASCADE',
+        nullable: true,
+    })
     @JoinColumn({ name: 'vendor_business_license_id' })
     vendorBusinessLicense?: VendorBusinessLicense;
 

@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
-import { CreateRoleDto } from "./dto/create-role.dto";
-import { UpdateRoleDto } from "./dto/update-role.dto";
-import { PermissionsGuard } from "@common/guards/permissions.guard";
-import { RoleService } from "./role.service";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
+import { CreateRoleDto } from './dto/create-role.dto';
+import { UpdateRoleDto } from './dto/update-role.dto';
+import { PermissionsGuard } from '@common/guards/permissions.guard';
+import { RoleService } from './role.service';
 
 @Controller('roles')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class RoleController {
-
-    constructor(private service: RoleService) { }
-
+    constructor(private service: RoleService) {}
 
     @Get()
     @RequirePermission('roles.pagination')

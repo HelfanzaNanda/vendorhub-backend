@@ -1,8 +1,10 @@
-import { BusinessEntityTypeResponseDto } from "../dto/response-business-entity-type.dto";
-import { BusinessEntityType } from "../entities/business-entity-type.entity";
+import { BusinessEntityTypeResponseDto } from '../dto/response-business-entity-type.dto';
+import { BusinessEntityType } from '../entities/business-entity-type.entity';
 
 export class BusinessEntityTypeMapper {
-    static toResponse(entity: BusinessEntityType): BusinessEntityTypeResponseDto {
+    static toResponse(
+        entity: BusinessEntityType,
+    ): BusinessEntityTypeResponseDto {
         return {
             id: entity.id,
             code: entity.code,
@@ -16,7 +18,9 @@ export class BusinessEntityTypeMapper {
         };
     }
 
-    static toResponses(entities: BusinessEntityType[]): BusinessEntityTypeResponseDto[] {
+    static toResponses(
+        entities: BusinessEntityType[],
+    ): BusinessEntityTypeResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

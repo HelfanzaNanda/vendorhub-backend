@@ -1,5 +1,5 @@
-import { DocumentTypeResponseDto } from "../dto/response-document-type.dto";
-import { DocumentType } from "../entities/document-type.entity";
+import { DocumentTypeResponseDto } from '../dto/response-document-type.dto';
+import { DocumentType } from '../entities/document-type.entity';
 
 export class DocumentTypeMapper {
     static toResponse(entity: DocumentType): DocumentTypeResponseDto {

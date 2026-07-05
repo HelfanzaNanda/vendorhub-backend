@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateFinancialPeriodDto } from "./dto/create-financial-period.dto";
-import { UpdateFinancialPeriodDto } from "./dto/update-financial-period.dto";
-import { FinancialPeriodService } from "./financial-period.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateFinancialPeriodDto } from './dto/create-financial-period.dto';
+import { UpdateFinancialPeriodDto } from './dto/update-financial-period.dto';
+import { FinancialPeriodService } from './financial-period.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('financial-periods')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class FinancialPeriodController {
-
-    constructor(private service: FinancialPeriodService) { }
-
+    constructor(private service: FinancialPeriodService) {}
 
     @Get()
     @RequirePermission('financial-period.pagination')

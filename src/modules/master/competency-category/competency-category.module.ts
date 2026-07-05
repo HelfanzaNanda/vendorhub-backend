@@ -5,8 +5,8 @@ import { CompetencyCategoryController } from './competency-category.controller';
 import { CompetencyCategoryService } from './competency-category.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CompetencyCategory])],
-  controllers: [CompetencyCategoryController],
-  providers: [CompetencyCategoryService],
+    imports: [TypeOrmModule.forFeature([CompetencyCategory])],
+    controllers: [CompetencyCategoryController],
+    providers: [CompetencyCategoryService],
 })
 export class CompetencyCategoryModule {}

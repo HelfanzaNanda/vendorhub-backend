@@ -5,9 +5,9 @@ import { VendorAffiliationController } from './vendor-affiliation.controller';
 import { VendorAffiliationService } from './vendor-affiliation.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VendorAffiliation])],
-  controllers: [VendorAffiliationController],
-  providers: [VendorAffiliationService],
-  exports: [VendorAffiliationService],
+    imports: [TypeOrmModule.forFeature([VendorAffiliation])],
+    controllers: [VendorAffiliationController],
+    providers: [VendorAffiliationService],
+    exports: [VendorAffiliationService],
 })
 export class VendorAffiliationModule {}

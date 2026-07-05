@@ -14,8 +14,8 @@ import { VendorPersonnelMapper } from './mapper/vendor-personnel.mapper';
 export class VendorPersonnelService {
     constructor(
         @InjectRepository(VendorPersonnel)
-        private repo: Repository<VendorPersonnel>
-    ) { }
+        private repo: Repository<VendorPersonnel>,
+    ) {}
 
     async create(data: CreateVendorPersonnelDto) {
         return this.repo.save(this.repo.create(data));
@@ -30,37 +30,39 @@ export class VendorPersonnelService {
         qb.leftJoinAndSelect('c.title', 'title');
         qb.leftJoinAndSelect('c.jobType', 'jobType');
         qb.leftJoinAndSelect('c.identityType', 'identityType');
-        
-        const selectColumns = Object.values(VENDORPERSONNEL_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(VENDORPERSONNEL_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
-        
+
         const result = await paginate(qb, query, VENDORPERSONNEL_FIELDS);
         return {
             data: VendorPersonnelMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
+                createdByUser: true,
                 updatedByUser: true,
                 vendor: true,
                 personnelType: true,
                 title: true,
                 jobType: true,
                 identityType: true,
-            }
+            },
         });
         if (!item) throw new NotFoundException();
         return VendorPersonnelMapper.toResponse(item);

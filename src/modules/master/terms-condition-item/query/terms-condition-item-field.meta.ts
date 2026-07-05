@@ -1,4 +1,4 @@
-import { FieldMetaMap } from "@common/pagination/field-meta.type";
+import { FieldMetaMap } from '@common/pagination/field-meta.type';
 
 export const TERMS_CONDITION_ITEM_FIELDS: FieldMetaMap = {
     id: {

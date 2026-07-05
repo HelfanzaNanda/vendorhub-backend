@@ -1,8 +1,6 @@
-
 import { User } from '@modules/uman/user/entities/user.entity';
 import { DataSource } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-
 
 export async function seedUsers(dataSource: DataSource) {
     const repo = dataSource.getRepository(User);
@@ -12,10 +10,10 @@ export async function seedUsers(dataSource: DataSource) {
     const threeYearsLater = new Date(now);
     threeYearsLater.setFullYear(now.getFullYear() + 10);
 
-    const exists = await repo.findOne({ 
-        where: { 
-            username : 'username'
-        } 
+    const exists = await repo.findOne({
+        where: {
+            username: 'username',
+        },
     });
     if (!exists) {
         await repo.save(
@@ -28,7 +26,7 @@ export async function seedUsers(dataSource: DataSource) {
                 password: passwordHash,
                 isActive: true,
                 effectiveStartDate: now,
-                effectiveEndDate: threeYearsLater
+                effectiveEndDate: threeYearsLater,
             }),
         );
     }

@@ -3,6 +3,10 @@ import { IsIn, IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class PaginationQueryDto {
     @IsOptional()
+    @IsString()
+    personnelTypeCode?: string;
+
+    @IsOptional()
     @Type(() => Number)
     @IsInt()
     @Min(1)

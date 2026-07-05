@@ -1,5 +1,5 @@
-import { WorkflowTypeResponseDto } from "../dto/response-workflow-type.dto";
-import { WorkflowType } from "../entities/workflow-type.entity";
+import { WorkflowTypeResponseDto } from '../dto/response-workflow-type.dto';
+import { WorkflowType } from '../entities/workflow-type.entity';
 
 export class WorkflowTypeMapper {
     static toResponse(entity: WorkflowType): WorkflowTypeResponseDto {

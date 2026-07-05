@@ -1,4 +1,6 @@
-import { PartialType } from "@nestjs/mapped-types";
-import { CreateVendorFinancialReportDto } from "./create-vendor-financial-report.dto";
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateVendorFinancialReportDto } from './create-vendor-financial-report.dto';
 
-export class UpdateVendorFinancialReportDto extends PartialType(CreateVendorFinancialReportDto) {}
+export class UpdateVendorFinancialReportDto extends PartialType(
+    CreateVendorFinancialReportDto,
+) {}

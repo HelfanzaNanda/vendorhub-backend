@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
-import { TermsConditionItemService } from "./terms-condition-item.service";
-import { CreateTermsConditionItemDto } from "./dto/create-terms-condition-item.dto";
-import { UpdateTermsConditionItemDto } from "./dto/update-terms-condition-item.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
+import { TermsConditionItemService } from './terms-condition-item.service';
+import { CreateTermsConditionItemDto } from './dto/create-terms-condition-item.dto';
+import { UpdateTermsConditionItemDto } from './dto/update-terms-condition-item.dto';
 
 @Controller('terms-conditon-items')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class TermsConditionItemController {
-
-    constructor(private service: TermsConditionItemService) { }
-
+    constructor(private service: TermsConditionItemService) {}
 
     @Get()
     @RequirePermission('terms.condition.item.pagination')

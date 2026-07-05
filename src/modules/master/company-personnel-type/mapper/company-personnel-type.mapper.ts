@@ -1,8 +1,10 @@
-import { CompanyPersonnelTypeResponseDto } from "../dto/response-company-personnel-type.dto";
-import { CompanyPersonnelType } from "../entities/company-personnel-type.entity";
+import { CompanyPersonnelTypeResponseDto } from '../dto/response-company-personnel-type.dto';
+import { CompanyPersonnelType } from '../entities/company-personnel-type.entity';
 
 export class CompanyPersonnelTypeMapper {
-    static toResponse(entity: CompanyPersonnelType): CompanyPersonnelTypeResponseDto {
+    static toResponse(
+        entity: CompanyPersonnelType,
+    ): CompanyPersonnelTypeResponseDto {
         return {
             id: entity.id,
             code: entity.code,
@@ -16,7 +18,9 @@ export class CompanyPersonnelTypeMapper {
         };
     }
 
-    static toResponses(entities: CompanyPersonnelType[]): CompanyPersonnelTypeResponseDto[] {
+    static toResponses(
+        entities: CompanyPersonnelType[],
+    ): CompanyPersonnelTypeResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

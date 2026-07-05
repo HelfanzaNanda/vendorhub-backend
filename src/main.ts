@@ -10,7 +10,7 @@ async function bootstrap() {
 
     app.useGlobalInterceptors(
         new RequestContextInterceptor(),
-        new ResponseInterceptor()
+        new ResponseInterceptor(),
     );
     app.useGlobalFilters(new AllExceptionsFilter());
     app.useGlobalPipes(
@@ -21,6 +21,12 @@ async function bootstrap() {
         }),
     );
 
+    app.enableCors({
+        origin: 'http://localhost:3000',
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    });
 
     await app.listen(process.env.PORT ?? 8000);
 }

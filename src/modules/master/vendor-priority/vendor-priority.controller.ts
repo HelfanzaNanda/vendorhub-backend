@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
-import { VendorPriorityService } from "./vendor-priority.service";
-import { CreateVendorPriorityDto } from "./dto/create-vendor-priority.dto";
-import { UpdateVendorPriorityDto } from "./dto/update-vendor-priority.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
+import { VendorPriorityService } from './vendor-priority.service';
+import { CreateVendorPriorityDto } from './dto/create-vendor-priority.dto';
+import { UpdateVendorPriorityDto } from './dto/update-vendor-priority.dto';
 
 @Controller('vendor-priorities')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class VendorPriorityController {
-
-    constructor(private service: VendorPriorityService) { }
-
+    constructor(private service: VendorPriorityService) {}
 
     @Get()
     @RequirePermission('vendor-priority.pagination')

@@ -1,5 +1,5 @@
-import { AuditBaseEntity } from "@common/entities/audit-base.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendor-temp.entity';
 import { VendorFinancialReport } from '@modules/vendor/vendor-financial-report/entities/vendor-financial-report.entity';
@@ -35,7 +35,12 @@ export class VendorFinancialReportTemp extends AuditBaseEntity {
     @Column({ name: 'period_to', type: 'date', nullable: true })
     periodTo?: Date;
 
-    @Column({ name: 'audit_status', type: 'enum', enum: ['AUDITED', 'UNAUDITED'], nullable: true })
+    @Column({
+        name: 'audit_status',
+        type: 'enum',
+        enum: ['AUDITED', 'UNAUDITED'],
+        nullable: true,
+    })
     auditStatus?: 'AUDITED' | 'UNAUDITED';
 
     @Column({ name: 'file_id', type: 'int', nullable: true })
@@ -44,29 +49,68 @@ export class VendorFinancialReportTemp extends AuditBaseEntity {
     @Column({ name: 'currency_id', type: 'int', nullable: true })
     currencyId?: number;
 
-    @Column({ name: 'current_assets', type: 'decimal', precision: 18, scale: 2, nullable: true })
+    @Column({
+        name: 'current_assets',
+        type: 'decimal',
+        precision: 18,
+        scale: 2,
+        nullable: true,
+    })
     currentAssets?: number;
 
-    @Column({ name: 'total_assets', type: 'decimal', precision: 18, scale: 2, nullable: true })
+    @Column({
+        name: 'total_assets',
+        type: 'decimal',
+        precision: 18,
+        scale: 2,
+        nullable: true,
+    })
     totalAssets?: number;
 
-    @Column({ name: 'current_liabilities', type: 'decimal', precision: 18, scale: 2, nullable: true })
+    @Column({
+        name: 'current_liabilities',
+        type: 'decimal',
+        precision: 18,
+        scale: 2,
+        nullable: true,
+    })
     currentLiabilities?: number;
 
-    @Column({ name: 'total_liabilities', type: 'decimal', precision: 18, scale: 2, nullable: true })
+    @Column({
+        name: 'total_liabilities',
+        type: 'decimal',
+        precision: 18,
+        scale: 2,
+        nullable: true,
+    })
     totalLiabilities?: number;
 
-    @Column({ name: 'total_revenue', type: 'decimal', precision: 18, scale: 2, nullable: true })
+    @Column({
+        name: 'total_revenue',
+        type: 'decimal',
+        precision: 18,
+        scale: 2,
+        nullable: true,
+    })
     totalRevenue?: number;
 
-    @Column({ name: 'net_profit_loss_after_tax', type: 'decimal', precision: 18, scale: 2, nullable: true })
+    @Column({
+        name: 'net_profit_loss_after_tax',
+        type: 'decimal',
+        precision: 18,
+        scale: 2,
+        nullable: true,
+    })
     netProfitLossAfterTax?: number;
 
     @ManyToOne(() => VendorTemp, { onDelete: 'CASCADE', nullable: true })
     @JoinColumn({ name: 'vendor_temp_id' })
     vendorTemp?: VendorTemp;
 
-    @ManyToOne(() => VendorFinancialReport, { nullable: true, onDelete: 'SET NULL' })
+    @ManyToOne(() => VendorFinancialReport, {
+        nullable: true,
+        onDelete: 'SET NULL',
+    })
     @JoinColumn({ name: 'vendor_financial_report_id' })
     vendorFinancialReport?: VendorFinancialReport;
 

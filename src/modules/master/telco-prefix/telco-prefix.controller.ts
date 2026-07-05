@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateTelcoPrefixDto } from "./dto/create-telco-prefix.dto";
-import { UpdateTelcoPrefixDto } from "./dto/update-telco-prefix.dto";
-import { TelcoPrefixService } from "./telco-prefix.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateTelcoPrefixDto } from './dto/create-telco-prefix.dto';
+import { UpdateTelcoPrefixDto } from './dto/update-telco-prefix.dto';
+import { TelcoPrefixService } from './telco-prefix.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('telco-prefixes')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class TelcoPrefixController {
-
-    constructor(private service: TelcoPrefixService) { }
-
+    constructor(private service: TelcoPrefixService) {}
 
     @Get()
     @RequirePermission('telco-prefix.pagination')

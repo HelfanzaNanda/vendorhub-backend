@@ -15,8 +15,8 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class CompanyPersonnelTypeService {
     constructor(
         @InjectRepository(CompanyPersonnelType)
-        private repo: Repository<CompanyPersonnelType>
-    ) { }
+        private repo: Repository<CompanyPersonnelType>,
+    ) {}
 
     async create(data: CreateCompanyPersonnelTypeDto) {
         return this.repo.save(this.repo.create(data));
@@ -26,31 +26,33 @@ export class CompanyPersonnelTypeService {
         const qb = this.repo.createQueryBuilder('c');
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-        
-        const selectColumns = Object.values(COMPANY_PERSONNEL_TYPE_FIELDS).map(f => f.column);
+
+        const selectColumns = Object.values(COMPANY_PERSONNEL_TYPE_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, COMPANY_PERSONNEL_TYPE_FIELDS);
         return {
             data: CompanyPersonnelTypeMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
     }
 
     async findOne(id: number) {
-        const item = await this.repo.findOne({ 
+        const item = await this.repo.findOne({
             select: {
                 createdByUser: {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
-            where: { id }, 
+            where: { id },
             relations: {
-                createdByUser: true, 
-                updatedByUser: true 
-            }
+                createdByUser: true,
+                updatedByUser: true,
+            },
         });
         if (!item) throw new NotFoundException();
         return CompanyPersonnelTypeMapper.toResponse(item);
@@ -77,9 +79,9 @@ export class CompanyPersonnelTypeService {
     async findOptions() {
         const items = await this.repo.find();
         return LookupMapper.toResponses(
-            items, 
-            i => i.id,
-            i => i.name
+            items,
+            (i) => i.id,
+            (i) => i.name,
         );
     }
 }

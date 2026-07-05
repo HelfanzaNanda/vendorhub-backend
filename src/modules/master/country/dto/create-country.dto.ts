@@ -1,8 +1,7 @@
-
-import { IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsEmpty, IsNotEmpty, IsString } from 'class-validator';
+import { IsNull } from 'typeorm';
 
 export class CreateCountryDto {
-    
     @IsString()
     @IsNotEmpty()
     name: string;
@@ -11,8 +10,7 @@ export class CreateCountryDto {
     @IsNotEmpty()
     iso2Code: string;
 
-    @IsString()
-    @IsNotEmpty()
+    @IsEmpty()
     iso3Code: string;
 
     @IsString()

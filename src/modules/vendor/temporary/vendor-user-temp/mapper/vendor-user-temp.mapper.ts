@@ -1,5 +1,5 @@
-import { VendorUserTempResponseDto } from "../dto/response-vendor-user-temp.dto";
-import { VendorUserTemp } from "../entities/vendor-user-temp.entity";
+import { VendorUserTempResponseDto } from '../dto/response-vendor-user-temp.dto';
+import { VendorUserTemp } from '../entities/vendor-user-temp.entity';
 
 export class VendorUserTempMapper {
     static toResponse(entity: VendorUserTemp): VendorUserTempResponseDto {
@@ -31,7 +31,9 @@ export class VendorUserTempMapper {
         };
     }
 
-    static toResponses(entities: VendorUserTemp[]): VendorUserTempResponseDto[] {
+    static toResponses(
+        entities: VendorUserTemp[],
+    ): VendorUserTempResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

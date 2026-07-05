@@ -15,11 +15,13 @@ import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 export class BusinessEntityTypeService {
     constructor(
         @InjectRepository(BusinessEntityType)
-        private businessEntityTypeRepo: Repository<BusinessEntityType>
-    ) { }
+        private businessEntityTypeRepo: Repository<BusinessEntityType>,
+    ) {}
 
     async create(data: CreateBusinessEntityTypeDto) {
-        return this.businessEntityTypeRepo.save(this.businessEntityTypeRepo.create(data));
+        return this.businessEntityTypeRepo.save(
+            this.businessEntityTypeRepo.create(data),
+        );
     }
 
     async pagination(query: PaginationQueryDto) {
@@ -27,14 +29,15 @@ export class BusinessEntityTypeService {
         qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
         qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
 
-        const selectColumns = Object.values(BUSINESS_ENTITY_TYPE_FIELDS).map(f => f.column);
+        const selectColumns = Object.values(BUSINESS_ENTITY_TYPE_FIELDS).map(
+            (f) => f.column,
+        );
         qb.select(selectColumns);
         const result = await paginate(qb, query, BUSINESS_ENTITY_TYPE_FIELDS);
         return {
             data: BusinessEntityTypeMapper.toResponses(result.data),
-            meta: result.meta
+            meta: result.meta,
         };
-
     }
 
     async findOne(id: number) {
@@ -44,29 +47,35 @@ export class BusinessEntityTypeService {
                     username: true,
                 },
                 updatedByUser: {
-                    username: true
-                }
+                    username: true,
+                },
             },
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true
-            }
+                updatedByUser: true,
+            },
         });
         if (!businessEntityType) throw new NotFoundException();
         return BusinessEntityTypeMapper.toResponse(businessEntityType);
     }
 
     async update(id: number, data: UpdateBusinessEntityTypeDto) {
-        const businessEntityType = await this.businessEntityTypeRepo.findOne({ where: { id } });
-        if (!businessEntityType) throw new NotFoundException(`Data with id ${id} not found`);
+        const businessEntityType = await this.businessEntityTypeRepo.findOne({
+            where: { id },
+        });
+        if (!businessEntityType)
+            throw new NotFoundException(`Data with id ${id} not found`);
         Object.assign(businessEntityType, data);
         return this.businessEntityTypeRepo.save(businessEntityType);
     }
 
     async delete(id: number) {
-        const businessEntityType = await this.businessEntityTypeRepo.findOne({ where: { id } });
-        if (!businessEntityType) throw new NotFoundException(`Data with id ${id} not found`);
+        const businessEntityType = await this.businessEntityTypeRepo.findOne({
+            where: { id },
+        });
+        if (!businessEntityType)
+            throw new NotFoundException(`Data with id ${id} not found`);
 
         const userId = RequestContext.userId;
         businessEntityType.deletedBy = userId;
@@ -78,9 +87,9 @@ export class BusinessEntityTypeService {
     async findOptions() {
         const businessEntityType = await this.businessEntityTypeRepo.find();
         return LookupMapper.toResponses(
-            businessEntityType, 
-            businessEntityType => businessEntityType.id,
-            businessEntityType => businessEntityType.code
+            businessEntityType,
+            (businessEntityType) => businessEntityType.id,
+            (businessEntityType) => businessEntityType.code,
         );
     }
 }

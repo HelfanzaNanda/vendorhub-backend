@@ -5,9 +5,9 @@ import { TitleController } from './title.controller';
 import { TitleService } from './title.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Title])],
-  controllers: [TitleController],
-  providers: [TitleService],
-  exports: [TitleService]
+    imports: [TypeOrmModule.forFeature([Title])],
+    controllers: [TitleController],
+    providers: [TitleService],
+    exports: [TitleService],
 })
 export class TitleModule {}

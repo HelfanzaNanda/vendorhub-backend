@@ -1,16 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreateDocumentTypeDto } from "./dto/create-document-type.dto";
-import { UpdateDocumentTypeDto } from "./dto/update-document-type.dto";
-import { DocumentTypeService } from "./document-type.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreateDocumentTypeDto } from './dto/create-document-type.dto';
+import { UpdateDocumentTypeDto } from './dto/update-document-type.dto';
+import { DocumentTypeService } from './document-type.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('document-types')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class DocumentTypeController {
-    constructor(private service: DocumentTypeService) { }
+    constructor(private service: DocumentTypeService) {}
 
     @Get()
     @RequirePermission('document-type.pagination')

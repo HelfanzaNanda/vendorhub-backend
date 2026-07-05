@@ -1,18 +1,27 @@
-import { RequirePermission } from "@common/decorators/permissions.decorator";
-import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { PermissionsGuard } from "src/common/guards/permissions.guard";
-import { CreatePositionDto } from "./dto/create-position.dto";
-import { UpdatePositionDto } from "./dto/update-position.dto";
-import { PositionService } from "./position.service";
-import { PaginationQueryDto } from "@common/pagination/pagination-query.dto";
+import { RequirePermission } from '@common/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { CreatePositionDto } from './dto/create-position.dto';
+import { UpdatePositionDto } from './dto/update-position.dto';
+import { PositionService } from './position.service';
+import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 
 @Controller('positions')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class PositionController {
-
-    constructor(private service: PositionService) { }
-
+    constructor(private service: PositionService) {}
 
     @Get()
     @RequirePermission('position.pagination')

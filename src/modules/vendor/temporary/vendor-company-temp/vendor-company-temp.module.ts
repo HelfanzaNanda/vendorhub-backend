@@ -5,9 +5,9 @@ import { VendorCompanyTempController } from './vendor-company-temp.controller';
 import { VendorCompanyTempService } from './vendor-company-temp.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VendorCompanyTemp])],
-  controllers: [VendorCompanyTempController],
-  providers: [VendorCompanyTempService],
-  exports: [VendorCompanyTempService],
+    imports: [TypeOrmModule.forFeature([VendorCompanyTemp])],
+    controllers: [VendorCompanyTempController],
+    providers: [VendorCompanyTempService],
+    exports: [VendorCompanyTempService],
 })
 export class VendorCompanyTempModule {}

@@ -1,5 +1,5 @@
-import { VendorPersonnelResponseDto } from "../dto/response-vendor-personnel.dto";
-import { VendorPersonnel } from "../entities/vendor-personnel.entity";
+import { VendorPersonnelResponseDto } from '../dto/response-vendor-personnel.dto';
+import { VendorPersonnel } from '../entities/vendor-personnel.entity';
 
 export class VendorPersonnelMapper {
     static toResponse(entity: VendorPersonnel): VendorPersonnelResponseDto {
@@ -27,7 +27,9 @@ export class VendorPersonnelMapper {
         };
     }
 
-    static toResponses(entities: VendorPersonnel[]): VendorPersonnelResponseDto[] {
+    static toResponses(
+        entities: VendorPersonnel[],
+    ): VendorPersonnelResponseDto[] {
         return entities.map(this.toResponse);
     }
 }

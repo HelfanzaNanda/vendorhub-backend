@@ -1,5 +1,5 @@
-import { FileResponseDto } from "../dto/response-file.dto";
-import { File } from "../entities/file.entity";
+import { FileResponseDto } from '../dto/response-file.dto';
+import { File } from '../entities/file.entity';
 
 export class FileMapper {
     static toResponse(entity: File): FileResponseDto {

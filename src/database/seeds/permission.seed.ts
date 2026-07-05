@@ -1,4 +1,3 @@
-
 import { Permission } from '@modules/uman/permission/entities/permission.entity';
 import { DataSource } from 'typeorm';
 
