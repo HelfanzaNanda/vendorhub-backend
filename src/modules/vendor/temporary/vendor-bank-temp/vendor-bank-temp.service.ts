@@ -57,6 +57,8 @@ export class VendorBankTempService extends BaseDraftCrudService<VendorBank, Vend
             .leftJoinAndSelect('m.createdByUser', 'createdByUser')
             .leftJoinAndSelect('m.updatedByUser', 'updatedByUser')
             .leftJoinAndSelect('m.bankBranch', 'bankBranch')
+            .leftJoinAndSelect('bankBranch.bank', 'bank')
+            .leftJoinAndSelect('bank.country', 'country')
             .leftJoinAndSelect('m.currency', 'currency')
             .leftJoinAndSelect('m.file', 'file');
 
@@ -66,6 +68,8 @@ export class VendorBankTempService extends BaseDraftCrudService<VendorBank, Vend
             .leftJoinAndSelect('t.updatedByUser', 'updatedByUser')
             .leftJoinAndSelect('t.vendorBank', 'vendorBank')
             .leftJoinAndSelect('t.bankBranch', 'bankBranch')
+            .leftJoinAndSelect('bankBranch.bank', 'bank')
+            .leftJoinAndSelect('bank.country', 'country')
             .leftJoinAndSelect('t.currency', 'currency')
             .leftJoinAndSelect('t.file', 'file');
 

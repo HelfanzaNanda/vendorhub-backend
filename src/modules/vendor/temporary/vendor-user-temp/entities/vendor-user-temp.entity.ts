@@ -19,7 +19,7 @@ export class VendorUserTemp extends AuditBaseEntity {
     @Column({ name: 'review_status', nullable: true })
     reviewStatus?: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ name: 'review_notes', nullable: true })
     reviewNotes?: string;
 
     @Column({ name: 'firstname', nullable: true })
@@ -49,10 +49,10 @@ export class VendorUserTemp extends AuditBaseEntity {
     @Column({ name: 'phone', nullable: true })
     phone?: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ name: 'area_ids', nullable: true })
     areaIds?: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ name: 'role_ids', nullable: true })
     roleIds?: string;
 
     @Column({ name: 'file_id', type: 'int', nullable: true })

@@ -24,7 +24,6 @@ export class CurrencyService {
             this.currencyRepo.create({
                 code: data.code,
                 name: data.name,
-                country: { id: data.countryId } as Country,
             }),
         );
     }
@@ -60,7 +59,6 @@ export class CurrencyService {
             relations: {
                 createdByUser: true,
                 updatedByUser: true,
-                country: true,
             },
         });
         if (!currency) throw new NotFoundException();

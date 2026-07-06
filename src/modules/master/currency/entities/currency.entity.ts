@@ -15,11 +15,11 @@ import {
 
 @Entity('currencies')
 export class Currency extends AuditBaseEntity {
-    @ManyToOne(() => Country, {
-        createForeignKeyConstraints: false,
-    })
-    @JoinColumn({ name: 'country_id' })
-    country: Country;
+    // @ManyToOne(() => Country, {
+    //     createForeignKeyConstraints: false,
+    // })
+    // @JoinColumn({ name: 'country_id' })
+    // country: Country;
 
     @Column()
     code: string;

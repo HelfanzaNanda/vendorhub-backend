@@ -73,7 +73,10 @@ async function runSeeder() {
 
     // await seedTermsCondition(AppDataSource);
     // await seedCompanyPersonnelType(AppDataSource);
-    await seedDocumentType(AppDataSource);
+    // await seedDocumentType(AppDataSource);
+
+    await seedCurrency(AppDataSource);
+
 
     await AppDataSource.destroy();
 }

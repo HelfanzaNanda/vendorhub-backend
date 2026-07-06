@@ -13,11 +13,13 @@ export class VendorAffiliationTempMapper {
             reviewStatus: entity.reviewStatus ?? null,
             reviewNotes: entity.reviewNotes ?? null,
             affiliateTypeId: entity.affiliateTypeId ?? null,
+            affiliateType: entity.affiliateType ? { id: entity.affiliateType.id, name: entity.affiliateType.name } : null,
             companyName: entity.companyName ?? null,
             npwp: entity.npwp ?? null,
             businessField: entity.businessField ?? null,
             companyBusinessEntityTypeId:
                 entity.companyBusinessEntityTypeId ?? null,
+            companyBusinessEntityType: entity.companyBusinessEntityType ? { id: entity.companyBusinessEntityType.id, name: entity.companyBusinessEntityType.name } : null,
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,

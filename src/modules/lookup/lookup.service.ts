@@ -94,8 +94,8 @@ export class LookupService {
         return await this.positionService.findOptions();
     }
 
-    async getRoles() {
-        return await this.roleService.findOptions();
+    async getRoles(type: 'INTERNAL' | 'EXTERNAL') {
+        return await this.roleService.findOptions(type);
     }
 
     async getBanks(countryId: number) {

@@ -7,7 +7,4 @@ export class CreateCurrencyDto {
     @IsString()
     @IsNotEmpty()
     name: string;
-    @IsInt()
-    @IsNotEmpty()
-    countryId: number;
 }

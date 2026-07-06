@@ -29,20 +29,26 @@ export class VendorAffiliationTempResponseDto {
     @ApiProperty({ nullable: true })
     reviewNotes?: string | null;
 
-    @ApiProperty({ nullable: true })
-    affiliateTypeId?: number | null;
+    @ApiProperty()
+    affiliateTypeId: number | null;
 
-    @ApiProperty({ nullable: true })
-    companyName?: string | null;
+    @ApiProperty()
+    affiliateType: { id: number; name: string } | null;
 
-    @ApiProperty({ nullable: true })
-    npwp?: string | null;
+    @ApiProperty()
+    companyName: string | null;
 
-    @ApiProperty({ nullable: true })
-    businessField?: string | null;
+    @ApiProperty()
+    npwp: string | null;
 
-    @ApiProperty({ nullable: true })
-    companyBusinessEntityTypeId?: number | null;
+    @ApiProperty()
+    businessField: string | null;
+
+    @ApiProperty()
+    companyBusinessEntityTypeId: number | null;
+
+    @ApiProperty()
+    companyBusinessEntityType: { id: number; name: string } | null;
 
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;

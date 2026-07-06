@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, IsString } from 'class-validator';
+import { IsOptional, IsInt, IsString, IsArray } from 'class-validator';
 
 export class CreateVendorUserTempDto {
     @IsInt()
@@ -55,13 +55,15 @@ export class CreateVendorUserTempDto {
     @IsOptional()
     phone?: string;
 
-    @IsString()
+    @IsArray()
+    @IsInt({ each: true })
     @IsOptional()
-    areaIds?: string;
+    areaIds?: Array<number>;
 
-    @IsString()
+    @IsArray()
+    @IsInt({ each: true })
     @IsOptional()
-    roleIds?: string;
+    roleIds?: Array<number>;
 
     @IsInt()
     @IsOptional()

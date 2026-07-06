@@ -11,10 +11,26 @@ export class VendorBankTempMapper {
             reviewStatus: entity.reviewStatus ?? null,
             reviewNotes: entity.reviewNotes ?? null,
             bankBranchId: entity.bankBranchId ?? null,
+            bankBranch: entity.bankBranch ? { 
+                id: entity.bankBranch.id, 
+                name: entity.bankBranch.name,
+                bank: entity.bankBranch.bank ? {
+                    id: entity.bankBranch.bank.id,
+                    name: entity.bankBranch.bank.name,
+                    // Note: master might not load country if bank wasn't joined there. 
+                    // To be safe, use optional chaining for country.
+                    country: entity.bankBranch.bank.country ? {
+                        id: entity.bankBranch.bank.country.id,
+                        name: entity.bankBranch.bank.country.name
+                    } : undefined
+                } : undefined
+            } : null,
             currencyId: entity.currencyId ?? null,
+            currency: entity.currency ? { id: entity.currency.id, name: entity.currency.name } : null,
             accountName: entity.accountName ?? null,
             accountNumber: entity.accountNumber ?? null,
             fileId: entity.fileId ?? null,
+            file: entity.file ? { id: entity.file.id, name: entity.file.originalFileName } : null,
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,

@@ -44,13 +44,23 @@ export class VendorUserTempService extends BaseDraftCrudService<User, VendorUser
     }
 
     async create(vendorId: number, data: CreateVendorUserTempDto) {
-        return this.createDraft(vendorId, data as any);
+        const payload = {
+            ...data,
+            roleIds: data.roleIds?.join(',') ?? null,
+            areaIds: data.areaIds?.join(',') ?? null,
+        };
+        return this.createDraft(vendorId, payload as any);
     }
 
     async update(vendorId: number, id: number, data: UpdateVendorUserTempDto, isMaster: boolean) {
         // Exclude 'source' from data when saving
         const { source, ...updateData } = data;
-        return this.updateDraft(vendorId, id, updateData as any, isMaster);
+        const payload = {
+            ...updateData,
+            roleIds: updateData.roleIds?.join(',') ?? null,
+            areaIds: updateData.areaIds?.join(',') ?? null,
+        };
+        return this.updateDraft(vendorId, id, payload as any, isMaster);
     }
 
     async delete(vendorId: number, id: number, isMaster: boolean) {
@@ -78,6 +88,13 @@ export class VendorUserTempService extends BaseDraftCrudService<User, VendorUser
             if (source === 'MASTER') id = masterId;
             else if (source === 'TEMP' && action === VendorTempAction.UPDATE) id = masterId;
             else if (source === 'TEMP' && action === VendorTempAction.CREATE) id = tempId;
+
+            if (entity.areaIds) {
+                entity.areaIds = entity.areaIds.split(',').map((id: string) => Number(id));
+            }
+            if (entity.roleIds) {
+                entity.roleIds = entity.roleIds.split(',').map((id: string) => Number(id));
+            }
 
             const res = source === 'TEMP' 
                 ? VendorUserTempMapper.toResponse(entity) 

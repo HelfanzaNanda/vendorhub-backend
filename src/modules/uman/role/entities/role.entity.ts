@@ -22,6 +22,12 @@ export class Role extends AuditBaseEntity {
     @Column({ unique: true })
     name: string;
 
+    @Column({
+        type: 'enum',
+        enum: ['INTERNAL', 'EXTERNAL'],
+    })
+    type: 'INTERNAL' | 'EXTERNAL';
+
     @ManyToMany(() => Permission, (permission) => permission.roles)
     @JoinTable({
         name: 'role_has_permissions',

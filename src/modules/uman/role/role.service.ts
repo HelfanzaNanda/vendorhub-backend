@@ -74,8 +74,8 @@ export class RoleService {
         return this.roleRepo.save(site);
     }
 
-    async findOptions() {
-        const role = await this.roleRepo.find();
+    async findOptions(type: 'INTERNAL' | 'EXTERNAL') {
+        const role = await this.roleRepo.find({where: {type}});
         return LookupMapper.toResponses(
             role,
             (role) => role.id,

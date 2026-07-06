@@ -32,8 +32,18 @@ export class VendorBankTempResponseDto {
     @ApiProperty({ nullable: true })
     bankBranchId?: number | null;
 
+    @ApiProperty()
+    bankBranch?: { 
+        id: number; 
+        name: string;
+        bank?: { id: number; name: string; country?: { id: number; name: string } } 
+    } | null;
+
     @ApiProperty({ nullable: true })
     currencyId?: number | null;
+
+    @ApiProperty()
+    currency?: { id: number; name: string } | null;
 
     @ApiProperty({ nullable: true })
     accountName?: string | null;
@@ -43,6 +53,9 @@ export class VendorBankTempResponseDto {
 
     @ApiProperty({ nullable: true })
     fileId?: number | null;
+
+    @ApiProperty()
+    file?: { id: number; name: string } | null;
 
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;

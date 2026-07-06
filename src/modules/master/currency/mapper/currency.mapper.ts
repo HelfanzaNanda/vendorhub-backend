@@ -7,9 +7,6 @@ export class CurrencyMapper {
             id: entity.id,
             code: entity.code,
             name: entity.name,
-            country: entity.country
-                ? { id: entity.country.id, name: entity.country.name }
-                : null,
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,

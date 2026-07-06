@@ -60,6 +60,9 @@ export class VendorFinancialReportTempResponseDto {
     @ApiProperty({ nullable: true })
     currencyId?: number | null;
 
+    @ApiProperty()
+    currency?: { id: number; name: string } | null;
+
     @ApiProperty({ nullable: true })
     currentAssets?: number | null;
 

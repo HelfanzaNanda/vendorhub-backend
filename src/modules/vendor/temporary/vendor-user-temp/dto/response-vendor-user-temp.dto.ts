@@ -47,6 +47,9 @@ export class VendorUserTempResponseDto {
     @ApiProperty({ nullable: true })
     positionId?: number | null;
 
+    @ApiProperty()
+    position?: { id: number; name: string } | null;
+
     @ApiProperty({ nullable: true })
     effectiveStartDate?: Date | null;
 
@@ -64,6 +67,9 @@ export class VendorUserTempResponseDto {
 
     @ApiProperty({ nullable: true })
     fileId?: number | null;
+
+    @ApiProperty()
+    file?: { id: number; name: string } | null;
 
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;

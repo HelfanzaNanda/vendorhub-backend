@@ -27,6 +27,7 @@ export class VendorFinancialReportTempMapper {
                 url: `/files/download/${entity.file.id}`,
             } : null,
             currencyId: entity.currencyId ?? null,
+            currency: entity.currency ? { id: entity.currency.id, name: entity.currency.name } : null,
             currentAssets: entity.currentAssets ?? null,
             totalAssets: entity.totalAssets ?? null,
             currentLiabilities: entity.currentLiabilities ?? null,

@@ -6,12 +6,16 @@ import { VendorCompanyTemp } from './entities/vendor-company-temp.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VendorCompanyTempMapper } from './mapper/vendor-company-temp.mapper';
 import { VendorTempService } from '../vendor-temp/vendor-temp.service';
+import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';
+import { VendorTempAction } from '@common/enums/temp-action.enum';
 
 @Injectable()
 export class VendorCompanyTempService {
     constructor(
         @InjectRepository(VendorCompanyTemp)
         private repo: Repository<VendorCompanyTemp>,
+        @InjectRepository(VendorCompany)
+        private masterRepo: Repository<VendorCompany>,
         private vendorTempService: VendorTempService,
     ) {}
 
@@ -47,13 +51,18 @@ export class VendorCompanyTempService {
     async upsert(vendorId: number, data: UpdateVendorCompanyTempDto) {
         const draft = await this.vendorTempService.getOrCreateDraft(vendorId);
         let item = await this.repo.findOne({ where: { vendorTempId: draft.id } });
+        const master = await this.masterRepo.findOne({ where: { vendorId } });
 
         if (item) {
             Object.assign(item, data);
+            item.vendorCompanyId = master ? master.id : undefined;
+            item.action = VendorTempAction.UPDATE;
         } else {
             item = this.repo.create({
                 ...data,
                 vendorTempId: draft.id,
+                vendorCompanyId: master ? master.id : undefined,
+                action: VendorTempAction.UPDATE,
             });
         }
 

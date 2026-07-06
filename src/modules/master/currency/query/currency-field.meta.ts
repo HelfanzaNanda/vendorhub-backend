@@ -15,10 +15,6 @@ export const CURRENCY_FIELDS: FieldMetaMap = {
         searchable: true,
         orderable: true,
     },
-    country: {
-        column: 'country.name',
-        searchable: true,
-    },
     createdAt: {
         column: 'c.createdAt',
         orderable: true,

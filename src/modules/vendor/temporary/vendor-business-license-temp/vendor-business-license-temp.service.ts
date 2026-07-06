@@ -6,12 +6,16 @@ import { VendorBusinessLicenseTemp } from './entities/vendor-business-license-te
 import { InjectRepository } from '@nestjs/typeorm';
 import { VendorBusinessLicenseTempMapper } from './mapper/vendor-business-license-temp.mapper';
 import { VendorTempService } from '../vendor-temp/vendor-temp.service';
+import { VendorBusinessLicense } from '@modules/vendor/vendor-business-license/entities/vendor-business-license.entity';
+import { VendorTempAction } from '@common/enums/temp-action.enum';
 
 @Injectable()
 export class VendorBusinessLicenseTempService {
     constructor(
         @InjectRepository(VendorBusinessLicenseTemp)
         private repo: Repository<VendorBusinessLicenseTemp>,
+        @InjectRepository(VendorBusinessLicense)
+        private masterRepo: Repository<VendorBusinessLicense>,
         private vendorTempService: VendorTempService,
     ) {}
 
@@ -43,13 +47,18 @@ export class VendorBusinessLicenseTempService {
     async upsert(vendorId: number, data: UpdateVendorBusinessLicenseTempDto) {
         const draft = await this.vendorTempService.getOrCreateDraft(vendorId);
         let item = await this.repo.findOne({ where: { vendorTempId: draft.id } });
+        const master = await this.masterRepo.findOne({ where: { vendorId } });
 
         if (item) {
             Object.assign(item, data);
+            item.vendorBusinessLicenseId = master ? master.id : undefined;
+            item.action = VendorTempAction.UPDATE;
         } else {
             item = this.repo.create({
                 ...data,
                 vendorTempId: draft.id,
+                vendorBusinessLicenseId: master ? master.id : undefined,
+                action: VendorTempAction.UPDATE,
             });
         }
 

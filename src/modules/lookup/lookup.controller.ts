@@ -77,8 +77,8 @@ export class LookupController {
     }
 
     @Get('roles')
-    getRoles() {
-        return this.service.getRoles();
+    getRoles(@Query('type') type: 'INTERNAL' | 'EXTERNAL') {
+        return this.service.getRoles(type);
     }
 
     @Get('banks')

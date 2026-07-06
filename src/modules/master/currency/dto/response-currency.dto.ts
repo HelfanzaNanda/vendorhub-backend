@@ -11,9 +11,6 @@ export class CurrencyResponseDto {
     @ApiProperty()
     name: string;
 
-    @ApiProperty()
-    country: { id: number; name: string } | null;
-
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;
 }

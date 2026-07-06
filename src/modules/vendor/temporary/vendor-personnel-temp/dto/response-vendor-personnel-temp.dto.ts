@@ -32,8 +32,14 @@ export class VendorPersonnelTempResponseDto {
     @ApiProperty({ nullable: true })
     personnelTypeId?: number | null;
 
+    @ApiProperty()
+    personnelType?: { id: number; name: string; code?: string } | null;
+
     @ApiProperty({ nullable: true })
     titleId?: number | null;
+
+    @ApiProperty()
+    title?: { id: number; name: string } | null;
 
     @ApiProperty({ nullable: true })
     name?: string | null;
@@ -41,11 +47,17 @@ export class VendorPersonnelTempResponseDto {
     @ApiProperty({ nullable: true })
     jobTypeId?: number | null;
 
+    @ApiProperty()
+    jobType?: { id: number; name: string } | null;
+
     @ApiProperty({ nullable: true })
     position?: string | null;
 
     @ApiProperty({ nullable: true })
     identityTypeId?: number | null;
+
+    @ApiProperty()
+    identityType?: { id: number; name: string } | null;
 
     @ApiProperty({ nullable: true })
     identityNumber?: string | null;
