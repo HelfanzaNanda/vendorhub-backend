@@ -30,10 +30,10 @@ export class VendorDocumentTempResponseDto {
     address?: string | null;
 
     @ApiProperty({ nullable: true })
-    taxpayerStatus?: string | null;
+    status?: boolean | string | null;
 
     @ApiProperty({ nullable: true })
-    publishDate?: Date | null;
+    published_date?: Date | null;
 
     @ApiProperty({ nullable: true })
     expiredDate?: Date | null;

@@ -21,7 +21,7 @@ export class VendorDocumentTempService {
 
     async getSingleton(vendorId: number) {
         const draft = await this.vendorTempService.getOrCreateDraft(vendorId);
-        const item = await this.repo.findOne({
+        const items = await this.repo.find({
             select: {
                 createdByUser: {
                     username: true,
@@ -41,29 +41,37 @@ export class VendorDocumentTempService {
             },
         });
 
-        if (!item) return null;
-        return VendorDocumentTempMapper.toResponse(item);
+        if (!items || items.length === 0) return [];
+        return VendorDocumentTempMapper.toResponses(items);
     }
 
-    async upsert(vendorId: number, data: UpdateVendorDocumentTempDto) {
+    async upsert(vendorId: number, data: UpdateVendorDocumentTempDto[]) {
         const draft = await this.vendorTempService.getOrCreateDraft(vendorId);
-        let item = await this.repo.findOne({ where: { vendorTempId: draft.id } });
-        const master = await this.masterRepo.findOne({ where: { vendorId } });
 
-        if (item) {
-            Object.assign(item, data);
-            item.vendorDocumentId = master ? master.id : undefined;
-            item.action = VendorTempAction.UPDATE;
-        } else {
-            item = this.repo.create({
-                ...data,
+        for (const doc of data) {
+            let item = await this.repo.findOne({ where: { vendorTempId: draft.id, documentTypeId: doc.documentTypeId } });
+            const master = await this.masterRepo.findOne({ where: { vendorId, documentTypeId: doc.documentTypeId } });
+
+            const docData = {
                 vendorTempId: draft.id,
+                documentTypeId: doc.documentTypeId,
+                documentNumber: doc.documentNumber ?? undefined,
+                address: doc.address ?? undefined,
+                taxpayerStatus: doc.status !== undefined && doc.status !== null ? String(doc.status) : undefined,
+                publishDate: doc.published_date ?? undefined,
+                fileId: doc.fileId?.id ?? undefined,
                 vendorDocumentId: master ? master.id : undefined,
                 action: VendorTempAction.UPDATE,
-            });
+            };
+
+            if (item) {
+                Object.assign(item, docData);
+            } else {
+                item = this.repo.create(docData);
+            }
+            await this.repo.save(item);
         }
 
-        await this.repo.save(item);
         return this.getSingleton(vendorId);
     }
 }

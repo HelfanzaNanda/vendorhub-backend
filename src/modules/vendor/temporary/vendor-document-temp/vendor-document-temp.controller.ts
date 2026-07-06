@@ -6,6 +6,7 @@ import {
     Get,
     Put,
     UseGuards,
+    ParseArrayPipe,
 } from '@nestjs/common';
 import { CurrentVendorId } from '@common/decorators/current-vendor-id.decorator';
 import { PermissionsGuard } from 'src/common/guards/permissions.guard';
@@ -28,7 +29,7 @@ export class VendorDocumentTempController {
     // @RequirePermission('vendor-document-temp.update')
     upsert(
         @CurrentVendorId() vendorId: number,
-        @Body() dto: UpdateVendorDocumentTempDto,
+        @Body(new ParseArrayPipe({ items: UpdateVendorDocumentTempDto })) dto: UpdateVendorDocumentTempDto[],
     ) {
         return this.service.upsert(vendorId, dto);
     }

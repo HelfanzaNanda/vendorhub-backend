@@ -15,8 +15,8 @@ export class VendorDocumentTempMapper {
             documentTypeId: entity.documentTypeId ?? null,
             documentNumber: entity.documentNumber ?? null,
             address: entity.address ?? null,
-            taxpayerStatus: entity.taxpayerStatus ?? null,
-            publishDate: entity.publishDate ?? null,
+            status: entity.taxpayerStatus === 'true' ? true : (entity.taxpayerStatus === 'false' ? false : (entity.taxpayerStatus ?? null)),
+            published_date: entity.publishDate ?? null,
             expiredDate: entity.expiredDate ?? null,
             fileId: entity.fileId ?? null,
             file: entity.file ? {

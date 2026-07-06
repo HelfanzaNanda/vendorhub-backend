@@ -1,29 +1,14 @@
-import { IsOptional, IsInt, IsString } from 'class-validator';
+import { IsOptional, IsInt, IsString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+
+class FileIdDto {
+    @IsInt()
+    id: number;
+}
 
 export class CreateVendorDocumentTempDto {
     @IsInt()
-    @IsOptional()
-    vendorTempId?: number;
-
-    @IsInt()
-    @IsOptional()
-    vendorDocumentId?: number;
-
-    @IsString()
-    @IsOptional()
-    action?: string;
-
-    @IsString()
-    @IsOptional()
-    reviewStatus?: string;
-
-    @IsString()
-    @IsOptional()
-    reviewNotes?: string;
-
-    @IsInt()
-    @IsOptional()
-    documentTypeId?: number;
+    documentTypeId: number;
 
     @IsString()
     @IsOptional()
@@ -33,17 +18,14 @@ export class CreateVendorDocumentTempDto {
     @IsOptional()
     address?: string;
 
-    @IsString()
     @IsOptional()
-    taxpayerStatus?: string;
+    status?: boolean | string;
 
     @IsOptional()
-    publishDate?: Date;
+    published_date?: Date;
 
     @IsOptional()
-    expiredDate?: Date;
-
-    @IsInt()
-    @IsOptional()
-    fileId?: number;
+    @ValidateNested()
+    @Type(() => FileIdDto)
+    fileId?: FileIdDto;
 }
