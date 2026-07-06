@@ -35,7 +35,11 @@ export class FileService {
             storageDisk: 'local',
         });
 
-        return this.repo.save(fileRecord);
+        const record = this.repo.save(fileRecord);
+
+        return {
+            id : (await record).id
+        };
     }
 
     async pagination(query: PaginationQueryDto) {

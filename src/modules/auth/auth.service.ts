@@ -1,4 +1,4 @@
-import { RequestContext } from '@common/context/request-context';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -12,6 +12,7 @@ import { VendorStatus } from '@modules/master/vendor-status/entities/vendor-stat
 import { UserHasRole } from '@modules/uman/user-has-roles/entities/user-has-role.entity';
 import { Role } from '@modules/uman/role/entities/role.entity';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
+import { Menu } from '@modules/uman/menu/entities/menu.entity';
 import { DocumentType } from '@modules/master/document-type/entities/document-type.entity';
 import { VendorDocument } from '@modules/vendor/vendor-document/entities/vendor-document.entity';
 import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';
@@ -37,7 +38,9 @@ export class AuthService {
         @InjectRepository(VendorDocument)
         private vendorDocumentRepo: Repository<VendorDocument>,
         @InjectRepository(VendorCompany)
-        private vendorCompanyRepo: Repository<VendorCompany>
+        private vendorCompanyRepo: Repository<VendorCompany>,
+        @InjectRepository(Menu)
+        private menuRepo: Repository<Menu>
     ) {}
 
     async login(username: string, password: string) {
@@ -51,6 +54,9 @@ export class AuthService {
                 type: true,
                 vendor: {
                     id: true,
+                    vendorCompany: {
+                        companyName : true,
+                    },
                     vendorStatus: {
                         name: true,
                         code: true,
@@ -60,10 +66,10 @@ export class AuthService {
             where: { username },
             relations: [
                 'vendor',
+                'vendor.vendorCompany',
                 'vendor.vendorStatus',
                 'userHasRoles',
                 'userHasRoles.role',
-                'userHasRoles.role.permissions',
             ],
         });
 
@@ -74,34 +80,135 @@ export class AuthService {
             throw new UnauthorizedException('Invalid credentials');
         }
 
-        const permissions = user.userHasRoles
-            .filter((uhr) => uhr.isActive) // optional filter aktif
-            .flatMap((uhr) => uhr.role.permissions)
-            .map((p) => p.name);
-
         const roles = user.userHasRoles
             .filter((uhr) => uhr.isActive)
-            .map((uhr) => uhr.role.name);
+            .map((uhr) => uhr.role);
 
         const defaultRole = roles[0] || null;
 
-        const { password: _, ...userWithoutPassword } = user;
-
-        const payload: RequestContext = {
-            user: userWithoutPassword,
-            permissions: [...new Set(permissions)],
-            roles,
-            defaultRole,
+        const payload: JwtPayload = {
+            sub: user.id,
+            username: user.username,
+            type: user.type,
+            vendorId: user.vendor?.id || null,
+            defaultRoleId: defaultRole?.id || 0,
         };
 
         return {
             accessToken: this.jwtService.sign(payload),
-            // payload : payload
         };
     }
 
-    me(user: RequestContext) {
-        return user;
+    async me(payload: JwtPayload) {
+        const user = await this.userRepo.findOne({
+            where: { id: payload.sub },
+            relations: [
+                'vendor',
+                'vendor.vendorCompany',
+                'vendor.vendorStatus',
+                'userHasRoles',
+                'userHasRoles.role',
+            ],
+        });
+
+        if (!user) throw new UnauthorizedException('User not found');
+
+        const roles = user.userHasRoles
+            .filter((uhr) => uhr.isActive)
+            .map((uhr) => uhr.role);
+
+        const defaultRole = roles.find((r) => r.id === payload.defaultRoleId) || roles[0];
+
+        let permissions: string[] = [];
+        let menus: Menu[] = [];
+
+        if (defaultRole) {
+            const roleWithPerms = await this.roleRepo.findOne({
+                where: { id: defaultRole.id },
+                relations: ['permissions', 'permissions.menus'],
+            });
+
+            if (roleWithPerms) {
+                permissions = roleWithPerms.permissions.map((p) => p.name);
+                
+                // Extract unique menus
+                const uniqueMenusMap = new Map<number, Menu>();
+                roleWithPerms.permissions.forEach(p => {
+                    if (p.menus) {
+                        p.menus.forEach(m => {
+                            if (!uniqueMenusMap.has(m.id)) {
+                                uniqueMenusMap.set(m.id, m);
+                            }
+                        });
+                    }
+                });
+
+                const allMenus = Array.from(uniqueMenusMap.values()).map(m => ({
+                    id: m.id,
+                    name: m.name,
+                    path: m.path,
+                    icon: m.icon,
+                    parentId: m.parentId,
+                    order: m.order,
+                })).sort((a, b) => a.order - b.order);
+                
+                // Build tree
+                const menuMap = new Map<number, any>();
+                allMenus.forEach(m => {
+                    menuMap.set(m.id, { ...m, children: [] });
+                });
+
+                menus = [];
+                menuMap.forEach(m => {
+                    if (m.parentId) {
+                        const parent = menuMap.get(m.parentId);
+                        if (parent) {
+                            parent.children.push(m);
+                        } else {
+                            menus.push(m);
+                        }
+                    } else {
+                        menus.push(m);
+                    }
+                });
+            }
+        }
+
+        const formattedVendor = user.type === 'EXTERNAL' && user.vendor ? {
+            id: user.vendor.id,
+            vendorCode: user.vendor.vendorCode || null,
+            companyName: user.vendor.vendorCompany?.companyName || null,
+            vendorStatus: user.vendor.vendorStatus?.name || null,
+        } : null;
+
+        const formattedUser = {
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            email: user.email,
+            type: user.type,
+            vendor: formattedVendor,
+        };
+
+        const formattedRoles = roles.map(r => ({
+            id: r.id,
+            code: r.code,
+            name: r.name,
+        }));
+
+        const formattedDefaultRole = defaultRole ? {
+            code: defaultRole.code,
+            name: defaultRole.name,
+        } : null;
+
+        return {
+            user: formattedUser,
+            defaultRole: formattedDefaultRole,
+            roles: formattedRoles,
+            permissions,
+            menus,
+        };
     }
 
     async signup(params: SignUpDto) {

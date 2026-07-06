@@ -8,7 +8,7 @@ export const CurrentVendorId = createParamDecorator(
   (_: unknown, ctx: ExecutionContext): number => {
     const request = ctx.switchToHttp().getRequest();
 
-    const vendorId = request.user?.user?.vendor?.id;
+    const vendorId = request.user?.vendorId;
 
     if (!vendorId) {
       throw new BadRequestException(

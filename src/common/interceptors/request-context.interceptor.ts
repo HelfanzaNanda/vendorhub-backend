@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class RequestContextInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         const req = context.switchToHttp().getRequest();
-        const userId = req.user?.id;
+        const userId = req.user?.sub || req.user?.id;
 
         return new Observable((subscriber) => {
             RequestContext.run({ userId }, () => {

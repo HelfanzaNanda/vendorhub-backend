@@ -8,6 +8,7 @@ import { VendorBusinessLicenseModule } from './vendor-business-license/vendor-bu
 import { VendorBusinessLicenseItemModule } from './vendor-business-license-item/vendor-business-license-item.module';
 import { VendorFinancialReportModule } from './vendor-financial-report/vendor-financial-report.module';
 import { VendorDocumentModule } from './vendor-document/vendor-document.module';
+import { VendorTermConditionModule } from './vendor-term-condition/vendor-term-condition.module';
 
 import { VendorTempModule } from './temporary/vendor-temp/vendor-temp.module';
 import { VendorCompanyTempModule } from './temporary/vendor-company-temp/vendor-company-temp.module';
@@ -30,6 +31,7 @@ import { VendorDocumentTempModule } from './temporary/vendor-document-temp/vendo
         VendorBusinessLicenseItemModule,
         VendorFinancialReportModule,
         VendorDocumentModule,
+        VendorTermConditionModule,
         VendorTempModule,
         VendorCompanyTempModule,
         VendorPersonnelTempModule,
@@ -50,6 +52,7 @@ import { VendorDocumentTempModule } from './temporary/vendor-document-temp/vendo
         VendorBusinessLicenseItemModule,
         VendorFinancialReportModule,
         VendorDocumentModule,
+        VendorTermConditionModule,
         VendorTempModule,
         VendorCompanyTempModule,
         VendorPersonnelTempModule,

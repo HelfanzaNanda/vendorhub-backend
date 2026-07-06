@@ -50,6 +50,8 @@ import { IndustryClassification } from '@modules/master/industry-classification/
 import { CompetencyItem } from '@modules/master/competency-item/entities/competency-item.entity';
 import { CompetencySubCategory } from '@modules/master/competency-subcategory/entities/competency-subcategory.entity';
 import { CompetencyCategory } from '@modules/master/competency-category/entities/competency-category.entity';
+import { VendorTermCondition } from '@modules/vendor/vendor-term-condition/entities/vendor-term-condition.entity';
+import { VendorTermConditionReview } from '@modules/vendor/vendor-term-condition/entities/vendor-term-condition-review.entity';
 
 export const AppDataSource = new DataSource({
     type: 'mariadb',
@@ -111,6 +113,10 @@ export const AppDataSource = new DataSource({
         VendorBusinessLicenseTemp,
         VendorFinancialReportTemp,
         VendorDocumentTemp,
+        VendorTermCondition,
+        VendorTermConditionReview,
+        TermsCondition,
+        TermsConditionItem
     ],
     migrations: ['src/database/migrations/*.ts'],
 
