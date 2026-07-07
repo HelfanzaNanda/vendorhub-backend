@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateVendorBusinessLicenseTempDto } from './dto/create-vendor-business-license-temp.dto';
 import { UpdateVendorBusinessLicenseTempDto } from './dto/update-vendor-business-license-temp.dto';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { VendorBusinessLicenseTemp } from './entities/vendor-business-license-temp.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VendorBusinessLicenseTempMapper } from './mapper/vendor-business-license-temp.mapper';
 import { VendorTempService } from '../vendor-temp/vendor-temp.service';
 import { VendorBusinessLicense } from '@modules/vendor/vendor-business-license/entities/vendor-business-license.entity';
 import { VendorTempAction } from '@common/enums/temp-action.enum';
+import { IndustryClassification } from '@modules/master/industry-classification/entities/industry-classification.entity';
 
 @Injectable()
 export class VendorBusinessLicenseTempService {
@@ -16,6 +17,8 @@ export class VendorBusinessLicenseTempService {
         private repo: Repository<VendorBusinessLicenseTemp>,
         @InjectRepository(VendorBusinessLicense)
         private masterRepo: Repository<VendorBusinessLicense>,
+        @InjectRepository(IndustryClassification)
+        private icRepo: Repository<IndustryClassification>,
         private vendorTempService: VendorTempService,
     ) {}
 
@@ -41,7 +44,18 @@ export class VendorBusinessLicenseTempService {
         });
 
         if (!item) return null;
-        return VendorBusinessLicenseTempMapper.toResponse(item);
+
+        let industryClassifications: IndustryClassification[] = [];
+        if (item.industryClassificationIds) {
+            const ids = item.industryClassificationIds.split(',').map(id => parseInt(id.trim(), 10)).filter(id => !isNaN(id));
+            if (ids.length > 0) {
+                industryClassifications = await this.icRepo.find({
+                    where: { id: In(ids) }
+                });
+            }
+        }
+
+        return VendorBusinessLicenseTempMapper.toResponse(item, industryClassifications);
     }
 
     async upsert(vendorId: number, data: UpdateVendorBusinessLicenseTempDto) {
@@ -59,6 +73,7 @@ export class VendorBusinessLicenseTempService {
                 vendorTempId: draft.id,
                 vendorBusinessLicenseId: master ? master.id : undefined,
                 action: VendorTempAction.UPDATE,
+                industryClassificationIds: data.industryClassificationIds?.join(',') ?? undefined,
             });
         }
 

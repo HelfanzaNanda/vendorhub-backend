@@ -35,10 +35,11 @@ export class FileService {
             storageDisk: 'local',
         });
 
-        const record = this.repo.save(fileRecord);
+        const record = await this.repo.save(fileRecord);
 
         return {
-            id : (await record).id
+            id : record.id,
+            filename: record.originalFileName,
         };
     }
 

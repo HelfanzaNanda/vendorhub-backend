@@ -23,6 +23,11 @@ import { LookupMapper } from './mapper/lookup.mapper';
 import { RoleService } from '@modules/uman/role/role.service';
 import { CompanyPersonnelTypeService } from '@modules/master/company-personnel-type/company-personnel-type.service';
 import { DocumentTypeService } from '@modules/master/document-type/document-type.service';
+import { EntityManager, In } from 'typeorm';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { CompetencyCategory } from '@modules/master/competency-category/entities/competency-category.entity';
+import { CompetencySubCategory } from '@modules/master/competency-subcategory/entities/competency-subcategory.entity';
+import { CompetencyItem } from '@modules/master/competency-item/entities/competency-item.entity';
 
 @Injectable()
 export class LookupService {
@@ -48,6 +53,8 @@ export class LookupService {
         private financialPeriodService: FinancialPeriodService,
         private companyPersonnelTypeService: CompanyPersonnelTypeService,
         private documentTypeService: DocumentTypeService,
+        @InjectEntityManager()
+        private entityManager: EntityManager,
     ) {}
 
     async getSites(areaId: number) {
@@ -118,10 +125,74 @@ export class LookupService {
         return await this.industryClassificationService.findOptions();
     }
 
-    async getCompetencies(industryClassificationId: number) {
-        return await this.competencyItemService.findOptions(
-            industryClassificationId,
-        );
+    async getCompetencyTree(industryClassificationIds?: number[]) {
+        const categories = await this.entityManager.find(CompetencyCategory, {
+            order: { name: 'ASC' },
+        });
+
+        const subCategories = await this.entityManager.find(CompetencySubCategory, {
+            relations: ['competencyCategory'],
+            order: { name: 'ASC' },
+        });
+
+        const itemsQuery = this.entityManager
+            .createQueryBuilder(CompetencyItem, 'item')
+            .leftJoinAndSelect('item.competencySubCategory', 'subCategory')
+            .leftJoin('item.industryClassifications', 'ic');
+
+        if (industryClassificationIds && industryClassificationIds.length > 0) {
+            itemsQuery.where('ic.id IN (:...ids)', { ids: industryClassificationIds });
+        }
+
+        itemsQuery.orderBy('item.name', 'ASC');
+
+        const items = await itemsQuery.getMany();
+
+        const result = [];
+        for (const cat of categories) {
+            const catNode = {
+                id: cat.id,
+                label: cat.name,
+                type: 'CATEGORY',
+                selectable: false,
+                children: [] as any[],
+            };
+
+            const catSubs = subCategories.filter(
+                (s) => s.competencyCategory?.id === cat.id,
+            );
+            for (const sub of catSubs) {
+                const subNode = {
+                    id: sub.id,
+                    label: sub.name,
+                    type: 'SUB_CATEGORY',
+                    selectable: false,
+                    children: [] as any[],
+                };
+
+                const subItems = items.filter(
+                    (i) => i.competencySubCategory?.id === sub.id,
+                );
+                for (const item of subItems) {
+                    subNode.children.push({
+                        id: item.id,
+                        label: item.name,
+                        type: 'SUB_CATEGORY_ITEM',
+                        selectable: true,
+                    });
+                }
+
+                if (subNode.children.length > 0) {
+                    catNode.children.push(subNode);
+                }
+            }
+
+            if (catNode.children.length > 0) {
+                result.push(catNode);
+            }
+        }
+
+        return result;
     }
 
     async getYears() {

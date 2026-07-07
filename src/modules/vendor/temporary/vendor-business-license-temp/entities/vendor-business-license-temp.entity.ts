@@ -28,7 +28,7 @@ export class VendorBusinessLicenseTemp extends AuditBaseEntity {
     @Column({ name: 'number', nullable: true })
     number?: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ name: 'industry_classification_ids', type: 'text', nullable: true })
     industryClassificationIds?: string;
 
     @ManyToOne(() => VendorTemp, { onDelete: 'CASCADE', nullable: true })

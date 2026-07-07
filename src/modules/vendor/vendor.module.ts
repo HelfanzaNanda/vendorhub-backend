@@ -9,6 +9,7 @@ import { VendorBusinessLicenseItemModule } from './vendor-business-license-item/
 import { VendorFinancialReportModule } from './vendor-financial-report/vendor-financial-report.module';
 import { VendorDocumentModule } from './vendor-document/vendor-document.module';
 import { VendorTermConditionModule } from './vendor-term-condition/vendor-term-condition.module';
+import { VendorCompetencyModule } from './vendor-competency/vendor-competency.module';
 
 import { VendorTempModule } from './temporary/vendor-temp/vendor-temp.module';
 import { VendorCompanyTempModule } from './temporary/vendor-company-temp/vendor-company-temp.module';
@@ -19,6 +20,7 @@ import { VendorAffiliationTempModule } from './temporary/vendor-affiliation-temp
 import { VendorBusinessLicenseTempModule } from './temporary/vendor-business-license-temp/vendor-business-license-temp.module';
 import { VendorFinancialReportTempModule } from './temporary/vendor-financial-report-temp/vendor-financial-report-temp.module';
 import { VendorDocumentTempModule } from './temporary/vendor-document-temp/vendor-document-temp.module';
+import { VendorCompetencyTempModule } from './temporary/vendor-competency-temp/vendor-competency-temp.module';
 
 @Module({
     imports: [
@@ -32,6 +34,7 @@ import { VendorDocumentTempModule } from './temporary/vendor-document-temp/vendo
         VendorFinancialReportModule,
         VendorDocumentModule,
         VendorTermConditionModule,
+        VendorCompetencyModule,
         VendorTempModule,
         VendorCompanyTempModule,
         VendorPersonnelTempModule,
@@ -41,6 +44,7 @@ import { VendorDocumentTempModule } from './temporary/vendor-document-temp/vendo
         VendorBusinessLicenseTempModule,
         VendorFinancialReportTempModule,
         VendorDocumentTempModule,
+        VendorCompetencyTempModule,
     ],
     exports: [
         CoreVendorModule,
@@ -53,6 +57,7 @@ import { VendorDocumentTempModule } from './temporary/vendor-document-temp/vendo
         VendorFinancialReportModule,
         VendorDocumentModule,
         VendorTermConditionModule,
+        VendorCompetencyModule,
         VendorTempModule,
         VendorCompanyTempModule,
         VendorPersonnelTempModule,
@@ -62,6 +67,7 @@ import { VendorDocumentTempModule } from './temporary/vendor-document-temp/vendo
         VendorBusinessLicenseTempModule,
         VendorFinancialReportTempModule,
         VendorDocumentTempModule,
+        VendorCompetencyTempModule,
     ],
 })
 export class VendorModule {}

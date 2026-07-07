@@ -1,9 +1,11 @@
 import { VendorBusinessLicenseTempResponseDto } from '../dto/response-vendor-business-license-temp.dto';
 import { VendorBusinessLicenseTemp } from '../entities/vendor-business-license-temp.entity';
+import { IndustryClassification } from '@modules/master/industry-classification/entities/industry-classification.entity';
 
 export class VendorBusinessLicenseTempMapper {
     static toResponse(
         entity: VendorBusinessLicenseTemp,
+        industryClassifications: IndustryClassification[] = [],
     ): VendorBusinessLicenseTempResponseDto {
         return {
             id: entity.id,
@@ -12,17 +14,13 @@ export class VendorBusinessLicenseTempMapper {
             action: entity.action ?? null,
             reviewStatus: entity.reviewStatus ?? null,
             reviewNotes: entity.reviewNotes ?? null,
-            fileId: entity.fileId ?? null,
-            file: entity.file ? {
-                id: entity.file.id,
-                originalName: entity.file.originalFileName,
-                filename: entity.file.fileName,
-                mimeType: entity.file.mimeType,
-                size: entity.file.fileSize,
-                url: `/files/download/${entity.file.id}`,
-            } : null,
-            number: entity.number ?? null,
-            industryClassificationIds: entity.industryClassificationIds ?? null,
+            nibFileId: entity.fileId ? { id: entity.fileId } : null,
+            industryClassifications: industryClassifications.map(ic => ({
+                industryClassificationId: ic.id,
+                number: ic.number,
+                title: ic.name,
+                description: ic.description,
+            })),
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,
@@ -35,6 +33,6 @@ export class VendorBusinessLicenseTempMapper {
     static toResponses(
         entities: VendorBusinessLicenseTemp[],
     ): VendorBusinessLicenseTempResponseDto[] {
-        return entities.map(this.toResponse);
+        return entities.map(e => this.toResponse(e));
     }
 }

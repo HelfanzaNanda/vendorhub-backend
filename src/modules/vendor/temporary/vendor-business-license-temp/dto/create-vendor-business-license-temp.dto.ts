@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, IsString } from 'class-validator';
+import { IsOptional, IsInt, IsString, IsArray } from 'class-validator';
 
 export class CreateVendorBusinessLicenseTempDto {
     @IsInt()
@@ -29,7 +29,8 @@ export class CreateVendorBusinessLicenseTempDto {
     @IsOptional()
     number?: string;
 
-    @IsString()
+    @IsArray()
+    @IsInt({ each: true })
     @IsOptional()
-    industryClassificationIds?: string;
+    industryClassificationIds?: Array<number>;
 }

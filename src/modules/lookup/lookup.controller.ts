@@ -6,6 +6,7 @@ import {
     Delete,
     Get,
     Param,
+    ParseArrayPipe,
     ParseIntPipe,
     Post,
     Put,
@@ -106,16 +107,20 @@ export class LookupController {
         return this.service.getIndustryClassifications();
     }
 
-    @Get('competencies')
+    @Get('competency-tree')
     getCompetencies(
-        @Query('industryClassificationId') industryClassificationId: number,
+        @Query(
+            'industryClassificationIds',
+            new ParseArrayPipe({ items: Number, separator: ',', optional: true }),
+        )
+        industryClassificationIds: number[],
     ) {
-        return this.service.getCompetencies(industryClassificationId);
+        return this.service.getCompetencyTree(industryClassificationIds);
     }
 
     @Get('years')
     getYears() {
-        return this.service.getYears();
+        return this.service.getYears(); 
     }
 
     @Get('financial-periods')
