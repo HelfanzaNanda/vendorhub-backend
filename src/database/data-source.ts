@@ -19,6 +19,14 @@ import { DocumentType } from '@modules/master/document-type/entities/document-ty
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 import { Position } from '@modules/master/position/entities/position.entity';
+import { MasterWorkflow } from '@modules/master/workflow/entities/workflow.entity';
+import { MasterWorkflowStep } from '@modules/master/workflow-step/entities/workflow-step.entity';
+import { MasterWorkflowStepAssignment } from '@modules/master/workflow-step-assignment/entities/workflow-step-assignment.entity';
+import { MasterWorkingCalendar } from '@modules/master/working-calendar/entities/working-calendar.entity';
+import { MasterHoliday } from '@modules/master/holiday/entities/holiday.entity';
+import { WorkflowTransaction } from '@modules/workflow-transaction/workflow-transaction/entities/workflow-transaction.entity';
+import { WorkflowTransactionStep } from '@modules/workflow-transaction/workflow-transaction-step/entities/workflow-transaction-step.entity';
+import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/entities/workflow-history.entity';
 
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';
@@ -116,7 +124,15 @@ export const AppDataSource = new DataSource({
         VendorTermCondition,
         VendorTermConditionReview,
         TermsCondition,
-        TermsConditionItem
+        TermsConditionItem,
+        MasterWorkflow,
+        MasterWorkflowStep,
+        MasterWorkflowStepAssignment,
+        MasterWorkingCalendar,
+        MasterHoliday,
+        WorkflowTransaction,
+        WorkflowTransactionStep,
+        WorkflowHistory
     ],
     migrations: ['src/database/migrations/*.ts'],
 

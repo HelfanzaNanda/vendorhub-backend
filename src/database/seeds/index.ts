@@ -77,6 +77,8 @@ async function runSeeder() {
 
     await seedCurrency(AppDataSource);
 
+    const { seedWorkflowEngine } = require('./workflow-engine.seed');
+    await seedWorkflowEngine(AppDataSource);
 
     await AppDataSource.destroy();
 }

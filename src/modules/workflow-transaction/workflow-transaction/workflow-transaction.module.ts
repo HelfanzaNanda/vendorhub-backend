@@ -8,5 +8,6 @@ import { WorkflowTransactionService } from './workflow-transaction.service';
     imports: [TypeOrmModule.forFeature([WorkflowTransaction])],
     controllers: [WorkflowTransactionController],
     providers: [WorkflowTransactionService],
+    exports: [WorkflowTransactionService],
 })
 export class WorkflowTransactionModule {}

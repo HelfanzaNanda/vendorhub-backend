@@ -1,3 +1,12 @@
+
+import { VendorRegistrationModule } from './business-process/vendor-registration/vendor-registration.module';
+import { VendorUpdateModule } from './business-process/vendor-update/vendor-update.module';
+import { DigitalSignatureModule } from './business-process/digital-signature/digital-signature.module';
+import { ProposedToRejectModule } from './business-process/proposed-to-reject/proposed-to-reject.module';
+import { DeleteCompanyAccountModule } from './business-process/delete-company-account/delete-company-account.module';
+import { ReactivationModule } from './business-process/reactivation/reactivation.module';
+import { BlacklistUnblacklistModule } from './business-process/blacklist-unblacklist/blacklist-unblacklist.module';
+import { RoleExpiredModule } from './business-process/role-expired/role-expired.module';
 import { Module } from '@nestjs/common';
 import { VendorModule as CoreVendorModule } from './vendor/vendor.module';
 import { VendorCompanyModule } from './vendor-company/vendor-company.module';
@@ -24,6 +33,15 @@ import { VendorCompetencyTempModule } from './temporary/vendor-competency-temp/v
 
 @Module({
     imports: [
+        VendorRegistrationModule,
+        VendorUpdateModule,
+        DigitalSignatureModule,
+        ProposedToRejectModule,
+        DeleteCompanyAccountModule,
+        ReactivationModule,
+        BlacklistUnblacklistModule,
+        RoleExpiredModule,
+
         CoreVendorModule,
         VendorCompanyModule,
         VendorPersonnelModule,
@@ -47,6 +65,15 @@ import { VendorCompetencyTempModule } from './temporary/vendor-competency-temp/v
         VendorCompetencyTempModule,
     ],
     exports: [
+        VendorRegistrationModule,
+        VendorUpdateModule,
+        DigitalSignatureModule,
+        ProposedToRejectModule,
+        DeleteCompanyAccountModule,
+        ReactivationModule,
+        BlacklistUnblacklistModule,
+        RoleExpiredModule,
+
         CoreVendorModule,
         VendorCompanyModule,
         VendorPersonnelModule,
