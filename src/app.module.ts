@@ -16,6 +16,14 @@ import { SiteModule } from '@modules/master/site/site.module';
 import { LookupModule } from '@modules/lookup/lookup.module';
 import { TermsConditionModule } from '@modules/master/terms-condition/term-condition.module';
 import { VendorModule } from '@modules/vendor/vendor.module';
+import { WorkflowModule } from '@modules/master/workflow/workflow.module';
+import { WorkflowStepModule } from '@modules/master/workflow-step/workflow-step.module';
+import { WorkflowStepAssignmentModule } from '@modules/master/workflow-step-assignment/workflow-step-assignment.module';
+import { HolidayModule } from '@modules/master/holiday/holiday.module';
+import { WorkingCalendarModule } from '@modules/master/working-calendar/working-calendar.module';
+import { WorkflowTransactionModule } from '@modules/workflow-transaction/workflow-transaction/workflow-transaction.module';
+import { WorkflowTransactionStepModule } from '@modules/workflow-transaction/workflow-transaction-step/workflow-transaction-step.module';
+import { WorkflowHistoryModule } from '@modules/workflow-transaction/workflow-history/workflow-history.module';
 
 @Module({
     imports: [
@@ -43,6 +51,14 @@ import { VendorModule } from '@modules/vendor/vendor.module';
         LookupModule,
         TermsConditionModule,
         VendorModule,
+        WorkflowModule,
+        WorkflowStepModule,
+        WorkflowStepAssignmentModule,
+        HolidayModule,
+        WorkingCalendarModule,
+        WorkflowTransactionModule,
+        WorkflowTransactionStepModule,
+        WorkflowHistoryModule,
     ],
     controllers: [AppController],
     providers: [AppService],

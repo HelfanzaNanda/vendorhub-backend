@@ -1,6 +1,7 @@
 import { AuditBaseEntity } from '@common/entities/audit-base.entity';
 import { AuditColumns } from '@common/entities/audit.embedded';
 import { Position } from '@modules/master/position/entities/position.entity';
+import { Site } from '@modules/master/site/entities/site.entity';
 import { UserHasRole } from '@modules/uman/user-has-roles/entities/user-has-role.entity';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 // import { CompanyIdentity } from "@modules/vendor/company-identity/entities/company-identity.entity";
@@ -60,6 +61,14 @@ export class User extends AuditBaseEntity {
     })
     @JoinColumn({ name: 'position_id' })
     position: Position;
+
+    @ManyToOne(() => Site, {
+        nullable: true,
+        createForeignKeyConstraints: false,
+    })
+    @JoinColumn({ name: 'site_id' })
+    site: Site;
+
 
     @ManyToOne(() => Vendor, {
         nullable: true,
