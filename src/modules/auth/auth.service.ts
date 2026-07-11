@@ -62,6 +62,12 @@ export class AuthService {
                         code: true,
                     },
                 },
+                site : {
+                    id: true,
+                    area : {
+                        id: true,
+                    }
+                }
             },
             where: { username },
             relations: [
@@ -70,6 +76,8 @@ export class AuthService {
                 'vendor.vendorStatus',
                 'userHasRoles',
                 'userHasRoles.role',
+                'site',
+                'site.area',
             ],
         });
 
@@ -92,6 +100,7 @@ export class AuthService {
             type: user.type,
             vendorId: user.vendor?.id || null,
             defaultRoleId: defaultRole?.id || 0,
+            internalAreaId: user.site?.area?.id || null,
         };
 
         return {

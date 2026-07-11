@@ -88,4 +88,25 @@ export class SiteService {
             (site) => site.name,
         );
     }
+
+    async getAreaIdBySiteId(siteId: number): Promise<number> {
+        const site = await this.siteRepo.findOne({
+            where: { id: siteId },
+            select: {
+                id: true,
+                area: {
+                    id: true,
+                },
+            },
+            relations: {
+                area: true,
+            },  
+        });
+
+        if (!site) {
+            throw new NotFoundException(`Site with id ${siteId} not found`);
+        }
+
+        return site.area.id;
+    }
 }

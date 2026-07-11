@@ -6,4 +6,5 @@ export interface JwtPayload {
     defaultRoleId: number;
     iat?: number;
     exp?: number;
+    internalAreaId? : number | null;
 }

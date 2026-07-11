@@ -19,6 +19,15 @@ export class MasterWorkflow extends AuditBaseEntity {
     @Column({ name: 'is_active', type: 'boolean', default: true })
     isActive: boolean;
 
+    @Column({ name: 'sla_duration', type: 'int', default: 0 })
+    slaDuration: number;
+
+    @Column({ name: 'sla_unit', type: 'enum', enum: ['DAY', 'HOUR'] })
+    slaUnit: 'DAY' | 'HOUR';
+
+    @Column({ name: 'use_working_calendar', type: 'boolean', default: false })
+    useWorkingCalendar: boolean;
+
     @ManyToOne(() => User)
     @JoinColumn({ name: 'created_by' })
     createdByUser?: User;

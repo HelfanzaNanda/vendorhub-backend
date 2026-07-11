@@ -4,7 +4,10 @@ import {
     Body,
     Controller,
     Get,
+    Param,
+    ParseIntPipe,
     Put,
+    Query,
     UseGuards,
 } from '@nestjs/common';
 import { CurrentVendorId } from '@common/decorators/current-vendor-id.decorator';
@@ -22,7 +25,7 @@ export class VendorCompanyTempController {
     getSingleton(@CurrentVendorId() vendorId: number) {
         return this.service.getSingleton(vendorId);
     }
-
+    
     @Put()
     // @RequirePermission('vendor-company-temp.update')
     upsert(

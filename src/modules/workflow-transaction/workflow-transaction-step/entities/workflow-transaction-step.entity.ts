@@ -3,6 +3,7 @@ import { User } from '@modules/uman/user/entities/user.entity';
 import { MasterWorkflowStep } from '@modules/master/workflow-step/entities/workflow-step.entity';
 import { WorkflowTransaction } from '@modules/workflow-transaction/workflow-transaction/entities/workflow-transaction.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { WorkflowTransactionStepStatus } from '@common/enums/workflow-transaction.enum';
 
 @Entity('workflow_transaction_steps')
 export class WorkflowTransactionStep extends AuditBaseEntity {
@@ -20,6 +21,7 @@ export class WorkflowTransactionStep extends AuditBaseEntity {
     @JoinColumn({ name: 'workflow_step_id' })
     workflowStep: MasterWorkflowStep;
 
+
     @Column({ name: 'user_id', nullable: true })
     userId?: number;
 
@@ -36,10 +38,10 @@ export class WorkflowTransactionStep extends AuditBaseEntity {
 
     @Column({
         type: 'enum',
-        enum: ['WAITING', 'PENDING', 'APPROVED', 'REJECTED', 'REVISED'],
-        default: 'WAITING'
+        enum: WorkflowTransactionStepStatus,
+        default: WorkflowTransactionStepStatus.WAITING
     })
-    status: 'WAITING' | 'PENDING' | 'APPROVED' | 'REJECTED' | 'REVISED';
+    status: WorkflowTransactionStepStatus;
 
     @Column({ name: 'assigned_at', type: 'timestamp', nullable: true })
     assignedAt?: Date;

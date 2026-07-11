@@ -4,6 +4,7 @@ import { MasterWorkflowStep } from '@modules/master/workflow-step/entities/workf
 import { WorkflowTransaction } from '@modules/workflow-transaction/workflow-transaction/entities/workflow-transaction.entity';
 import { WorkflowTransactionStep } from '@modules/workflow-transaction/workflow-transaction-step/entities/workflow-transaction-step.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { WorkflowTransactionStepStatus } from '@common/enums/workflow-transaction.enum';
 
 @Entity('workflow_transaction_histories')
 export class WorkflowHistory extends AuditBaseEntity {
@@ -28,8 +29,12 @@ export class WorkflowHistory extends AuditBaseEntity {
     @JoinColumn({ name: 'actor_id' })
     actor: User;
 
-    @Column()
-    action: string;
+    @Column({
+        type: 'enum',
+        enum: WorkflowTransactionStepStatus,
+        default: WorkflowTransactionStepStatus.WAITING
+    })
+    action: WorkflowTransactionStepStatus;
 
     @Column({ name: 'from_step_id', nullable: true })
     fromStepId?: number;

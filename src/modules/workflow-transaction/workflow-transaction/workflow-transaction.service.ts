@@ -20,6 +20,7 @@ import { WorkflowTransactionStep } from '@modules/workflow-transaction/workflow-
 import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/entities/workflow-history.entity';
 import { MasterWorkingCalendar } from '@modules/master/working-calendar/entities/working-calendar.entity';
 import { MasterHoliday } from '@modules/master/holiday/entities/holiday.entity';
+import { WorkflowTransactionStatus, WorkflowTransactionStepStatus } from '@common/enums/workflow-transaction.enum';
 
 @Injectable()
 export class WorkflowTransactionService {
@@ -27,7 +28,7 @@ export class WorkflowTransactionService {
         @InjectRepository(WorkflowTransaction)
         private workflowTransactionRepo: Repository<WorkflowTransaction>,
         private dataSource: DataSource,
-    ) {}
+    ) { }
 
     private calculateDueAt(
         startDate: Date,
@@ -38,7 +39,7 @@ export class WorkflowTransactionService {
         holidays: MasterHoliday[],
     ): Date {
         const result = new Date(startDate);
-        
+
         if (!useCalendar) {
             if (unit === 'DAY') result.setDate(result.getDate() + duration);
             else if (unit === 'HOUR') result.setHours(result.getHours() + duration);
@@ -62,12 +63,12 @@ export class WorkflowTransactionService {
             const dateStr = result.toISOString().split('T')[0];
             const isHoliday = holidayDates.includes(dateStr);
             const isWorkingDay = workingDays.has(result.getDay());
-            
+
             if (!isHoliday && isWorkingDay) {
                 daysAdded++;
             }
         }
-        
+
         const calendar = calendars.find(c => c.dayOfWeek === result.getDay());
         if (calendar && calendar.endTime) {
             const [hours, minutes] = calendar.endTime.split(':');
@@ -90,15 +91,15 @@ export class WorkflowTransactionService {
             const em = queryRunner.manager;
 
             // 1. Validation: Workflow
-            const workflow = await em.findOne(MasterWorkflow, { 
-                where: { code: data.workflowCode, isActive: true } 
+            const workflow = await em.findOne(MasterWorkflow, {
+                where: { code: data.workflowCode, isActive: true }
             });
             if (!workflow) {
                 throw new BadRequestException(`Active workflow ${data.workflowCode} not found`);
             }
 
             // 2. Validation: VendorTemp
-            const vendorTemp = await em.findOne(VendorTemp, { 
+            const vendorTemp = await em.findOne(VendorTemp, {
                 where: { id: data.vendorTempId },
                 relations: ['vendor']
             });
@@ -106,9 +107,8 @@ export class WorkflowTransactionService {
                 throw new BadRequestException(`VendorTemp ${data.vendorTempId} not found`);
             }
 
-            // 3. Validation: Active Transaction Check
             const activeTrx = await em.findOne(WorkflowTransaction, {
-                where: { vendorTempId: data.vendorTempId, status: 'IN_PROGRESS' }
+                where: { vendorTempId: data.vendorTempId, status: WorkflowTransactionStatus.IN_PROGRESS }
             });
             if (activeTrx) {
                 throw new BadRequestException(`VendorTemp already has an active workflow transaction`);
@@ -154,7 +154,7 @@ export class WorkflowTransactionService {
                 workflowId: workflow.id,
                 vendorTempId: vendorTemp.id,
                 currentStepId: steps[0].id,
-                status: 'IN_PROGRESS',
+                status: WorkflowTransactionStatus.IN_PROGRESS,
                 requesterId: requesterId,
                 submittedAt: new Date(),
                 createdBy: String(requesterId),
@@ -164,7 +164,7 @@ export class WorkflowTransactionService {
             // 7. Create Steps
             const createdSteps: WorkflowTransactionStep[] = [];
             const now = new Date();
-            
+
             for (let i = 0; i < steps.length; i++) {
                 const step = steps[i];
                 const assignment = await em.findOne(MasterWorkflowStepAssignment, {
@@ -177,7 +177,7 @@ export class WorkflowTransactionService {
 
                 let stepStatus: 'WAITING' | 'PENDING' = step.assignmentType === 'ROLE' ? 'PENDING' : 'WAITING';
                 let approverId: number | null = step.assignmentType === 'USER' ? (assignment.userId ?? null) : null;
-                
+
                 // Only the first step starts its SLA right now
                 let assignedAt = null;
                 let dueAt = null;
@@ -204,7 +204,7 @@ export class WorkflowTransactionService {
                 workflowTransactionId: transaction.id,
                 workflowTransactionStepId: steps[0].id,
                 actorId: requesterId,
-                action: 'SUBMIT',
+                action: WorkflowTransactionStepStatus.SUBMITTED,
                 fromStepId: null as any,
                 toStepId: steps[0].id,
                 remarks: 'Vendor submitted workflow',

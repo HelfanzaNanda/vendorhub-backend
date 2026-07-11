@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendor-temp.entity';
 import { WorkflowTransactionService } from '@modules/workflow-transaction/workflow-transaction/workflow-transaction.service';
-import { WorkflowCode } from '@common/enums/workflow-code.enum';
+import { WorkflowCode } from '@common/enums/workflow.enum';
 
 @Injectable()
 export class RoleExpiredService {
@@ -11,7 +11,7 @@ export class RoleExpiredService {
         @InjectRepository(VendorTemp)
         private vendorTempRepo: Repository<VendorTemp>,
         private workflowService: WorkflowTransactionService,
-    ) {}
+    ) { }
 
     async submit(userId: number, vendorId: number) {
         // 1. Cari vendor_temp berdasarkan vendorId

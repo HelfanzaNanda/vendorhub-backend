@@ -8,3 +8,9 @@ export enum WorkflowCode {
     BLACKLIST_UNBLACKLIST = 'WF_BLACKLIST',
     ROLE_EXPIRED = 'WF_ROLE_EXPIRED'
 }
+
+export enum WorkflowStepCode {
+    ADMIN_OPS = 'ADMIN_OPS',
+    APPROVER_1 = 'APPROVER_1',
+    APPROVER_2 = 'APPROVER_2',
+}

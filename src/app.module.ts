@@ -24,6 +24,7 @@ import { WorkingCalendarModule } from '@modules/master/working-calendar/working-
 import { WorkflowTransactionModule } from '@modules/workflow-transaction/workflow-transaction/workflow-transaction.module';
 import { WorkflowTransactionStepModule } from '@modules/workflow-transaction/workflow-transaction-step/workflow-transaction-step.module';
 import { WorkflowHistoryModule } from '@modules/workflow-transaction/workflow-history/workflow-history.module';
+import { WorklistModule } from '@modules/worklist/worklist.module';
 
 @Module({
     imports: [
@@ -59,6 +60,7 @@ import { WorkflowHistoryModule } from '@modules/workflow-transaction/workflow-hi
         WorkflowTransactionModule,
         WorkflowTransactionStepModule,
         WorkflowHistoryModule,
+        WorklistModule,
     ],
     controllers: [AppController],
     providers: [AppService],
