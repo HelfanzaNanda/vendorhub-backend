@@ -60,6 +60,8 @@ import { CompetencySubCategory } from '@modules/master/competency-subcategory/en
 import { CompetencyCategory } from '@modules/master/competency-category/entities/competency-category.entity';
 import { VendorTermCondition } from '@modules/vendor/vendor-term-condition/entities/vendor-term-condition.entity';
 import { VendorTermConditionReview } from '@modules/vendor/vendor-term-condition/entities/vendor-term-condition-review.entity';
+import { VendorCategory } from '@modules/master/vendor-category/entities/vendor-category.entity';
+import { VendorCategoryItem } from '@modules/master/vendor-category-item/entities/vendor-category-item.entity';
 
 export const AppDataSource = new DataSource({
     type: 'mariadb',
@@ -101,6 +103,8 @@ export const AppDataSource = new DataSource({
         CompanyPersonnelType,
         DocumentType,
         Vendor,
+        VendorCategory,
+        VendorCategoryItem,
         // VendorStatus,
         // Site,
         // Area,

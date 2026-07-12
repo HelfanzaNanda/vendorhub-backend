@@ -47,7 +47,7 @@ export async function seedVendorCategoryItems(dataSource: DataSource) {
         'Third Party': [
             {
                 code: 'VENDOR',
-                name: 'Third Party',
+                name: 'VENDOR',
             },
         ],
         'Domestic Partner': [
@@ -78,9 +78,7 @@ export async function seedVendorCategoryItems(dataSource: DataSource) {
                     code: obj.code,
                     name: obj.name,
                     description: obj.name,
-                    vendorCategory: {
-                        id: category.id,
-                    },
+                    vendorCategory: category,
                 }),
             );
         }

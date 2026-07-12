@@ -8,6 +8,8 @@ import { SlaService } from '@modules/workflow-transaction/workflow-engine/servic
 import { WorkflowTransaction } from '@modules/workflow-transaction/workflow-transaction/entities/workflow-transaction.entity';
 import { WorkflowStatusUtil } from './utils/workflow-status.util';
 import { formatQuery } from 'src/utils/query.util';
+import { DateUtil } from '@common/utils/date.util';
+import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/entities/workflow-history.entity';
 
 @Injectable()
 export class WorklistService {
@@ -79,22 +81,15 @@ export class WorklistService {
 
     async getDetail(id: number) {
         // Resolve business information for detail
-        const qb = this.worklistRepository.findDetail(id);
-
-        // console.log('######### START ############');
-        // console.log('sql :', formatQuery(qb));
-        // console.log('ud :', id);
-        // console.log('######### END ############');
-
-        // return null;
-
-            qb.leftJoin('wt.vendorTemp', 'vt')
+        const qb = this.worklistRepository.findDetail(id)
+            .leftJoin('wt.vendorTemp', 'vt')
             .leftJoin('vt.vendor', 'v')
             .leftJoin('v.vendorCompany', 'vc')
             .addSelect([
                 'vt.id',
                 'vt.requestNo',
                 'v.id',
+                'v.vendorType',
                 'vc.id',
                 'vc.companyName'
             ]);
@@ -104,48 +99,50 @@ export class WorklistService {
         if (!wt) {
             throw new NotFoundException(`Workflow transaction ${id} not found`);
         }
+
+        const approvers = await this.worklistRepository.queryGetApprovers(id).getMany();
         
         return {
-            workflowInformation: {
+            workflowInfo: {
                 workflowCode: wt.workflow?.code,
                 workflowName: wt.workflow?.name,
-            },
-            businessInformation: {
                 requestNo: wt.vendorTemp?.requestNo,
                 vendorName: wt.vendorTemp?.vendor?.vendorCompany?.companyName || (wt.vendorTemp as any)?.vendorName,
+                vendorType: wt.vendorTemp?.vendor?.vendorType,
+                site: wt.site?.name,
+                currentStep: wt.currentTransactionStep?.workflowStep?.name,
+                workflow : wt.workflow.name,
+                status : WorkflowStatusUtil.generateDisplayStatus(wt.status, wt.currentTransactionStep?.workflowStep?.code),
+                submittedBy : `${wt.requester?.firstname} ${wt.requester?.lastname}`,
+                submittedDate : DateUtil.formatDateTime(wt.createdAt),
+                dueDate : DateUtil.formatDateTime(wt.currentTransactionStep?.dueAt),
             },
-            requester: {
-                id: wt.requester?.id,
-                name: `${wt.requester?.firstname} ${wt.requester?.lastname}`,
-            },
-            // currentStep: wt.currentStep ? {
-            //     id: wt.currentStep.id,
-            //     name: wt.currentStep.name,
-            //     sequence: wt.currentStep.sequence,
-            // } : null,
-            currentAssignee: (wt as any).currentWts?.user ? {
-                id: (wt as any).currentWts.user.id,
-                name: `${(wt as any).currentWts.user.firstname} ${(wt as any).currentWts.user.lastname}`,
-            } : null,
-            workflowStatus: wt.status,
-            createdDate: wt.createdAt,
-            dueDate: (wt as any).currentWts?.dueAt,
-            businessEntityReference: {
-                vendorTempId: wt.vendorTempId,
-            }
+            approvers: approvers.map((a) => ({
+                user : {
+                    name: `${a.user?.firstname} ${a.user?.lastname}`,
+                    email : a.user?.email,
+                },
+                delegatedUser : a.delegationUser ? {
+                    name: `${a.delegationUser?.firstname} ${a.delegationUser?.lastname}`,
+                    email : a.delegationUser?.email,
+                } : null,
+                role: a.workflowStep?.name,
+                actionAt: DateUtil.formatDateTime(a.actionAt),
+                status : a.status,
+                remarks: a.remarks
+            }))
         };
     }
 
-    async getHistory(id: number) {
+    async getHistories(id: number) {
         const histories = await this.worklistRepository.findHistory(id);
-        return histories.map((h: any) => ({
-            step: h.workflowStep?.sequence,
-            stepName: h.workflowStep?.name,
-            actor: h.actor?.firstname + ' ' + h.actor?.lastname,
+        return histories.map((h: WorkflowHistory) => ({
+            step: h.workflowTransactionStep?.workflowStep?.sequence,
+            stepName: h.workflowTransactionStep?.workflowStep?.name,
+            actor: `${h.actor?.firstname} ${h.actor?.lastname}`,
             action: h.action,
-            status: h.status,
             remarks: h.remarks,
-            actionAt: h.createdAt,
+            actionAt: DateUtil.formatDateTime(h.actionAt),
         }));
     }
 }

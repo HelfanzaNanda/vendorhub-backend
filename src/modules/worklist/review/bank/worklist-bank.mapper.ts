@@ -1,0 +1,44 @@
+import { VendorBankTemp } from "@modules/vendor/temporary/vendor-bank-temp/entities/vendor-bank-temp.entity";
+import { VendorBank } from "@modules/vendor/vendor-bank/entities/vendor-bank.entity";
+import { WorklistGenericResponse } from "@modules/worklist/dto/worklist-detail.dto";
+
+export class WorklistBankMapper {
+    static toResponse(temps: VendorBankTemp[]): WorklistGenericResponse[] {
+        return temps.map(temp => this.mapSingle(temp));
+    }
+
+    private static mapSingle(temp: VendorBankTemp): WorklistGenericResponse {
+        const current = temp?.vendorBank;
+        let action: 'CREATE' | 'UPDATE' | 'DELETE' | 'NO_CHANGE' = 'NO_CHANGE';
+        
+        let data: any = null;
+        if (temp) {
+            data = { ...temp };
+            delete data.vendorBank;
+            delete data.vendorTemp;
+        }
+
+        let originalData: any = current || null;
+
+        if (!current && temp) {
+            action = 'CREATE';
+            originalData = null;
+        } else if (current && (!temp || temp.action === 'DELETE' || temp.action === 'delete')) {
+            action = 'DELETE';
+            data = null;
+        } else {
+            // Simplified action determination, frontend does detailed diff
+            action = (temp?.action && temp.action.toUpperCase() !== 'DELETE') ? (temp.action.toUpperCase() as any) : 'UPDATE';
+            // Default to UPDATE if we don't have a reliable indicator, FE will resolve NO_CHANGE if deep equal
+        }
+
+        return {
+            id: temp?.id,
+            action,
+            reviewStatus: temp?.reviewStatus || null,
+            reviewRemark: temp?.reviewNotes || null,
+            data,
+            originalData,
+        };
+    }
+}

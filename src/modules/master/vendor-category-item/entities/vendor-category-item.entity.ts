@@ -10,7 +10,7 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('vendor_categories')
+@Entity('vendor_category_items')
 export class VendorCategoryItem extends AuditBaseEntity {
     @ManyToOne(() => VendorCategory, {
         createForeignKeyConstraints: false,

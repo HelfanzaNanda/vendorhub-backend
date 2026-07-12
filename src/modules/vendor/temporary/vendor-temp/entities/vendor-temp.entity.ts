@@ -2,6 +2,7 @@ import { AuditBaseEntity } from '@common/entities/audit-base.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
+import { VendorCategoryItem } from '@modules/master/vendor-category-item/entities/vendor-category-item.entity';
 
 @Entity('vendor_temps')
 export class VendorTemp extends AuditBaseEntity {
@@ -25,6 +26,13 @@ export class VendorTemp extends AuditBaseEntity {
     @ManyToOne(() => Vendor, { nullable: true, onDelete: 'SET NULL' })
     @JoinColumn({ name: 'vendor_id' })
     vendor?: Vendor;
+
+    @Column({ name: 'category_item_id', type: 'int', nullable: true })
+    categoryItemId?: number;
+
+    @ManyToOne(() => VendorCategoryItem, { nullable: true })
+    @JoinColumn({ name: 'category_item_id' })
+    categoryItem?: VendorCategoryItem;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'created_by' })

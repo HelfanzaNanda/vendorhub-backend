@@ -17,7 +17,7 @@ export class WorklistMapper {
             assignedDate: DateUtil.formatDateTime(entity.currentTransactionStep?.assignedAt),
             dueDate: DateUtil.formatDateTime(entity.currentTransactionStep?.dueAt),
             slaPic: `${sla.actual}/${sla.target} ${entity.currentTransactionStep.workflowStep.slaUnit} (${sla.isOverSla ? 'Overdue' : 'OK'})`,
-            area : entity.area?.name,
+            site : entity.site?.name,
             status: status
         };
     }

@@ -6,10 +6,30 @@ import { WorklistQueryDto } from './dto/worklist-query.dto';
 import { PermissionsGuard } from '@common/guards/permissions.guard';
 import { JwtPayload } from '@modules/auth/interfaces/jwt-payload.interface';
 
+// Services
+import { WorklistCompanyService } from './review/company/worklist-company.service';
+import { WorklistPersonnelService } from './review/personnel/worklist-personnel.service';
+import { WorklistBankService } from './review/bank/worklist-bank.service';
+import { WorklistAffiliationService } from './review/affiliation/worklist-affiliation.service';
+import { WorklistBusinessLicenseService } from './review/business-license/worklist-business-license.service';
+import { WorklistCompetencyService } from './review/competency/worklist-competency.service';
+import { WorklistDocumentService } from './review/document/worklist-document.service';
+import { WorklistFinancialReportService } from './review/financial-report/worklist-financial-report.service';
+
 @Controller('worklists')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class WorklistController {
-    constructor(private readonly worklistService: WorklistService) {}
+    constructor(
+        private readonly worklistService: WorklistService,
+        private readonly worklistCompanyService: WorklistCompanyService,
+        private readonly worklistPersonnelService: WorklistPersonnelService,
+        private readonly worklistBankService: WorklistBankService,
+        private readonly worklistAffiliationService: WorklistAffiliationService,
+        private readonly worklistBusinessLicenseService: WorklistBusinessLicenseService,
+        private readonly worklistCompetencyService: WorklistCompetencyService,
+        private readonly worklistDocumentService: WorklistDocumentService,
+        private readonly worklistFinancialReportService: WorklistFinancialReportService,
+    ) {}
 
     @Get('summary')
     async getSummary(
@@ -29,15 +49,27 @@ export class WorklistController {
 
     @Get(':workflowTransactionId')
     async getDetail(
-        @Param('workflowTransactionId') workflowTransactionId: number
+        @Param('workflowTransactionId') workflowTransactionId: number,
+        @Query('tab') tab?: string,
+        @Query('personnelType') personnelType?: string
     ) {
+        if (tab === 'company') return this.worklistCompanyService.get(workflowTransactionId);
+        if (tab === 'personnel') return this.worklistPersonnelService.get(workflowTransactionId, personnelType);
+        if (tab === 'banks') return this.worklistBankService.get(workflowTransactionId);
+        if (tab === 'affiliations') return this.worklistAffiliationService.get(workflowTransactionId);
+        if (tab === 'business-licenses') return this.worklistBusinessLicenseService.get(workflowTransactionId);
+        if (tab === 'competencies') return this.worklistCompetencyService.get(workflowTransactionId);
+        if (tab === 'documents') return this.worklistDocumentService.get(workflowTransactionId);
+        if (tab === 'financial-reports') return this.worklistFinancialReportService.get(workflowTransactionId);
+
         return this.worklistService.getDetail(workflowTransactionId);
     }
 
-    @Get(':workflowTransactionId/history')
+    @Get(':workflowTransactionId/histories')
     async getHistory(
         @Param('workflowTransactionId') workflowTransactionId: number
     ) {
-        return this.worklistService.getHistory(workflowTransactionId);
+        return this.worklistService.getHistories(workflowTransactionId);
     }
 }
+

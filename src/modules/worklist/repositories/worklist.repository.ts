@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, SelectQueryBuilder, Brackets } from 'typeorm';
+import { DataSource, SelectQueryBuilder, Brackets, Repository } from 'typeorm';
 import { WorkflowTransaction } from '@modules/workflow-transaction/workflow-transaction/entities/workflow-transaction.entity';
 import { WorkflowTransactionStep } from '@modules/workflow-transaction/workflow-transaction-step/entities/workflow-transaction-step.entity';
 import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/entities/workflow-history.entity';
@@ -9,16 +9,21 @@ import { Role } from '@modules/uman/role/entities/role.entity';
 import { RoleEnum } from '@common/enums/role.enum';
 import { formatQuery } from 'src/utils/query.util';
 import { JwtPayload } from '@modules/auth/interfaces/jwt-payload.interface';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class WorklistRepository {
-    constructor(private readonly dataSource: DataSource) {}
+    constructor(
+        private readonly dataSource: DataSource,
+        @InjectRepository(WorkflowHistory)
+        private readonly workflowTransactionHistoryRepo: Repository<WorkflowHistory>,
+    ) {}
 
     private getBaseQuery(): SelectQueryBuilder<WorkflowTransaction> {
         return this.dataSource
             .createQueryBuilder(WorkflowTransaction, 'wt')
             .leftJoin('wt.workflow', 'mw')
-            .leftJoin('wt.area', 'a')
+            .leftJoin('wt.site', 's')
             .leftJoin('wt.requester', 'req')
             .leftJoin('wt.currentTransactionStep', 'wts')
             .leftJoin('wts.workflowStep', 'wtsws')
@@ -36,7 +41,8 @@ export class WorklistRepository {
                 'wtsws.slaDuration',
                 'wtsws.slaUnit',
                 'wtsws.code',
-                'a.name',
+                'wtsws.name',
+                's.name',
                 'req.id',
                 'req.firstname',
                 'req.lastname',
@@ -55,7 +61,7 @@ export class WorklistRepository {
         if (user.defaultRoleId == RoleEnum.APPROVER) {
             
         }else{
-            qb.andWhere('wt.areaId = :areaId', { areaId: user.internalAreaId})
+            qb.andWhere('s.area_id = :areaId', { areaId: user.internalAreaId})
                 .andWhere('wts.status = :status', { status: 'PENDING'});
         }
 
@@ -144,24 +150,55 @@ export class WorklistRepository {
             .where('wt.id = :id', { id: workflowTransactionId });
     }
 
+    queryGetApprovers(workflowTransactionId: number) : SelectQueryBuilder<WorkflowTransactionStep> {
+        return this.dataSource.getRepository(WorkflowTransactionStep)
+        .createQueryBuilder('wts')
+        .leftJoin('wts.user', 'assigneeUser')
+        .leftJoin('wts.delegationUser', 'delegationUser')
+        .leftJoin('wts.workflowStep', 'mws')
+        .addSelect([
+            'assigneeUser.id', 'assigneeUser.firstname', 'assigneeUser.lastname', 'assigneeUser.email',
+            'delegationUser.id', 'delegationUser.firstname', 'delegationUser.lastname', 'delegationUser.email', 
+            'mws.name', 'wts.createdAt'
+        ])
+        .where('wts.workflow_transaction_id = :id', { id: workflowTransactionId })
+        .andWhere('mws.assignment_type = :assignmentType', { assignmentType: 'USER' });
+    }
+
     async findHistory(workflowTransactionId: number) {
-        return this.dataSource.getRepository(WorkflowHistory)
-            .createQueryBuilder('wh')
-            .leftJoin('wh.workflowStep', 'mws')
-            .leftJoin('wh.actor', 'actor')
-            .select([
-                'wh.id',
-                'wh.action',
-                'wh.status',
-                'wh.remarks',
-                'wh.createdAt',
-                'mws.sequence',
-                'mws.name',
-                'actor.firstname',
-                'actor.lastname'
-            ])
-            .where('wh.workflowTransactionId = :id', { id: workflowTransactionId })
-            .orderBy('wh.createdAt', 'ASC')
-            .getMany();
+
+        const result = await this.workflowTransactionHistoryRepo.find({
+            select : {
+                id: true,
+                action: true,
+                remarks: true,
+                actionAt: true,
+                actor: {
+                    id: true,
+                    firstname: true,
+                    lastname: true,
+                },
+                workflowTransactionStep: {
+                    id: true,
+                    workflowStep : {
+                        id: true,
+                        sequence: true,
+                        name: true
+                    }
+                }
+            },
+            relations: {
+                actor: true,
+                workflowTransactionStep: true,
+            },
+            where: {
+                workflowTransactionId: workflowTransactionId,
+            },
+            order: {
+                actionAt: 'ASC',
+            }
+        });
+
+        return result;
     }
 }

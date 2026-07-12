@@ -20,7 +20,7 @@ export async function seedVendorCategories(dataSource: DataSource) {
         },
         {
             code: 'TS03',
-            name: 'Domestic',
+            name: 'Domestic Partner',
             description: 'Domestic Partner',
         },
         {
@@ -30,14 +30,14 @@ export async function seedVendorCategories(dataSource: DataSource) {
         },
         {
             code: 'TS05',
-            name: 'Third',
-            description: 'Party Third Party',
+            name: 'Third Party',
+            description: 'Third Party',
         },
         {
             code: 'TS07',
             name: 'Employee',
             description: 'Employee',
-        },
+        }
     ];
 
     const repo = dataSource.getRepository(VendorCategory);

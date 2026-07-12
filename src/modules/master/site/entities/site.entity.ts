@@ -18,6 +18,9 @@ export class Site extends AuditBaseEntity {
     area: Area;
 
     @Column()
+    areaId: number;
+
+    @Column()
     code: string;
 
     @Column()

@@ -75,10 +75,12 @@ async function runSeeder() {
     // await seedCompanyPersonnelType(AppDataSource);
     // await seedDocumentType(AppDataSource);
 
-    await seedCurrency(AppDataSource);
+    // await seedCurrency(AppDataSource);
 
-    const { seedWorkflowEngine } = require('./workflow-engine.seed');
-    await seedWorkflowEngine(AppDataSource);
+    // const { seedWorkflowEngine } = require('./workflow-engine.seed');
+    // await seedWorkflowEngine(AppDa?taSource);
+
+    await seedVendorCategoryItems(AppDataSource)
 
     await AppDataSource.destroy();
 }

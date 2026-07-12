@@ -3,10 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { VendorTemp } from './entities/vendor-temp.entity';
 import { VendorTempService } from './vendor-temp.service';
 import { RunningNumberModule } from '@modules/running-number/running-number.module';
+import { VendorCategoryItem } from '@modules/master/vendor-category-item/entities/vendor-category-item.entity';
+import { VendorCategory } from '@modules/master/vendor-category/entities/vendor-category.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([VendorTemp]),
+        TypeOrmModule.forFeature([VendorTemp, VendorCategoryItem, VendorCategory]),
         RunningNumberModule
     ],
     providers: [VendorTempService],

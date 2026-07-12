@@ -25,6 +25,7 @@ import { WorkflowTransactionModule } from '@modules/workflow-transaction/workflo
 import { WorkflowTransactionStepModule } from '@modules/workflow-transaction/workflow-transaction-step/workflow-transaction-step.module';
 import { WorkflowHistoryModule } from '@modules/workflow-transaction/workflow-history/workflow-history.module';
 import { WorklistModule } from '@modules/worklist/worklist.module';
+import { VendorCategoryModule } from '@modules/master/vendor-category/vendor-category.module';
 
 @Module({
     imports: [
@@ -50,6 +51,7 @@ import { WorklistModule } from '@modules/worklist/worklist.module';
         CountryModule,
         SiteModule,
         LookupModule,
+        VendorCategoryModule,
         TermsConditionModule,
         VendorModule,
         WorkflowModule,

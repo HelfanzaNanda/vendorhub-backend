@@ -7,6 +7,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Area } from '@modules/master/area/entities/area.entity';
 import { WorkflowTransactionStep } from '@modules/workflow-transaction/workflow-transaction-step/entities/workflow-transaction-step.entity';
 import { WorkflowTransactionStatus } from '@common/enums/workflow-transaction.enum';
+import { Site } from '@modules/master/site/entities/site.entity';
 
 @Entity('workflow_transactions')
 export class WorkflowTransaction extends AuditBaseEntity {
@@ -17,12 +18,12 @@ export class WorkflowTransaction extends AuditBaseEntity {
     @JoinColumn({ name: 'workflow_id' })
     workflow: MasterWorkflow;
 
-    @Column({ name: 'area_id' })
-    areaId: number;
+    @Column({ name: 'site_id' })
+    siteId: number;
 
-    @ManyToOne(() => Area)
-    @JoinColumn({ name: 'area_id' })
-    area: Area;
+    @ManyToOne(() => Site)
+    @JoinColumn({ name: 'site_id' })
+    site: Site;
 
     @Column({ name: 'vendor_temp_id' })
     vendorTempId: number;
