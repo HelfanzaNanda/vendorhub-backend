@@ -68,8 +68,8 @@ export class WorklistService {
         const result = await paginate(qb, query, fields);
         result.data = await Promise.all(result.data.map(async (item : WorkflowTransaction) => {
             const sla = await this.slaService.calculate(
-                item.currentTransactionStep.assignedAt ?? new Date(),
-                item.currentTransactionStep.actionAt ?? new Date(),
+                item.currentTransactionStep.assignedAt || new Date(),
+                item.currentTransactionStep.actionAt || new Date(),
                 item.currentTransactionStep.workflowStep.slaDuration,
                 item.currentTransactionStep.workflowStep.useWorkingCalendar,
             );

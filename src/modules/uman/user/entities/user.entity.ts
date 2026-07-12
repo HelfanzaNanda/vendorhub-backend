@@ -55,12 +55,19 @@ export class User extends AuditBaseEntity {
     })
     areaIds: string;
 
+
+    @Column({ name: 'position_id', type: 'int', nullable: true })
+    positionId?: number;
+
     @ManyToOne(() => Position, {
         nullable: true,
         createForeignKeyConstraints: false,
     })
     @JoinColumn({ name: 'position_id' })
     position: Position;
+
+    @Column({ name: 'site_id', type: 'int', nullable: true })
+    siteId?: number;
 
     @ManyToOne(() => Site, {
         nullable: true,

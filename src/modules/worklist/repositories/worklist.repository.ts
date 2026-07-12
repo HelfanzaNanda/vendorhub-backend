@@ -62,7 +62,7 @@ export class WorklistRepository {
             
         }else{
             qb.andWhere('s.area_id = :areaId', { areaId: user.internalAreaId})
-                .andWhere('wts.status = :status', { status: 'PENDING'});
+                .andWhere('wts.status = :status', { status: 'WAITING'});
         }
 
         // qb.leftJoin('currentWts.user', 'assigneeUser')

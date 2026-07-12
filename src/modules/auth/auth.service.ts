@@ -68,7 +68,6 @@ export class AuthService {
             relations: [
                 'vendor',
                 'vendor.vendorCompany',
-                'vendor.vendorStatus',
                 'userHasRoles',
                 'userHasRoles.role',
                 'site',
@@ -109,7 +108,6 @@ export class AuthService {
             relations: [
                 'vendor',
                 'vendor.vendorCompany',
-                'vendor.vendorStatus',
                 'userHasRoles',
                 'userHasRoles.role',
             ],
