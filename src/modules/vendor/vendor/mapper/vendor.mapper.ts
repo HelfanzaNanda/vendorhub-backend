@@ -8,7 +8,7 @@ export class VendorMapper {
             vendorCode: entity.vendorCode ?? null,
             vendorStage: entity.vendorStage ?? null,
             vendorType: entity.vendorType ?? null,
-            vendorStatusId: entity.vendorStatusId ?? null,
+            status: entity.status ?? null,
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,

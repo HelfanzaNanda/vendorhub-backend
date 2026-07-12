@@ -1,3 +1,4 @@
+import { VendorStageEnum, VendorStatusEnum, VendorTypeEnum } from '@common/enums/vendor.enum';
 import { IsOptional, IsString, IsEnum, IsInt } from 'class-validator';
 
 export class CreateVendorDto {
@@ -5,15 +6,15 @@ export class CreateVendorDto {
     @IsOptional()
     vendorCode?: string;
 
-    @IsEnum(['CANDIDATE', 'VENDOR'])
+    @IsEnum(VendorStageEnum)
     @IsOptional()
-    vendorStage?: 'CANDIDATE' | 'VENDOR';
+    vendorStage?: VendorStageEnum;
 
-    @IsEnum(['LOCAL', 'FOREIGN', 'INDIVIDUAL'])
+    @IsEnum(VendorTypeEnum)
     @IsOptional()
-    vendorType?: 'LOCAL' | 'FOREIGN' | 'INDIVIDUAL';
+    vendorType?: VendorTypeEnum;
 
-    @IsInt()
+    @IsEnum(VendorStatusEnum)
     @IsOptional()
-    vendorStatusId?: number;
+    status?: VendorStatusEnum;
 }

@@ -14,7 +14,6 @@ import { seedIndustryCompetency } from './industry-competency.seed';
 import { seedAreas } from './area.seed';
 import { seedSites } from './sites.seed';
 import { seedBusinessEntityType } from './buss-entity-type.seed';
-import { seedVendorStatus } from './vendor-statuses.seed';
 import { seedTelcoPrefixes } from './telco-prefixes.seed';
 import { seedJobType } from './job-type.seed';
 import { seedTitle } from './titles.seed';

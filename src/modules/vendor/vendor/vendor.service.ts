@@ -50,8 +50,7 @@ export class VendorService {
             where: { id },
             relations: {
                 createdByUser: true,
-                updatedByUser: true,
-                vendorStatus: true,
+                updatedByUser: true
             },
         });
         if (!item) throw new NotFoundException();

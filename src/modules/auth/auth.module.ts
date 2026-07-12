@@ -16,7 +16,6 @@ import { BusinessEntityType } from '@modules/master/business-entity-type/entitie
 import { Country } from '@modules/master/country/entities/country.entity';
 import { Province } from '@modules/master/province/entities/province.entity';
 import { City } from '@modules/master/city/entities/city.entity';
-import { VendorStatus } from '@modules/master/vendor-status/entities/vendor-status.entity';
 import { Area } from '@modules/master/area/entities/area.entity';
 import { DocumentType } from '@modules/master/document-type/entities/document-type.entity';
 import { VendorDocument } from '@modules/vendor/vendor-document/entities/vendor-document.entity';
@@ -39,7 +38,6 @@ import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
             City,
             Vendor,
             DocumentType,
-            VendorStatus,
             VendorDocument,
             VendorCompany
         ]),

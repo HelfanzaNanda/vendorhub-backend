@@ -23,7 +23,8 @@
         "migration:run": "npm run typeorm -- migration:run -d src/database/data-source.ts",
         "migration:revert": "npm run typeorm -- migration:revert -d src/database/data-source.ts",
         "migration:show": "npm run typeorm -- migration:show",
-        "seed": "ts-node -r tsconfig-paths/register src/database/seeds/index.ts"
+        "seed": "ts-node -r tsconfig-paths/register src/database/seeds/index.ts",
+        "seed:demo": "ts-node -r tsconfig-paths/register src/database/seeds/demo-seed.ts"
     },
     "dependencies": {
         "@nestjs/bull": "^11.0.4",
@@ -54,6 +55,7 @@
     "devDependencies": {
         "@eslint/eslintrc": "^3.2.0",
         "@eslint/js": "^9.18.0",
+        "@faker-js/faker": "^10.5.0",
         "@nestjs/cli": "^11.0.0",
         "@nestjs/schematics": "^11.0.0",
         "@nestjs/testing": "^11.0.1",

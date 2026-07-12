@@ -1,4 +1,5 @@
 import { AuditResponseDto } from '@common/dto/audit-response.dto';
+import { VendorStageEnum, VendorStatusEnum, VendorTypeEnum } from '@common/enums/vendor.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class VendorResponseDto {
@@ -9,13 +10,13 @@ export class VendorResponseDto {
     vendorCode?: string | null;
 
     @ApiProperty({ nullable: true })
-    vendorStage?: 'CANDIDATE' | 'VENDOR' | null;
+    vendorStage?: VendorStageEnum | null;
 
     @ApiProperty({ nullable: true })
-    vendorType?: 'LOCAL' | 'FOREIGN' | 'INDIVIDUAL' | null;
+    vendorType?: VendorTypeEnum | null;
 
     @ApiProperty({ nullable: true })
-    vendorStatusId?: number | null;
+    status?: VendorStatusEnum | null;
 
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;

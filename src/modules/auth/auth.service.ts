@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SignUpDto } from './dto/signup.dto';
 import { generatePassword } from '@common/utils/password.util';
 // import { CompanyIdentity } from "@modules/vendor/company-identity/entities/company-identity.entity";
-import { VendorStatus } from '@modules/master/vendor-status/entities/vendor-status.entity';
 import { UserHasRole } from '@modules/uman/user-has-roles/entities/user-has-role.entity';
 import { Role } from '@modules/uman/role/entities/role.entity';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
@@ -18,6 +17,7 @@ import { VendorDocument } from '@modules/vendor/vendor-document/entities/vendor-
 import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';
 import { RunningNumber } from '@modules/running-number/entities/running-number.entity';
 import { RunningNumberService } from '@modules/running-number/running-number.service';
+import { VendorStageEnum, VendorStatusEnum } from '@common/enums/vendor.enum';
 
 @Injectable()
 export class AuthService {
@@ -27,8 +27,6 @@ export class AuthService {
         private userRepo: Repository<User>,
         @InjectRepository(Vendor)
         private vendorRepo: Repository<Vendor>,
-        @InjectRepository(VendorStatus)
-        private vendorStatusRepo: Repository<VendorStatus>,
         @InjectRepository(Role)
         private roleRepo: Repository<Role>,
         @InjectRepository(UserHasRole)
@@ -57,10 +55,7 @@ export class AuthService {
                     vendorCompany: {
                         companyName : true,
                     },
-                    vendorStatus: {
-                        name: true,
-                        code: true,
-                    },
+                    status: true
                 },
                 site : {
                     id: true,
@@ -187,7 +182,7 @@ export class AuthService {
             id: user.vendor.id,
             vendorCode: user.vendor.vendorCode || null,
             companyName: user.vendor.vendorCompany?.companyName || null,
-            vendorStatus: user.vendor.vendorStatus?.name || null,
+            status: user.vendor.status || null,
         } : null;
 
         const formattedUser = {
@@ -242,12 +237,6 @@ export class AuthService {
 
         if (checkUser || checkVendor) throw new UnauthorizedException("User already exists");
 
-        const vendorStatus = await this.vendorStatusRepo.findOne({
-            where: {
-                code: 'PRE_REGISTRATION',
-            },
-        });
-
         const documentType = await this.documentTypeRepo.findOne({
             where: {
                 code: 'NPWP',
@@ -260,7 +249,7 @@ export class AuthService {
             },
         });
 
-        if (!vendorStatus || !role || !documentType)
+        if (!role || !documentType)
             throw new UnauthorizedException(
                 'Master Vendor Status or Role or Document Type is not found',
             );
@@ -273,9 +262,8 @@ export class AuthService {
         threeYearsLater.setFullYear(now.getFullYear() + 10);
 
         const vendor = await this.vendorRepo.save(this.vendorRepo.create({
-            // vendorCode: null,
-            vendorStage: 'CANDIDATE',
-            vendorStatus: vendorStatus
+            vendorStage: VendorStageEnum.CANDIDATE,
+            status: VendorStatusEnum.PRE_REGISTRATION
         }));
 
         const vendorDocument = await this.vendorDocumentRepo.save(this.vendorDocumentRepo.create({

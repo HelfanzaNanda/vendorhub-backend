@@ -6,7 +6,7 @@ import { Province } from '@modules/master/province/entities/province.entity';
 import { Site } from '@modules/master/site/entities/site.entity';
 import { TermsConditionItem } from '@modules/master/terms-condition-item/entities/terms-condition-item.entity';
 import { TermsCondition } from '@modules/master/terms-condition/entities/term-condition.entity';
-import { VendorStatus } from '@modules/master/vendor-status/entities/vendor-status.entity';
+// import { VendorStatus } from '@modules/master/vendor-status/entities/vendor-status.entity';
 import { Menu } from '@modules/uman/menu/entities/menu.entity';
 import { Permission } from '@modules/uman/permission/entities/permission.entity';
 import { Role } from '@modules/uman/role/entities/role.entity';
@@ -46,6 +46,10 @@ import { VendorAffiliationTemp } from '@modules/vendor/temporary/vendor-affiliat
 import { VendorBusinessLicenseTemp } from '@modules/vendor/temporary/vendor-business-license-temp/entities/vendor-business-license-temp.entity';
 import { VendorFinancialReportTemp } from '@modules/vendor/temporary/vendor-financial-report-temp/entities/vendor-financial-report-temp.entity';
 import { VendorDocumentTemp } from '@modules/vendor/temporary/vendor-document-temp/entities/vendor-document-temp.entity';
+import { VendorCompetency } from '@modules/vendor/vendor-competency/entities/vendor-competency.entity';
+import { VendorCustomerReference } from '@modules/vendor/vendor-competency/entities/vendor-customer-reference.entity';
+import { VendorCompetencyTemp } from '@modules/vendor/temporary/vendor-competency-temp/entities/vendor-competency-temp.entity';
+import { VendorCustomerReferenceTemp } from '@modules/vendor/temporary/vendor-competency-temp/entities/vendor-customer-reference-temp.entity';
 import { RunningNumber } from '@modules/running-number/entities/running-number.entity';
 import { Title } from '@modules/master/title/entities/title.entity';
 import { JobType } from '@modules/master/job-type/entities/job-type.entity';
@@ -87,7 +91,6 @@ export const AppDataSource = new DataSource({
         Country,
         Province,
         City,
-        VendorStatus,
         Title,
         JobType,
         IdentityType,
@@ -125,6 +128,10 @@ export const AppDataSource = new DataSource({
         VendorBusinessLicenseTemp,
         VendorFinancialReportTemp,
         VendorDocumentTemp,
+        VendorCompetency,
+        VendorCustomerReference,
+        VendorCompetencyTemp,
+        VendorCustomerReferenceTemp,
         VendorTermCondition,
         VendorTermConditionReview,
         TermsCondition,
