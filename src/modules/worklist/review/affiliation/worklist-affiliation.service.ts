@@ -3,6 +3,7 @@ import { WorkflowTransaction } from "@modules/workflow-transaction/workflow-tran
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { VendorAffiliation } from "@modules/vendor/vendor-affiliation/entities/vendor-affiliation.entity";
 import { WorklistAffiliationMapper } from "./worklist-affiliation.mapper";
 
 @Injectable()
@@ -55,7 +56,33 @@ export class WorklistAffiliationService {
                 affiliateType: true
             },
         });
-        return WorklistAffiliationMapper.toResponse(temps);
+        const response = WorklistAffiliationMapper.toResponse(temps);
+
+        if (response.length === 0 && workflow.vendorTemp?.vendorId) {
+            const masterData = await this.workflowTransactionRepository.manager.find(VendorAffiliation, {
+                where: { vendorId: workflow.vendorTemp.vendorId },
+                relations: {
+                    affiliateType: true
+                }
+            });
+
+            return masterData.map(master => ({
+                id: master.id,
+                action: 'NO_CHANGE',
+                reviewStatus: null,
+                reviewRemark: null,
+                data: {
+                    ...master,
+                    vendorId: undefined,
+                },
+                originalData: {
+                    ...master,
+                    vendorId: undefined,
+                }
+            }));
+        }
+
+        return response;
         
     }
 }

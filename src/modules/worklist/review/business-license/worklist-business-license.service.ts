@@ -3,6 +3,7 @@ import { WorkflowTransaction } from "@modules/workflow-transaction/workflow-tran
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { VendorBusinessLicense } from "@modules/vendor/vendor-business-license/entities/vendor-business-license.entity";
 import { WorklistBusinessLicenseMapper } from "./worklist-business-license.mapper";
 
 @Injectable()
@@ -28,7 +29,30 @@ export class WorklistBusinessLicenseService {
         });
 
         if (!temp) {
-            throw new NotFoundException(`BusinessLicense not found`);
+            if (workflow.vendorTemp?.vendorId) {
+                const masterData = await this.workflowTransactionRepository.manager.findOne(VendorBusinessLicense, {
+                    where: { vendorId: workflow.vendorTemp.vendorId },
+                    relations: ['file']
+                });
+                
+                if (masterData) {
+                    return [{
+                        id: masterData.id,
+                        action: 'NO_CHANGE',
+                        reviewStatus: null,
+                        reviewRemark: null,
+                        data: {
+                            ...masterData,
+                            vendorId: undefined,
+                        },
+                        originalData: {
+                            ...masterData,
+                            vendorId: undefined,
+                        }
+                    }];
+                }
+            }
+            return [];
         }
 
         return WorklistBusinessLicenseMapper.toResponse(temp);

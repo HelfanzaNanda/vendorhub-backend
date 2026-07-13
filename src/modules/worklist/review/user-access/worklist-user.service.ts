@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { WorklistUserMapper } from "./worklist-user.mapper";
 import { VendorUserTemp } from "@modules/vendor/temporary/vendor-user-temp/entities/vendor-user-temp.entity";
+import { User } from "@modules/uman/user/entities/user.entity";
 
 @Injectable()
 export class WorklistUserAccessService {
@@ -33,7 +34,34 @@ export class WorklistUserAccessService {
                 
             // },
         });
-        return WorklistUserMapper.toResponse(temps);
+        const response = WorklistUserMapper.toResponse(temps);
+
+        if (response.length === 0 && workflow.vendorTemp?.vendorId) {
+            const masterData = await this.workflowTransactionRepository.manager.find(User, {
+                where: { vendor: { id: workflow.vendorTemp.vendorId } },
+                relations: {
+                    position: true,
+                    // add other necessary relations if needed
+                }
+            });
+
+            return masterData.map(master => ({
+                id: master.id,
+                action: 'NO_CHANGE',
+                reviewStatus: null,
+                reviewRemark: null,
+                data: {
+                    ...master,
+                    vendor: undefined,
+                },
+                originalData: {
+                    ...master,
+                    vendor: undefined,
+                }
+            }));
+        }
+
+        return response;
         
     }
 }

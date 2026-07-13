@@ -3,6 +3,7 @@ import { WorkflowTransaction } from "@modules/workflow-transaction/workflow-tran
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { VendorDocument } from "@modules/vendor/vendor-document/entities/vendor-document.entity";
 import { WorklistDocumentMapper } from "./worklist-document.mapper";
 
 @Injectable()
@@ -72,6 +73,39 @@ export class WorklistDocumentService {
                 },
             },
         });
+
+        if (!temp) {
+            if (workflow.vendorTemp?.vendorId) {
+                const masterData = await this.workflowTransactionRepository.manager.findOne(VendorDocument, {
+                    where: { 
+                        vendorId: workflow.vendorTemp.vendorId,
+                        documentType: { code: documentType }
+                    },
+                    relations: {
+                        documentType: true,
+                        file: true
+                    }
+                });
+
+                if (masterData) {
+                    return [{
+                        id: masterData.id,
+                        action: 'NO_CHANGE',
+                        reviewStatus: null,
+                        reviewRemark: null,
+                        data: {
+                            ...masterData,
+                            vendorId: undefined,
+                        },
+                        originalData: {
+                            ...masterData,
+                            vendorId: undefined,
+                        }
+                    }];
+                }
+            }
+            return [];
+        }
 
         return WorklistDocumentMapper.toResponse(temp);
         

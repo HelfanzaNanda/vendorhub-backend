@@ -3,6 +3,7 @@ import { WorkflowTransaction } from "@modules/workflow-transaction/workflow-tran
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { VendorBank } from "@modules/vendor/vendor-bank/entities/vendor-bank.entity";
 import { WorklistBankMapper } from "./worklist-bank.mapper";
 
 @Injectable()
@@ -68,6 +69,38 @@ export class WorklistBankService {
                 file : true,
             },
         });
-        return WorklistBankMapper.toResponse(temps);
+        const response = WorklistBankMapper.toResponse(temps);
+
+        if (response.length === 0 && workflow.vendorTemp?.vendorId) {
+            const masterData = await this.workflowTransactionRepository.manager.find(VendorBank, {
+                where: { vendorId: workflow.vendorTemp.vendorId },
+                relations: {
+                    bankBranch: {
+                        bank: {
+                            country: true
+                        }
+                    },
+                    currency: true,
+                    file: true,
+                }
+            });
+
+            return masterData.map(master => ({
+                id: master.id,
+                action: 'NO_CHANGE',
+                reviewStatus: null,
+                reviewRemark: null,
+                data: {
+                    ...master,
+                    vendorId: undefined,
+                },
+                originalData: {
+                    ...master,
+                    vendorId: undefined,
+                }
+            }));
+        }
+
+        return response;
     }
 }

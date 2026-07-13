@@ -3,6 +3,7 @@ import { WorkflowTransaction } from "@modules/workflow-transaction/workflow-tran
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { VendorFinancialReport } from "@modules/vendor/vendor-financial-report/entities/vendor-financial-report.entity";
 import { WorklistFinancialReportMapper } from "./worklist-financial-report.mapper";
 
 @Injectable()
@@ -85,7 +86,33 @@ export class WorklistFinancialReportService {
         });
 
         if (!temp) {
-            throw new NotFoundException(`FinancialReport not found`);
+            if (workflow.vendorTemp?.vendorId) {
+                const masterData = await this.workflowTransactionRepository.manager.findOne(VendorFinancialReport, {
+                    where: { vendorId: workflow.vendorTemp.vendorId },
+                    relations: {
+                        currency: true,
+                        file: true
+                    }
+                });
+
+                if (masterData) {
+                    return [{
+                        id: masterData.id,
+                        action: 'NO_CHANGE',
+                        reviewStatus: null,
+                        reviewRemark: null,
+                        data: {
+                            ...masterData,
+                            vendorId: undefined,
+                        },
+                        originalData: {
+                            ...masterData,
+                            vendorId: undefined,
+                        }
+                    }];
+                }
+            }
+            return [];
         }
 
         return WorklistFinancialReportMapper.toResponse(temp);

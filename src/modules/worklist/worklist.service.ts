@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { WorklistRepository } from './repositories/worklist.repository';
 import { WorklistCard, WorklistQueryDto } from './dto/worklist-query.dto';
 import { WorklistMapper } from './mapper/worklist.mapper';
@@ -10,12 +10,24 @@ import { WorkflowStatusUtil } from './utils/workflow-status.util';
 import { formatQuery } from 'src/utils/query.util';
 import { DateUtil } from '@common/utils/date.util';
 import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/entities/workflow-history.entity';
+import { DataSource } from 'typeorm';
+import { SaveReviewDto, ReviewEntity } from './dto/save-review.dto';
+import { VendorCompanyTemp } from '@modules/vendor/temporary/vendor-company-temp/entities/vendor-company-temp.entity';
+import { VendorPersonnelTemp } from '@modules/vendor/temporary/vendor-personnel-temp/entities/vendor-personnel-temp.entity';
+import { VendorUserTemp } from '@modules/vendor/temporary/vendor-user-temp/entities/vendor-user-temp.entity';
+import { VendorBankTemp } from '@modules/vendor/temporary/vendor-bank-temp/entities/vendor-bank-temp.entity';
+import { VendorAffiliationTemp } from '@modules/vendor/temporary/vendor-affiliation-temp/entities/vendor-affiliation-temp.entity';
+import { VendorBusinessLicenseTemp } from '@modules/vendor/temporary/vendor-business-license-temp/entities/vendor-business-license-temp.entity';
+import { VendorCompetencyTemp } from '@modules/vendor/temporary/vendor-competency-temp/entities/vendor-competency-temp.entity';
+import { VendorDocumentTemp } from '@modules/vendor/temporary/vendor-document-temp/entities/vendor-document-temp.entity';
+import { VendorFinancialReportTemp } from '@modules/vendor/temporary/vendor-financial-report-temp/entities/vendor-financial-report-temp.entity';
 
 @Injectable()
 export class WorklistService {
     constructor(
         private readonly worklistRepository: WorklistRepository, 
-        private readonly slaService: SlaService
+        private readonly slaService: SlaService,
+        private readonly dataSource: DataSource
     ) {}
 
     async getSummary(user: JwtPayload, workflowCode?: string) {
@@ -143,5 +155,65 @@ export class WorklistService {
             remarks: h.remarks,
             actionAt: DateUtil.formatDateTime(h.actionAt),
         }));
+    }
+
+    async saveReview(workflowTransactionId: number, dto: SaveReviewDto, user: JwtPayload) {
+        const wt = await this.dataSource.getRepository(WorkflowTransaction).findOne({
+            where: { id: workflowTransactionId },
+            relations: ['site', 'currentTransactionStep', 'currentTransactionStep.workflowStep']
+        });
+
+        if (!wt) {
+            throw new NotFoundException(`WorkflowTransaction not found`);
+        }
+
+        const currentStep = wt.currentTransactionStep;
+        if (!currentStep) {
+            throw new NotFoundException(`Current active WorkflowTransactionStep not found`);
+        }
+
+        if (currentStep.workflowStep?.code !== 'ADMIN_OPS') {
+            throw new ForbiddenException(`Only ADMIN_OPS can review this step`);
+        }
+
+        if (wt.site?.areaId !== user.internalAreaId) {
+            throw new ForbiddenException(`You can only review vendors in your area`);
+        }
+
+        let TargetEntity: any;
+        switch (dto.sectionId) {
+            case ReviewEntity.VENDOR_COMPANY: TargetEntity = VendorCompanyTemp; break;
+            case ReviewEntity.VENDOR_PERSONNEL: TargetEntity = VendorPersonnelTemp; break;
+            case ReviewEntity.VENDOR_USER_ACCESS: TargetEntity = VendorUserTemp; break;
+            case ReviewEntity.VENDOR_BANK: TargetEntity = VendorBankTemp; break;
+            case ReviewEntity.VENDOR_AFFILIATION: TargetEntity = VendorAffiliationTemp; break;
+            case ReviewEntity.VENDOR_BUSINESS_LICENSE: TargetEntity = VendorBusinessLicenseTemp; break;
+            case ReviewEntity.VENDOR_COMPETENCY: TargetEntity = VendorCompetencyTemp; break;
+            case ReviewEntity.VENDOR_DOCUMENT: TargetEntity = VendorDocumentTemp; break;
+            case ReviewEntity.VENDOR_FINANCIAL_REPORT: TargetEntity = VendorFinancialReportTemp; break;
+            default:
+                throw new NotFoundException(`Unknown section: ${dto.sectionId}`);
+        }
+
+        return this.dataSource.transaction(async (manager) => {
+            const record: any = await manager.findOne(TargetEntity, {
+                where: { id: dto.recordId }
+            });
+
+            if (!record) {
+                throw new NotFoundException(`${dto.sectionId} with id ${dto.recordId} not found`);
+            }
+
+            if (record.reviewStatus === dto.status && record.reviewNotes === dto.remark) {
+                return record; // No change needed
+            }
+
+            record.reviewStatus = dto.status;
+            record.reviewNotes = dto.remark || null;
+
+            await manager.save(TargetEntity, record);
+            
+            return record;
+        });
     }
 }

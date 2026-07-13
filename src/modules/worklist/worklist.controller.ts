@@ -1,10 +1,11 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards, Post, Body } from '@nestjs/common';
 import { WorklistService } from './worklist.service';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { CurrentUser } from '@common/decorators/current-user.decorator';
 import { WorklistQueryDto } from './dto/worklist-query.dto';
 import { PermissionsGuard } from '@common/guards/permissions.guard';
 import { JwtPayload } from '@modules/auth/interfaces/jwt-payload.interface';
+import { SaveReviewDto } from './dto/save-review.dto';
 
 // Services
 import { WorklistCompanyService } from './review/company/worklist-company.service';
@@ -74,6 +75,15 @@ export class WorklistController {
         @Param('workflowTransactionId') workflowTransactionId: number
     ) {
         return this.worklistService.getHistories(workflowTransactionId);
+    }
+
+    @Post(':workflowTransactionId/reviews')
+    async saveReview(
+        @Param('workflowTransactionId') workflowTransactionId: number,
+        @Body() dto: SaveReviewDto,
+        @CurrentUser() user: JwtPayload
+    ) {
+        return this.worklistService.saveReview(workflowTransactionId, dto, user);
     }
 }
 
