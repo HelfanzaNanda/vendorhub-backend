@@ -1,3 +1,4 @@
+import { ReviewHelper } from '@modules/worklist/review/review.helper';
 import { VendorFinancialReportTemp } from "@modules/vendor/temporary/vendor-financial-report-temp/entities/vendor-financial-report-temp.entity";
 import { VendorFinancialReport } from "@modules/vendor/vendor-financial-report/entities/vendor-financial-report.entity";
 import { WorklistGenericResponse } from "@modules/worklist/dto/worklist-detail.dto";
@@ -9,7 +10,7 @@ export class WorklistFinancialReportMapper {
 
     private static mapSingle(temp: VendorFinancialReportTemp): WorklistGenericResponse {
         const current = temp?.vendorFinancialReport;
-        let action: 'CREATE' | 'UPDATE' | 'DELETE' | 'NO_CHANGE' = 'NO_CHANGE';
+        let action: 'CREATE' | 'UPDATE' | 'DELETE' | 'NO_ACTION' = 'NO_ACTION';
         
         let data: any = null;
         if (temp) {
@@ -32,7 +33,7 @@ export class WorklistFinancialReportMapper {
         } else {
             // Simplified action determination, frontend does detailed diff
             action = (temp?.action && temp.action.toUpperCase() !== 'DELETE') ? (temp.action.toUpperCase() as any) : 'UPDATE';
-            // Default to UPDATE if we don't have a reliable indicator, FE will resolve NO_CHANGE if deep equal
+            // Default to UPDATE if we don't have a reliable indicator, FE will resolve NO_ACTION if deep equal
         }
 
         return {
@@ -42,6 +43,7 @@ export class WorklistFinancialReportMapper {
             reviewRemark: temp?.reviewNotes || null,
             data,
             originalData,
+            permissions: ReviewHelper.getPermissions(action),
         };
     }
 }

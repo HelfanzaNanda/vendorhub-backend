@@ -53,6 +53,7 @@ export class WorklistController {
     @Get(':workflowTransactionId')
     async getDetail(
         @Param('workflowTransactionId') workflowTransactionId: number,
+        @CurrentUser() user: JwtPayload,
         @Query('tab') tab?: string,
         @Query('personnelType') personnelType?: string,
         @Query('documentType') documentType?: string
@@ -67,7 +68,7 @@ export class WorklistController {
         if (tab === 'documents') return this.worklistDocumentService.get(workflowTransactionId, documentType!!);
         if (tab === 'financial-reports') return this.worklistFinancialReportService.get(workflowTransactionId);
 
-        return this.worklistService.getDetail(workflowTransactionId);
+        return this.worklistService.getDetail(workflowTransactionId, user);
     }
 
     @Get(':workflowTransactionId/histories')

@@ -1,3 +1,4 @@
+import { ReviewHelper } from '@modules/worklist/review/review.helper';
 import { VendorCompanyTemp } from "@modules/vendor/temporary/vendor-company-temp/entities/vendor-company-temp.entity";
 import { VendorCompany } from "@modules/vendor/vendor-company/entities/vendor-company.entity";
 import { WorklistGenericResponse } from "@modules/worklist/dto/worklist-detail.dto";
@@ -6,7 +7,7 @@ export class WorklistCompanyMapper {
     static toResponse(temp: VendorCompanyTemp): WorklistGenericResponse[] {
         const current = temp?.vendorCompany;
         
-        let action: 'CREATE' | 'UPDATE' | 'DELETE' | 'NO_CHANGE' = 'NO_CHANGE';
+        let action: 'CREATE' | 'UPDATE' | 'DELETE' | 'NO_ACTION' = 'NO_ACTION';
         
         let data: any = null;
         if (temp) {
@@ -24,10 +25,10 @@ export class WorklistCompanyMapper {
             action = 'DELETE';
             data = null;
         } else {
-            // Compare fields to determine if it's an UPDATE or NO_CHANGE
+            // Compare fields to determine if it's an UPDATE or NO_ACTION
             // (You could do a deep comparison here or just assume UPDATE if action was saved as UPDATE, but the previous code compared specific fields)
             const changed = this.hasChanges(current, temp);
-            action = changed ? 'UPDATE' : 'NO_CHANGE';
+            action = changed ? 'UPDATE' : 'NO_ACTION';
         }
 
         return [

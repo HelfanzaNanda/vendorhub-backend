@@ -90,7 +90,7 @@ export class WorklistService {
         return result;
     }
 
-    async getDetail(id: number) {
+    async getDetail(id: number, user: JwtPayload) {
         // Resolve business information for detail
         const qb = this.worklistRepository.findDetail(id)
             .leftJoin('wt.vendorTemp', 'vt')
@@ -113,6 +113,33 @@ export class WorklistService {
 
         const approvers = await this.worklistRepository.queryGetApprovers(id).getMany();
         
+        const currentWts = wt.currentTransactionStep;
+        
+        // canReview
+        let canReview = false;
+        if (wt.status === 'IN_PROGRESS' && currentWts?.status === 'WAITING' && currentWts.workflowStep?.code === 'ADMIN_OPS') {
+            canReview = wt.site?.areaId === user.internalAreaId;
+        }
+
+        // canSubmit
+        let canSubmit = false;
+        if (wt.status === 'IN_PROGRESS' && currentWts?.status === 'WAITING') {
+            const stepCode = currentWts.workflowStep?.code;
+            if (stepCode === 'ADMIN_OPS') {
+                canSubmit = wt.site?.areaId === user.internalAreaId;
+            } else if (stepCode === 'APPROVER_1' || stepCode === 'APPROVER_2') {
+                canSubmit = currentWts.userId === user.sub || currentWts.delegationUserId === user.sub;
+            }
+        }
+
+        // canDelegate
+        let canDelegate = false;
+        if (wt.status === 'IN_PROGRESS' && currentWts?.status === 'WAITING') {
+            if (currentWts.userId === user.sub || currentWts.delegationUserId === user.sub) {
+                canDelegate = true; // Assuming true if current approver
+            }
+        }
+
         return {
             workflowInfo: {
                 workflowCode: wt.workflow?.code,
@@ -141,7 +168,12 @@ export class WorklistService {
                 actionAt: DateUtil.formatDateTime(a.actionAt),
                 status : a.status,
                 remarks: a.remarks
-            }))
+            })),
+            permissions: {
+                canReview,
+                canSubmit,
+                canDelegate
+            }
         };
     }
 

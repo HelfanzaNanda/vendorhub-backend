@@ -1,3 +1,4 @@
+import { ReviewHelper } from '@modules/worklist/review/review.helper';
 import { VendorBusinessLicenseTemp } from "@modules/vendor/temporary/vendor-business-license-temp/entities/vendor-business-license-temp.entity";
 import { WorkflowTransaction } from "@modules/workflow-transaction/workflow-transaction/entities/workflow-transaction.entity";
 import { Injectable, NotFoundException } from "@nestjs/common";
@@ -38,7 +39,7 @@ export class WorklistBusinessLicenseService {
                 if (masterData) {
                     return [{
                         id: masterData.id,
-                        action: 'NO_CHANGE',
+                        action: 'NO_ACTION',
                         reviewStatus: null,
                         reviewRemark: null,
                         data: {
@@ -48,7 +49,8 @@ export class WorklistBusinessLicenseService {
                         originalData: {
                             ...masterData,
                             vendorId: undefined,
-                        }
+                        },
+                permissions: ReviewHelper.getPermissions('NO_ACTION')
                     }];
                 }
             }

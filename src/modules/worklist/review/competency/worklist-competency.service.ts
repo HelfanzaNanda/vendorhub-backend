@@ -1,3 +1,4 @@
+import { ReviewHelper } from '@modules/worklist/review/review.helper';
 import { VendorCompetencyTemp } from "@modules/vendor/temporary/vendor-competency-temp/entities/vendor-competency-temp.entity";
 import { WorkflowTransaction } from "@modules/workflow-transaction/workflow-transaction/entities/workflow-transaction.entity";
 import { Injectable, NotFoundException } from "@nestjs/common";
@@ -39,7 +40,7 @@ export class WorklistCompetencyService {
 
             return masterData.map(master => ({
                 id: master.id,
-                action: 'NO_CHANGE',
+                action: 'NO_ACTION',
                 reviewStatus: null,
                 reviewRemark: null,
                 data: {
@@ -49,7 +50,8 @@ export class WorklistCompetencyService {
                 originalData: {
                     ...master,
                     vendorId: undefined,
-                }
+                },
+                permissions: ReviewHelper.getPermissions('NO_ACTION')
             }));
         }
 

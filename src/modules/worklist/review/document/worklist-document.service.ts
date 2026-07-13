@@ -1,3 +1,4 @@
+import { ReviewHelper } from '@modules/worklist/review/review.helper';
 import { VendorDocumentTemp } from "@modules/vendor/temporary/vendor-document-temp/entities/vendor-document-temp.entity";
 import { WorkflowTransaction } from "@modules/workflow-transaction/workflow-transaction/entities/workflow-transaction.entity";
 import { Injectable, NotFoundException } from "@nestjs/common";
@@ -90,7 +91,7 @@ export class WorklistDocumentService {
                 if (masterData) {
                     return [{
                         id: masterData.id,
-                        action: 'NO_CHANGE',
+                        action: 'NO_ACTION',
                         reviewStatus: null,
                         reviewRemark: null,
                         data: {
@@ -100,7 +101,8 @@ export class WorklistDocumentService {
                         originalData: {
                             ...masterData,
                             vendorId: undefined,
-                        }
+                        },
+                permissions: ReviewHelper.getPermissions('NO_ACTION')
                     }];
                 }
             }

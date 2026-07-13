@@ -1,3 +1,4 @@
+import { ReviewHelper } from '@modules/worklist/review/review.helper';
 import { VendorBankTemp } from "@modules/vendor/temporary/vendor-bank-temp/entities/vendor-bank-temp.entity";
 import { VendorBank } from "@modules/vendor/vendor-bank/entities/vendor-bank.entity";
 import { WorklistGenericResponse } from "@modules/worklist/dto/worklist-detail.dto";
@@ -9,7 +10,7 @@ export class WorklistBankMapper {
 
     private static mapSingle(temp: VendorBankTemp): WorklistGenericResponse {
         const current = temp?.vendorBank;
-        let action: 'CREATE' | 'UPDATE' | 'DELETE' | 'NO_CHANGE' = 'NO_CHANGE';
+        let action: 'CREATE' | 'UPDATE' | 'DELETE' | 'NO_ACTION' = 'NO_ACTION';
         
         let data: any = null;
         if (temp) {
@@ -29,7 +30,7 @@ export class WorklistBankMapper {
         } else {
             // Simplified action determination, frontend does detailed diff
             action = (temp?.action && temp.action.toUpperCase() !== 'DELETE') ? (temp.action.toUpperCase() as any) : 'UPDATE';
-            // Default to UPDATE if we don't have a reliable indicator, FE will resolve NO_CHANGE if deep equal
+            // Default to UPDATE if we don't have a reliable indicator, FE will resolve NO_ACTION if deep equal
         }
 
         return {
@@ -39,6 +40,7 @@ export class WorklistBankMapper {
             reviewRemark: temp?.reviewNotes || null,
             data,
             originalData,
+            permissions: ReviewHelper.getPermissions(action),
         };
     }
 }
