@@ -17,7 +17,7 @@ export class Site extends AuditBaseEntity {
     @JoinColumn({ name: 'area_id' })
     area: Area;
 
-    @Column()
+    @Column({name: 'area_id'})
     areaId: number;
 
     @Column()

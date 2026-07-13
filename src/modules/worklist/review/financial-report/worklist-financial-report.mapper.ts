@@ -13,12 +13,15 @@ export class WorklistFinancialReportMapper {
         
         let data: any = null;
         if (temp) {
-            data = { ...temp };
+            data = { ...temp, currencyName : temp.currency ? `${temp.currency.code} (${temp.currency.name})` : null };
             delete data.vendorFinancialReport;
             delete data.vendorTemp;
         }
 
         let originalData: any = current || null;
+        if (originalData) {
+            originalData = { ...originalData, currencyName : originalData.currency ? `${originalData.currency.code} (${originalData.currency.name})` : null };
+        }
 
         if (!current && temp) {
             action = 'CREATE';

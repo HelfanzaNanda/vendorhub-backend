@@ -73,8 +73,7 @@ export class WorklistService {
                 item.currentTransactionStep.workflowStep.slaDuration,
                 item.currentTransactionStep.workflowStep.useWorkingCalendar,
             );
-            const status = WorkflowStatusUtil.generateDisplayStatus(item.status, item.currentTransactionStep?.workflowStep?.code);
-            return WorklistMapper.toListDto(item, sla, status);
+            return WorklistMapper.toListDto(item, sla);
         }));
         return result;
     }

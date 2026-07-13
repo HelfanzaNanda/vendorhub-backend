@@ -23,8 +23,65 @@ export class WorklistFinancialReportService {
 
         
         const temp = await this.tempRepository.findOne({
+            select: {
+                id: true,
+                currency: {
+                    id: true,
+                    name: true,
+                    code: true,
+                },
+                year: true,
+                periodFrom: true,
+                periodTo: true,
+                reportType: true,
+                auditStatus: true,
+                file: {
+                    id: true,
+                    fileName: true,
+                    fileSize: true,
+                },
+                totalAssets: true,
+                totalRevenue: true,
+                totalLiabilities: true,
+                currentAssets: true,
+                currentLiabilities: true,
+                netProfitLossAfterTax: true,
+                reviewNotes: true,
+                reviewStatus: true,
+                vendorFinancialReport: {
+                    id: true,
+                    currency: {
+                        id: true,
+                        name: true,
+                        code: true,
+                    },
+                    year: true,
+                    periodFrom: true,
+                    periodTo: true,
+                    reportType: true,
+                    auditStatus: true,
+                    file: {
+                        id: true,
+                        fileName: true,
+                        fileSize: true,
+                    },
+                    totalAssets: true,
+                    totalRevenue: true,
+                    totalLiabilities: true,
+                    currentAssets: true,
+                    currentLiabilities: true,
+                    netProfitLossAfterTax: true,
+                },
+            },
             where: { vendorTempId: workflow.vendorTemp.id },
-            relations: ['vendorFinancialReport'],
+            relations: {
+                vendorFinancialReport : {
+                    currency: true,
+                    file: true,
+                },
+                currency: true,
+                file: true,
+            },
         });
 
         if (!temp) {

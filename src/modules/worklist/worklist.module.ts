@@ -28,6 +28,8 @@ import { WorklistCompetencyService } from './review/competency/worklist-competen
 import { WorklistDocumentService } from './review/document/worklist-document.service';
 import { WorklistFinancialReportService } from './review/financial-report/worklist-financial-report.service';
 import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/entities/workflow-history.entity';
+import { WorklistUserAccessService } from './review/user-access/worklist-user.service';
+import { VendorUserTemp } from '@modules/vendor/temporary/vendor-user-temp/entities/vendor-user-temp.entity';
 
 @Module({
     imports: [
@@ -36,6 +38,7 @@ import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/
             WorkflowTransaction,
             VendorCompanyTemp,
             VendorPersonnelTemp,
+            VendorUserTemp,
             VendorBankTemp,
             VendorAffiliationTemp,
             VendorBusinessLicenseTemp,
@@ -50,6 +53,7 @@ import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/
         WorklistService, SlaService, 
         WorklistCompanyService,
         WorklistPersonnelService,
+        WorklistUserAccessService,
         WorklistBankService,
         WorklistAffiliationService,
         WorklistBusinessLicenseService,

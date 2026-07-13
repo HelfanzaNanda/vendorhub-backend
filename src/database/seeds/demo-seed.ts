@@ -58,6 +58,7 @@ import { JobType } from '@modules/master/job-type/entities/job-type.entity';
 import { IdentityType } from '@modules/master/identity-type/entities/identity-type.entity';
 import { BankBranch } from '@modules/master/bank-branch/entities/bank-branch.entity';
 import { Area } from '@modules/master/area/entities/area.entity';
+import { MasterWorkflowStepAssignment } from '@modules/master/workflow-step-assignment/entities/workflow-step-assignment.entity';
 
 function randomArrayElement<T>(arr: T[]): T {
     return arr[Math.floor(Math.random() * arr.length)];
@@ -145,6 +146,8 @@ async function runDemoSeed() {
     const updateWorkflow = workflows.find(w => w.code === 'WF_UPDATE_VENDOR') || workflows[0];
     
     const workflowSteps = await AppDataSource.getRepository(MasterWorkflowStep).find();
+
+    const workflowStepAssignments = await AppDataSource.getRepository(MasterWorkflowStepAssignment).find();
     
     const adminOpsUsers = await AppDataSource.getRepository(User).find({ take: 10 }); 
     const defaultRequester = adminOpsUsers[0];
@@ -165,61 +168,61 @@ async function runDemoSeed() {
         
 
         switch (true) {
-            // case rand < 45: 
-            //     statusStr = VendorStatusEnum.ACTIVE; 
-            //     hasTemp = false; 
-            //     flowStatus = WorkflowTransactionStatus.COMPLETED; 
-            //     flowProgress = 3; 
+            case rand < 45: 
+                statusStr = VendorStatusEnum.ACTIVE; 
+                hasTemp = false; 
+                flowStatus = WorkflowTransactionStatus.COMPLETED; 
+                flowProgress = 3; 
+                break;
+            case rand < 50: 
+                statusStr = VendorStatusEnum.INACTIVE; 
+                hasTemp = false; 
+                flowStatus = WorkflowTransactionStatus.COMPLETED; 
+                flowProgress = 3; 
+                break;
+            case rand < 52: 
+                statusStr = VendorStatusEnum.BLACKLISTED; 
+                hasTemp = false; 
+                flowStatus = WorkflowTransactionStatus.COMPLETED; 
+                flowProgress = 3; 
+                break;
+            // case rand < 62: 
+            //     statusStr = VendorStatusEnum.WAITING_FOR_APPROVAL; 
+            //     hasTemp = true; 
+            //     flowStatus = WorkflowTransactionStatus.IN_PROGRESS; 
+            //     flowProgress = 0; 
             //     break;
-            // case rand < 50: 
-            //     statusStr = VendorStatusEnum.INACTIVE; 
-            //     hasTemp = false; 
-            //     flowStatus = WorkflowTransactionStatus.COMPLETED; 
-            //     flowProgress = 3; 
+            // case rand < 72: 
+            //     statusStr = VendorStatusEnum.WAITING_FOR_APPROVAL; 
+            //     hasTemp = true; 
+            //     flowStatus = WorkflowTransactionStatus.IN_PROGRESS; 
+            //     flowProgress = 1; 
             //     break;
-            // case rand < 52: 
-            //     statusStr = VendorStatusEnum.BLACKLISTED; 
-            //     hasTemp = false; 
-            //     flowStatus = WorkflowTransactionStatus.COMPLETED; 
-            //     flowProgress = 3; 
+            // case rand < 80: 
+            //     statusStr = VendorStatusEnum.REVISION; 
+            //     hasTemp = true; 
+            //     flowStatus = WorkflowTransactionStatus.REVISED; 
+            //     flowProgress = Math.floor(Math.random() * 3); // Revised at any step
             //     break;
-            case rand < 62: 
-                statusStr = VendorStatusEnum.WAITING_FOR_APPROVAL; 
-                hasTemp = true; 
-                flowStatus = WorkflowTransactionStatus.IN_PROGRESS; 
-                flowProgress = 0; 
-                break;
-            case rand < 72: 
-                statusStr = VendorStatusEnum.WAITING_FOR_APPROVAL; 
-                hasTemp = true; 
-                flowStatus = WorkflowTransactionStatus.IN_PROGRESS; 
-                flowProgress = 1; 
-                break;
-            case rand < 80: 
-                statusStr = VendorStatusEnum.REVISION; 
-                hasTemp = true; 
-                flowStatus = WorkflowTransactionStatus.REVISED; 
-                flowProgress = Math.floor(Math.random() * 3); // Revised at any step
-                break;
-            case rand < 88: 
-                statusStr = VendorStatusEnum.REJECTED; 
-                hasTemp = true; 
-                flowStatus = WorkflowTransactionStatus.REJECTED; 
-                flowProgress = Math.floor(Math.random() * 3); // Rejected at any step
-                break;
-            case rand < 95: 
-                statusStr = VendorStatusEnum.WAITING_FOR_APPROVAL; 
-                hasTemp = true; 
-                flowStatus = WorkflowTransactionStatus.IN_PROGRESS; 
-                flowProgress = 2; 
-                break;
-            default: 
-                // Also simulating some WAITING_FOR_APPROVAL at step 0, 1, 2
-                statusStr = VendorStatusEnum.WAITING_FOR_APPROVAL; 
-                hasTemp = true; 
-                flowStatus = WorkflowTransactionStatus.IN_PROGRESS; 
-                flowProgress = Math.floor(Math.random() * 3); 
-                break;
+            // case rand < 88: 
+            //     statusStr = VendorStatusEnum.REJECTED; 
+            //     hasTemp = true; 
+            //     flowStatus = WorkflowTransactionStatus.REJECTED; 
+            //     flowProgress = Math.floor(Math.random() * 3); // Rejected at any step
+            //     break;
+            // case rand < 95: 
+            //     statusStr = VendorStatusEnum.WAITING_FOR_APPROVAL; 
+            //     hasTemp = true; 
+            //     flowStatus = WorkflowTransactionStatus.IN_PROGRESS; 
+            //     flowProgress = 2; 
+            //     break;
+            // default: 
+            //     // Also simulating some WAITING_FOR_APPROVAL at step 0, 1, 2
+            //     statusStr = VendorStatusEnum.WAITING_FOR_APPROVAL; 
+            //     hasTemp = true; 
+            //     flowStatus = WorkflowTransactionStatus.IN_PROGRESS; 
+            //     flowProgress = Math.floor(Math.random() * 3); 
+            //     break;
         }
 
         // if (rand < 45) { 
@@ -288,7 +291,7 @@ async function runDemoSeed() {
     };
 
     const BATCH_SIZE = 100;
-    const defaultPassword = await bcrypt.hash('Password123!', 10);
+    const defaultPassword = await bcrypt.hash('password!', 10);
     const BATCHES = Math.ceil(vendorCount / BATCH_SIZE);
 
     for (let batch = 0; batch < BATCHES; batch++) {
@@ -396,13 +399,18 @@ async function runDemoSeed() {
                     }));
                 }
 
+                let firstname = faker.person.firstName();
+                let lastname = faker.person.lastName();
+                let username = faker.internet.username({firstName : firstname, lastName : lastname});
+                let email = faker.internet.email({firstName : firstname, lastName : lastname, provider : baseCompanyName.split(" ")[0] + '.com'});
+
                 // Internal User mapping
                 const u = manager.create(User, {
                     vendor,
-                    firstname: faker.person.firstName(),
-                    lastname: faker.person.lastName(),
-                    username: faker.internet.username() + faker.string.alphanumeric(4),
-                    email: faker.internet.email(),
+                    firstname: firstname,
+                    lastname: lastname,
+                    username: username,
+                    email: email,
                     password: defaultPassword,
                     effectiveStartDate: faker.date.past(),
                     effectiveEndDate: faker.date.future({ years : 3}),
@@ -415,12 +423,16 @@ async function runDemoSeed() {
                 users.push(u);
 
                 for (let k = 0; k < 5; k++) {
+                    let firstname = faker.person.firstName();
+                    let lastname = faker.person.lastName();
+                    let username = faker.internet.username({firstName : firstname, lastName : lastname});
+                    let email = faker.internet.email({firstName : firstname, lastName : lastname, provider : baseCompanyName.split(" ")[0] + '.com'});
                     users.push(manager.create(User, {
                         vendor,
-                        firstname: faker.person.firstName(),
-                        lastname: faker.person.lastName(),
-                        username: faker.internet.username() + faker.string.alphanumeric(4),
-                        email: faker.internet.email(),
+                        firstname: firstname,
+                        lastname: lastname,
+                        username: username,
+                        email: email,
                         password: defaultPassword,
                         effectiveStartDate: faker.date.past(),
                         effectiveEndDate: faker.date.future({ years : 3}),
@@ -542,7 +554,7 @@ async function runDemoSeed() {
 
                 // For temp vendors
                 if (conf.hasTemp) {
-                    const sequence = (10 + batch * savedVendors.length + idx + 1).toString().padStart(5, '0');
+                    const sequence = (0 + batch * savedVendors.length + idx + 1).toString().padStart(6, '0');
                     const year = new Date().getFullYear(); // misalnya 2026
                     const month = String(new Date().getMonth() + 1).padStart(2, '0'); // misalnya 06
                     const requestNo = `VRQ-${year}-${month}-${sequence}`;
@@ -796,7 +808,7 @@ async function runDemoSeed() {
                     actionBy: defaultRequester?.id || 1,
                     actionAt: currentDate.toDate(),
                     remarks: 'Vendor submitted workflow',
-                    actorId: randomArrayElement(usersForStepActor)?.id,
+                    actorId: defaultRequester?.id,
                 }));
 
                 const usersForSteps = [adminOpsUsers[0], adminOpsUsers[1], adminOpsUsers[2]];
@@ -806,6 +818,24 @@ async function runDemoSeed() {
                 for (let s = 0; s < stepChain.length; s++) {
                     const stepCode = stepChain[s];
                     const masterStep = workflowSteps.find(ms => ms.code === stepCode) || workflowSteps[0];
+                    const masterSite = sites.find(s => s.id === wt.siteId);
+                    const masterStepAssignment = workflowStepAssignments.find(msa => 
+                        msa.workflowStepId === masterStep.id && 
+                        msa.areaId == masterSite?.areaId );
+                    let assigneeUserId = masterStepAssignment?.userId;
+                    if (stepCode === "ADMIN_OPS") {
+                        assigneeUserId = undefined;
+                    }
+
+                    // console.log('CHECK', {
+                    //     stepCode,
+                    //     assigneeUserId,
+                    //     s,
+                    //     conf,
+                    //     masterStep,
+                    //     masterSite,
+                    //     masterStepAssignment
+                    // });
                     
                     if (s < conf.flowProgress) {
                         // Past step (Completed / Approved)
@@ -818,7 +848,7 @@ async function runDemoSeed() {
                         const pastStep = manager.create(WorkflowTransactionStep, {
                             workflowTransactionId: wt.id,
                             workflowStepId: masterStep?.id || 1,
-                            userId: usersForSteps[s]?.id,
+                            userId: assigneeUserId,
                             status: WorkflowTransactionStepStatus.APPROVED,
                             assignedAt,
                             dueAt,
@@ -830,10 +860,10 @@ async function runDemoSeed() {
                         transactionHistories.push(manager.create(WorkflowHistory, {
                             workflowTransactionId: wt.id,
                             action: WorkflowTransactionStepStatus.APPROVED,
-                            actionBy: usersForSteps[s]?.id,
+                            actionBy: assigneeUserId,
                             actionAt: actionAt,
                             remarks: pastStep.remarks,
-                            actorId: randomArrayElement(usersForStepActor)?.id,
+                            actorId: assigneeUserId || 4,
                         }));
                         wt.currentTransactionStepId = savedPastStep.id;
 
@@ -855,10 +885,10 @@ async function runDemoSeed() {
                             transactionHistories.push(manager.create(WorkflowHistory, {
                                 workflowTransactionId: wt.id,
                                 action: WorkflowTransactionStepStatus.REVISED,
-                                actionBy: usersForSteps[s]?.id || 1,
+                                actionBy: assigneeUserId,
                                 actionAt: actionAt,
                                 remarks: faker.lorem.sentence(),
-                                actorId: randomArrayElement(usersForStepActor)?.id,
+                                actorId: assigneeUserId || 4,
                             }));
                         } else if (conf.flowStatus === WorkflowTransactionStatus.REJECTED) {
                             currStatus = WorkflowTransactionStepStatus.REJECTED;
@@ -868,17 +898,17 @@ async function runDemoSeed() {
                             transactionHistories.push(manager.create(WorkflowHistory, {
                                 workflowTransactionId: wt.id,
                                 action: WorkflowTransactionStepStatus.REJECTED,
-                                actionBy: usersForSteps[s]?.id || 1,
+                                actionBy: assigneeUserId,
                                 actionAt: actionAt,
                                 remarks: faker.lorem.sentence(),
-                                actorId: randomArrayElement(usersForStepActor)?.id,
+                                actorId: assigneeUserId || 4,
                             }));
                         }
 
                         const currentStepRecord = manager.create(WorkflowTransactionStep, {
                             workflowTransactionId: wt.id,
                             workflowStepId: masterStep?.id || 1,
-                            userId: usersForSteps[s]?.id,
+                            userId: assigneeUserId,
                             status: currStatus,
                             assignedAt: currAssignedAt,
                             dueAt: dueAt,
@@ -894,6 +924,7 @@ async function runDemoSeed() {
                             workflowTransactionId: wt.id,
                             workflowStepId: masterStep?.id || 1,
                             status: WorkflowTransactionStepStatus.PENDING,
+                            userId: assigneeUserId,
                         });
                         await manager.save(WorkflowTransactionStep, futureStep);
                         

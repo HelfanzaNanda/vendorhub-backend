@@ -27,6 +27,8 @@ export class WorklistRepository {
             .leftJoin('wt.requester', 'req')
             .leftJoin('wt.currentTransactionStep', 'wts')
             .leftJoin('wts.workflowStep', 'wtsws')
+            .leftJoin('wts.user', 'assigneeUser')
+            .leftJoin('wts.delegationUser', 'delegationUser')
             .select([
                 'wt.id',
                 'wt.status',
@@ -51,7 +53,12 @@ export class WorklistRepository {
                 'wts.status',
                 'wts.userId',
                 'wts.delegationUserId',
-
+                'assigneeUser.id',
+                'assigneeUser.firstname',
+                'assigneeUser.lastname',
+                'delegationUser.id',
+                'delegationUser.firstname',
+                'delegationUser.lastname',
             ]);
     }
 
@@ -59,7 +66,8 @@ export class WorklistRepository {
         const qb = this.getBaseQuery();
         
         if (user.defaultRoleId == RoleEnum.APPROVER) {
-            
+            qb.andWhere('(wts.userId = :userId OR wts.delegationUserId = :userId)', { userId: user.sub })
+                .andWhere('wts.status = :status', { status: 'WAITING'});
         }else{
             qb.andWhere('s.area_id = :areaId', { areaId: user.internalAreaId})
                 .andWhere('wts.status = :status', { status: 'WAITING'});
@@ -109,7 +117,7 @@ export class WorklistRepository {
 
     findOverSla(user: JwtPayload, workflowCode?: string): SelectQueryBuilder<WorkflowTransaction> {
         const qb = this.getBaseQuery()
-            .andWhere('wts.status = :wtsStatus', { wtsStatus: 'PENDING' })
+            .andWhere('wts.status = :wtsStatus', { wtsStatus: 'WAITING' })
             .andWhere('wts.dueAt < :now', { now: new Date() });
             
         if (workflowCode) {
@@ -127,11 +135,12 @@ export class WorklistRepository {
         //     this.findOverSla(user, workflowCode).getCount(),
         // ]);
 
-        const [needMyReview, inProgress, completed, rejected, overSla = 0] = await Promise.all([
+        const [needMyReview, inProgress, completed, rejected, overSla] = await Promise.all([
             this.findNeedMyReview(user, workflowCode).getCount(),
             this.findInProgress(user, workflowCode).getCount(),
             this.findCompleted(user, workflowCode).getCount(),
             this.findRejected(user, workflowCode).getCount(),
+            this.findOverSla(user, workflowCode).getCount(),
         ]);
 
         return {
@@ -145,8 +154,6 @@ export class WorklistRepository {
 
     findDetail(workflowTransactionId: number): SelectQueryBuilder<WorkflowTransaction> {
         return this.getBaseQuery()
-            .leftJoin('wts.user', 'assigneeUser')
-            .addSelect(['assigneeUser.id', 'assigneeUser.firstname', 'assigneeUser.lastname'])
             .where('wt.id = :id', { id: workflowTransactionId });
     }
 

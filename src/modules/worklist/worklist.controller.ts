@@ -15,6 +15,7 @@ import { WorklistBusinessLicenseService } from './review/business-license/workli
 import { WorklistCompetencyService } from './review/competency/worklist-competency.service';
 import { WorklistDocumentService } from './review/document/worklist-document.service';
 import { WorklistFinancialReportService } from './review/financial-report/worklist-financial-report.service';
+import { WorklistUserAccessService } from './review/user-access/worklist-user.service';
 
 @Controller('worklists')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -23,6 +24,7 @@ export class WorklistController {
         private readonly worklistService: WorklistService,
         private readonly worklistCompanyService: WorklistCompanyService,
         private readonly worklistPersonnelService: WorklistPersonnelService,
+        private readonly worklistUserAccessService: WorklistUserAccessService,
         private readonly worklistBankService: WorklistBankService,
         private readonly worklistAffiliationService: WorklistAffiliationService,
         private readonly worklistBusinessLicenseService: WorklistBusinessLicenseService,
@@ -51,15 +53,17 @@ export class WorklistController {
     async getDetail(
         @Param('workflowTransactionId') workflowTransactionId: number,
         @Query('tab') tab?: string,
-        @Query('personnelType') personnelType?: string
+        @Query('personnelType') personnelType?: string,
+        @Query('documentType') documentType?: string
     ) {
         if (tab === 'company') return this.worklistCompanyService.get(workflowTransactionId);
         if (tab === 'personnel') return this.worklistPersonnelService.get(workflowTransactionId, personnelType);
+        if (tab === 'user-access') return this.worklistUserAccessService.get(workflowTransactionId);
         if (tab === 'banks') return this.worklistBankService.get(workflowTransactionId);
         if (tab === 'affiliations') return this.worklistAffiliationService.get(workflowTransactionId);
         if (tab === 'business-licenses') return this.worklistBusinessLicenseService.get(workflowTransactionId);
         if (tab === 'competencies') return this.worklistCompetencyService.get(workflowTransactionId);
-        if (tab === 'documents') return this.worklistDocumentService.get(workflowTransactionId);
+        if (tab === 'documents') return this.worklistDocumentService.get(workflowTransactionId, documentType!!);
         if (tab === 'financial-reports') return this.worklistFinancialReportService.get(workflowTransactionId);
 
         return this.worklistService.getDetail(workflowTransactionId);

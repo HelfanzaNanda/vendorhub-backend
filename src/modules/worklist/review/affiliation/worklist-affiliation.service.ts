@@ -25,8 +25,35 @@ export class WorklistAffiliationService {
         const whereClause: any = { vendorTempId: workflow.vendorTemp.id };
         
         const temps = await this.tempRepository.find({
+            select: {
+                id: true,
+                npwp: true,
+                companyName: true,
+                businessField: true,
+                reviewNotes: true,
+                reviewStatus: true,
+                vendorAffiliation: {
+                    id: true,
+                    npwp: true,
+                    companyName: true,
+                    businessField: true,
+                    affiliateType: {
+                        id: true,
+                        name: true,
+                    }
+                },
+                affiliateType: {
+                    id: true,
+                    name: true,
+                },
+            },
             where: whereClause,
-            relations: ['vendorAffiliation'],
+            relations: {
+                vendorAffiliation : {
+                    affiliateType: true
+                },
+                affiliateType: true
+            },
         });
         return WorklistAffiliationMapper.toResponse(temps);
         

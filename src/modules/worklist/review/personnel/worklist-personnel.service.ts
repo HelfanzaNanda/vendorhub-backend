@@ -29,8 +29,66 @@ export class WorklistPersonnelService {
             // For now just pass it to whereClause if it exists.
         }
         const temps = await this.tempRepository.find({
+            select: {
+                vendorPersonnel: {
+                    id: true,
+                    title: {
+                        id: true,
+                        code: true,
+                        name: true,
+                    },
+                    name: true,
+                    jobType: {
+                        id: true,
+                        code: true,
+                        name: true,
+                    },
+                    position: true,
+                    identityType: {
+                        id: true,
+                        code: true,
+                        name: true,
+                    },
+                    identityNumber: true,
+                    email: true,
+                    phone: true,
+                },
+                name: true,
+                email: true,
+                phone: true,
+                identityNumber: true,
+                position: true,
+                privyId: true,
+                enterpriseId: true,
+                reviewNotes: true,
+                reviewStatus: true,                
+                personnelType: {
+                    id: true,
+                    code: true,
+                    name: true,
+                },
+                title: {
+                    id: true,
+                    code: true,
+                    name: true,
+                },
+                jobType: {
+                    id: true,
+                    code: true,
+                    name: true,
+                },
+                identityType: {
+                    id: true,
+                    code: true,
+                    name: true,
+                },
+            },
             where: whereClause,
-            relations: ['vendorPersonnel'],
+            relations: {
+                vendorPersonnel: true,
+                jobType: true,
+                identityType: true,
+            },
         });
         return WorklistPersonnelMapper.toResponse(temps);
         

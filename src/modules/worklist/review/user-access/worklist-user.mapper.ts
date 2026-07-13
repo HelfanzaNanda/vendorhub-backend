@@ -1,21 +1,21 @@
-import { VendorDocumentTemp } from "@modules/vendor/temporary/vendor-document-temp/entities/vendor-document-temp.entity";
-import { VendorDocument } from "@modules/vendor/vendor-document/entities/vendor-document.entity";
+import { VendorPersonnelTemp } from "@modules/vendor/temporary/vendor-personnel-temp/entities/vendor-personnel-temp.entity";
+import { VendorUserTemp } from "@modules/vendor/temporary/vendor-user-temp/entities/vendor-user-temp.entity";
+import { VendorPersonnel } from "@modules/vendor/vendor-personnel/entities/vendor-personnel.entity";
 import { WorklistGenericResponse } from "@modules/worklist/dto/worklist-detail.dto";
 
-export class WorklistDocumentMapper {
-    static toResponse(temp: VendorDocumentTemp): WorklistGenericResponse[] {
-        if (!temp) return [];
-        return [this.mapSingle(temp)];
+export class WorklistUserMapper {
+    static toResponse(temps: VendorUserTemp[]): WorklistGenericResponse[] {
+        return temps.map(temp => this.mapSingle(temp));
     }
 
-    private static mapSingle(temp: VendorDocumentTemp): WorklistGenericResponse {
-        const current = temp?.vendorDocument;
+    private static mapSingle(temp: VendorUserTemp): WorklistGenericResponse {
+        const current = temp?.vendorUser;
         let action: 'CREATE' | 'UPDATE' | 'DELETE' | 'NO_CHANGE' = 'NO_CHANGE';
         
         let data: any = null;
         if (temp) {
             data = { ...temp };
-            delete data.vendorDocument;
+            delete data.vendorUser;
             delete data.vendorTemp;
         }
 

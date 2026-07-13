@@ -15,7 +15,7 @@ export class WorklistDocumentService {
         private readonly tempRepository: Repository<VendorDocumentTemp>,
     ) {}
 
-    async get(workflowTransactionId: number) {
+    async get(workflowTransactionId: number, documentType: string) {
         const workflow = await this.workflowTransactionRepository.findOneOrFail({
             where: { id: workflowTransactionId },
             relations: { vendorTemp: true },
@@ -23,13 +23,55 @@ export class WorklistDocumentService {
 
         
         const temp = await this.tempRepository.findOne({
-            where: { vendorTempId: workflow.vendorTemp.id },
-            relations: ['vendorDocument'],
+            select: {
+                id: true,
+                documentNumber: true,
+                address: true,
+                taxpayerStatus: true,
+                publishDate: true,
+                documentType : {
+                    id: true,
+                    code: true,
+                    name: true
+                },
+                file: {
+                    id: true,
+                    fileName: true,
+                },
+                reviewStatus: true,
+                reviewNotes: true,
+                vendorDocument: {
+                    id: true,
+                    documentNumber: true,
+                    address: true,
+                    taxpayerStatus: true,
+                    publishDate: true,
+                    documentType : {
+                        id: true,
+                        code: true,
+                        name: true
+                    },
+                    file: {
+                        id: true,
+                        fileName: true,
+                    },
+                },
+            },
+            where: { 
+                vendorTempId: workflow.vendorTemp.id, 
+                documentType : {
+                    code : documentType
+                } 
+            },
+            relations: {
+                documentType: true,
+                file: true,
+                vendorDocument: {
+                    documentType: true,
+                    file: true,
+                },
+            },
         });
-
-        if (!temp) {
-            throw new NotFoundException(`Document not found`);
-        }
 
         return WorklistDocumentMapper.toResponse(temp);
         
