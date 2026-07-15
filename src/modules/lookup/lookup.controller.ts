@@ -137,4 +137,14 @@ export class LookupController {
     getDocumentTypes() {
         return this.service.getDocumentTypes();
     }
+
+    @Get('vendor-categories')
+    getVendorCategories() {
+        return this.service.getVendorCategories();
+    }
+
+    @Get('vendor-category-items')
+    getVendorCategoryItems(@Query('vendorCategoryId') vendorCategoryId: number) {
+        return this.service.getVendorCategoryItems(vendorCategoryId);
+    }
 }

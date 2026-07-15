@@ -2,10 +2,11 @@ import { Controller, Get, Param, Query, UseGuards, Post, Body } from '@nestjs/co
 import { WorklistService } from './worklist.service';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { CurrentUser } from '@common/decorators/current-user.decorator';
-import { WorklistQueryDto } from './dto/worklist-query.dto';
+import { GetWorklistDetailDto, WorklistQueryDto } from './dto/worklist-query.dto';
 import { PermissionsGuard } from '@common/guards/permissions.guard';
 import { JwtPayload } from '@modules/auth/interfaces/jwt-payload.interface';
 import { SaveReviewDto } from './dto/save-review.dto';
+import { SubmitWorklistDto } from './dto/submit-worklist.dto';
 
 // Services
 import { WorklistCompanyService } from './review/company/worklist-company.service';
@@ -17,6 +18,7 @@ import { WorklistCompetencyService } from './review/competency/worklist-competen
 import { WorklistDocumentService } from './review/document/worklist-document.service';
 import { WorklistFinancialReportService } from './review/financial-report/worklist-financial-report.service';
 import { WorklistUserAccessService } from './review/user-access/worklist-user.service';
+import { DelegationService } from './delegation/delegation.service';
 
 @Controller('worklists')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -53,20 +55,18 @@ export class WorklistController {
     @Get(':workflowTransactionId')
     async getDetail(
         @Param('workflowTransactionId') workflowTransactionId: number,
+        @Query() dto: GetWorklistDetailDto,
         @CurrentUser() user: JwtPayload,
-        @Query('tab') tab?: string,
-        @Query('personnelType') personnelType?: string,
-        @Query('documentType') documentType?: string
     ) {
-        if (tab === 'company') return this.worklistCompanyService.get(workflowTransactionId);
-        if (tab === 'personnel') return this.worklistPersonnelService.get(workflowTransactionId, personnelType);
-        if (tab === 'user-access') return this.worklistUserAccessService.get(workflowTransactionId);
-        if (tab === 'banks') return this.worklistBankService.get(workflowTransactionId);
-        if (tab === 'affiliations') return this.worklistAffiliationService.get(workflowTransactionId);
-        if (tab === 'business-licenses') return this.worklistBusinessLicenseService.get(workflowTransactionId);
-        if (tab === 'competencies') return this.worklistCompetencyService.get(workflowTransactionId);
-        if (tab === 'documents') return this.worklistDocumentService.get(workflowTransactionId, documentType!!);
-        if (tab === 'financial-reports') return this.worklistFinancialReportService.get(workflowTransactionId);
+        if (dto.tab === 'company') return this.worklistCompanyService.get(workflowTransactionId);
+        if (dto.tab === 'personnel') return this.worklistPersonnelService.get(workflowTransactionId, dto.personnelType);
+        if (dto.tab === 'user-access') return this.worklistUserAccessService.get(workflowTransactionId);
+        if (dto.tab === 'banks') return this.worklistBankService.get(workflowTransactionId);
+        if (dto.tab === 'affiliations') return this.worklistAffiliationService.get(workflowTransactionId);
+        if (dto.tab === 'business-licenses') return this.worklistBusinessLicenseService.get(workflowTransactionId);
+        if (dto.tab === 'competencies') return this.worklistCompetencyService.get(workflowTransactionId);
+        if (dto.tab === 'documents') return this.worklistDocumentService.get(workflowTransactionId, dto.documentType);
+        if (dto.tab === 'financial-reports') return this.worklistFinancialReportService.get(workflowTransactionId);
 
         return this.worklistService.getDetail(workflowTransactionId, user);
     }
@@ -85,6 +85,15 @@ export class WorklistController {
         @CurrentUser() user: JwtPayload
     ) {
         return this.worklistService.saveReview(workflowTransactionId, dto, user);
+    }
+
+    @Post(':workflowTransactionId/submit')
+    async submit(
+        @Param('workflowTransactionId') workflowTransactionId: number,
+        @Body() dto: SubmitWorklistDto,
+        @CurrentUser() user: JwtPayload
+    ) {
+        return this.worklistService.submitWorklist(workflowTransactionId, dto, user);
     }
 }
 

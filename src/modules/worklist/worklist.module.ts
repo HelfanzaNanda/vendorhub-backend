@@ -30,6 +30,11 @@ import { WorklistFinancialReportService } from './review/financial-report/workli
 import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/entities/workflow-history.entity';
 import { WorklistUserAccessService } from './review/user-access/worklist-user.service';
 import { VendorUserTemp } from '@modules/vendor/temporary/vendor-user-temp/entities/vendor-user-temp.entity';
+import { DelegationService } from './delegation/delegation.service';
+import { DelegationRepository } from './delegation/delegation.repository';
+import { User } from '@modules/uman/user/entities/user.entity';
+import { WorkflowTransactionStep } from '@modules/workflow-transaction/workflow-transaction-step/entities/workflow-transaction-step.entity';
+import { DelegationController } from './delegation/delegation.controller';
 
 @Module({
     imports: [
@@ -46,9 +51,11 @@ import { VendorUserTemp } from '@modules/vendor/temporary/vendor-user-temp/entit
             VendorDocumentTemp,
             VendorFinancialReportTemp,
             WorkflowHistory,
+            WorkflowTransactionStep,
+            User
         ])
     ],
-    controllers: [WorklistController],
+    controllers: [WorklistController, DelegationController],
     providers: [
         WorklistService, SlaService, 
         WorklistCompanyService,
@@ -60,7 +67,9 @@ import { VendorUserTemp } from '@modules/vendor/temporary/vendor-user-temp/entit
         WorklistCompetencyService,
         WorklistDocumentService,
         WorklistFinancialReportService,
-        HolidayRepository, WorklistRepository
+        HolidayRepository, WorklistRepository,
+        DelegationService,
+        DelegationRepository
     ],
 })
 export class WorklistModule {}

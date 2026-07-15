@@ -27,6 +27,8 @@ import { RoleModule } from '@modules/uman/role/role.module';
 import { CompanyPersonnelTypeModule } from '@modules/master/company-personnel-type/company-personnel-type.module';
 import { FileModule } from '@modules/master/file/file.module';
 import { DocumentTypeModule } from '@modules/master/document-type/document-type.module';
+import { VendorCategoryModule } from '@modules/master/vendor-category/vendor-category.module';
+import { VendorCategoryItemModule } from '@modules/master/vendor-category-item/vendor-category-item.module';
 
 @Module({
     imports: [
@@ -36,8 +38,8 @@ import { DocumentTypeModule } from '@modules/master/document-type/document-type.
         CountryModule,
         ProvinceModule,
         CityModule,
-        TelcoPrefixModule,
         TitleModule,
+        TelcoPrefixModule,
         IdentityTypeModule,
         JobTypeModule,
         PositionModule,
@@ -47,13 +49,12 @@ import { DocumentTypeModule } from '@modules/master/document-type/document-type.
         CurrencyModule,
         AffiliateTypeModule,
         IndustryClassificationModule,
-        CompetencyCategoryModule,
-        CompetencySubCategoryModule,
-        CompetencyItemModule,
         FinancialPeriodModule,
         CompanyPersonnelTypeModule,
-        FileModule,
+        // FileModule,
         DocumentTypeModule,
+        VendorCategoryModule,
+        VendorCategoryItemModule
     ],
     controllers: [LookupController],
     providers: [LookupService],

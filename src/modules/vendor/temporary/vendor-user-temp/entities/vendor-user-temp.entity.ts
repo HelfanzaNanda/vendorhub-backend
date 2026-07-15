@@ -81,4 +81,7 @@ export class VendorUserTemp extends AuditBaseEntity {
     @ManyToOne(() => User)
     @JoinColumn({ name: 'updated_by' })
     updatedByUser?: User;
+
+    roleNames?: string[];
+    areaNames?: string[];
 }

@@ -9,10 +9,10 @@ import {
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
+
     catch(exception: unknown, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
-        const request = ctx.getRequest();
 
         let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
         let message = 'Internal server error';
@@ -20,32 +20,46 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
         if (exception instanceof HttpException) {
             statusCode = exception.getStatus();
+
             const res = exception.getResponse();
 
-            if (typeof res === 'string') {
-                message = res;
-            } else if (
+            /**
+             * Validation Pipe (DTO)
+             */
+            if (
+                statusCode === HttpStatus.BAD_REQUEST &&
                 typeof res === 'object' &&
                 res !== null &&
-                'message' in res
+                Array.isArray((res as any).message)
             ) {
-                const messages = Array.isArray(res.message)
-                    ? res.message
-                    : [res.message];
-                // VALIDATION ERROR
-                if (statusCode === HttpStatus.BAD_REQUEST) {
-                    response.status(statusCode).json({
-                        status: false,
-                        statusCode,
-                        message: 'Validation error',
-                        data: null,
-                        error: this.formatValidationErrors(messages),
-                        ...(AppConfig.APP_DEBUG && { debug: errorDetail }),
-                    });
-                    return;
-                }
+                return response.status(statusCode).json({
+                    status: false,
+                    statusCode,
+                    message: 'Validation error',
+                    data: null,
+                    error: this.formatValidationErrors((res as any).message),
+                    ...(AppConfig.APP_DEBUG && { debug: errorDetail }),
+                });
+            }
 
-                message = messages.join(', ');
+            /**
+             * Business Exception
+             */
+            if (typeof res === 'object' && res !== null) {
+                return response.status(statusCode).json({
+                    status: false,
+                    statusCode,
+                    data: null,
+                    ...(res as object),
+                    ...(AppConfig.APP_DEBUG && { debug: errorDetail }),
+                });
+            }
+
+            /**
+             * String Exception
+             */
+            if (typeof res === 'string') {
+                message = res;
             }
         } else if (exception instanceof Error) {
             if (AppConfig.APP_DEBUG) {
@@ -56,7 +70,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             }
         }
 
-        response.status(statusCode).json({
+        return response.status(statusCode).json({
             status: false,
             statusCode,
             message,
@@ -67,6 +81,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     private parseStack(stack?: string, exceptionMessage?: string) {
         if (!stack) return null;
+
         const lines = stack.split('\n');
         const match = lines[1]?.match(/\((.*):(\d+):(\d+)\)/);
 
@@ -83,14 +98,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
         const errors: Record<string, string[]> = {};
 
         messages.forEach((msg) => {
-            /**
-             * Contoh msg:
-             * "code must be longer than or equal to 2 characters"
-             */
-            const key = msg.split(' ')[0]; // code
+            const key = msg.split(' ')[0];
+
             if (!errors[key]) {
                 errors[key] = [];
             }
+
             errors[key].push(msg);
         });
 

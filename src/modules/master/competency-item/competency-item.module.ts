@@ -4,10 +4,11 @@ import { CompetencyItem } from './entities/competency-item.entity';
 import { CompetencyItemController } from './competency-item.controller';
 import { CompetencyItemService } from './competency-item.service';
 import { CompetencySubCategory } from '../competency-subcategory/entities/competency-subcategory.entity';
+import { CompetencyCategory } from '../competency-category/entities/competency-category.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([CompetencyItem, CompetencySubCategory]),
+        TypeOrmModule.forFeature([CompetencyItem, CompetencySubCategory, CompetencyCategory]),
     ],
     controllers: [CompetencyItemController],
     providers: [CompetencyItemService],

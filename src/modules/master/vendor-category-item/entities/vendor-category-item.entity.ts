@@ -18,6 +18,9 @@ export class VendorCategoryItem extends AuditBaseEntity {
     @JoinColumn({ name: 'vendor_category_id' })
     vendorCategory: VendorCategory;
 
+    @Column({name: 'vendor_category_id'})
+    vendorCategoryId: number;
+
     @Column()
     code: string;
 

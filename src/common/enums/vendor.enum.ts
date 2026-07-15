@@ -18,3 +18,8 @@ export enum VendorTypeEnum {
   FOREIGN = 'FOREIGN',
   INDIVIDUAL = 'INDIVIDUAL'
 }
+
+export enum VendorPriorityEnum {
+    VIP = 'VIP',
+    NON_VIP = 'NON_VIP',
+}

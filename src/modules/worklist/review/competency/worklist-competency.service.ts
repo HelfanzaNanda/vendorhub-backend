@@ -27,32 +27,173 @@ export class WorklistCompetencyService {
         const whereClause: any = { vendorTempId: workflow.vendorTemp.id };
         
         const temps = await this.tempRepository.find({
+            select: {
+                id: true,
+                vendorCompetency: {
+                    id: true,
+                    customerReferences: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        projectValue: true,
+                        year: true,
+                        areaIds: true,
+                        file: {
+                            id: true,
+                            fileName: true,
+                            fileSize: true,                           
+                        },
+                    },
+                    subCategoryItem: {
+                        id: true,
+                        name: true,
+                        code: true,
+                        competencySubCategory: {
+                            id: true,
+                            name: true,
+                            competencyCategory: {
+                                id: true,
+                                name: true,
+                            }
+                        }
+                    },
+                },
+                subCategoryItem: {
+                    id: true,
+                    name: true,
+                    code: true,
+                    competencySubCategory: {
+                        id: true,
+                        name: true,
+                        competencyCategory: {
+                            id: true,
+                            name: true,
+                        }
+                    }
+                },
+                customerReferences: {
+                    id: true,
+                    name: true,
+                    projectValue: true,
+                    year: true,
+                    areaIds: true,
+                    file: {
+                        id: true,
+                        fileName: true,
+                        fileSize: true,                           
+                    },
+                    vendorCustomerReference: {
+                        id: true,
+                        name: true,
+                        projectValue: true,
+                        year: true,
+                        areaIds: true,
+                        file: {
+                            id: true,
+                            fileName: true,
+                            fileSize: true,                           
+                        }
+                    },
+                },
+                reviewNotes: true,
+                reviewStatus: true
+            },
             where: whereClause,
-            relations: ['vendorCompetency'],
+            relations: {
+                vendorCompetency: {
+                    customerReferences: true,
+                },
+                customerReferences: {
+                    vendorCustomerReference: true,
+                },
+                subCategoryItem: {
+                    competencySubCategory: {
+                        competencyCategory: true,
+                    }
+                }
+            },
         });
         const response = WorklistCompetencyMapper.toResponse(temps);
 
         if (response.length === 0 && workflow.vendorTemp?.vendorId) {
             const masterData = await this.workflowTransactionRepository.manager.find(VendorCompetency, {
+                select: {
+                    id: true,
+                    customerReferences: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        projectValue: true,
+                        year: true,
+                        areaIds: true,
+                        file: {
+                            id: true,
+                            fileName: true,
+                            fileSize: true,                           
+                        },
+                    },
+                    subCategoryItem: {
+                        id: true,
+                        name: true,
+                        code: true,
+                        competencySubCategory: {
+                            id: true,
+                            name: true,
+                            competencyCategory: {
+                                id: true,
+                                name: true,
+                            }
+                        }
+                    },
+                },
                 where: { vendorId: workflow.vendorTemp.vendorId },
-                relations: ['customerReferences', 'subCategoryItem']
+                relations: {
+                    customerReferences : true,
+                    subCategoryItem: {
+                        competencySubCategory: {
+                            competencyCategory: true,
+                        }
+                    }
+                }
             });
 
-            return masterData.map(master => ({
-                id: master.id,
-                action: 'NO_ACTION',
-                reviewStatus: null,
-                reviewRemark: null,
-                data: {
-                    ...master,
-                    vendorId: undefined,
-                },
-                originalData: {
-                    ...master,
-                    vendorId: undefined,
-                },
-                permissions: ReviewHelper.getPermissions('NO_ACTION')
-            }));
+
+            return masterData.map(master => {
+                const originalData = { ...master };
+                delete originalData.customerReferences;
+
+                return {
+                    id: master.id,
+                    action: 'NO_CHANGE',
+                    reviewStatus: null,
+                    reviewRemark: null,
+                    originalData,
+                    data: originalData,
+                    customerReferences: (master.customerReferences || []).map(cr => ({
+                        id: cr.id,
+                        action: 'NO_CHANGE',
+                        originalData: {
+                            id: cr.id,
+                            name: cr.name,
+                            description: cr.description,
+                            projectValue: cr.projectValue,
+                            year: cr.year,
+                            file: cr.file,
+                            areaIds: cr.areaIds,
+                        },
+                        data: {
+                            id: cr.id,
+                            name: cr.name,
+                            description: cr.description,
+                            projectValue: cr.projectValue,
+                            year: cr.year,
+                            file: cr.file,
+                            areaIds: cr.areaIds,
+                        }
+                    })),
+                    permissions: ReviewHelper.getPermissions('NO_ACTION')
+                };
+            });
         }
 
         return response;

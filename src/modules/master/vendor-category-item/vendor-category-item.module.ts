@@ -9,5 +9,6 @@ import { VendorCategory } from '../vendor-category/entities/vendor-category.enti
     imports: [TypeOrmModule.forFeature([VendorCategoryItem, VendorCategory])],
     controllers: [VendorCategoryItemController],
     providers: [VendorCategoryItemService],
+    exports: [VendorCategoryItemService]
 })
 export class VendorCategoryItemModule {}

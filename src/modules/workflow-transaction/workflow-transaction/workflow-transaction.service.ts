@@ -21,6 +21,7 @@ import { WorkflowHistory } from '@modules/workflow-transaction/workflow-history/
 import { MasterWorkingCalendar } from '@modules/master/working-calendar/entities/working-calendar.entity';
 import { MasterHoliday } from '@modules/master/holiday/entities/holiday.entity';
 import { WorkflowTransactionStatus, WorkflowTransactionStepStatus } from '@common/enums/workflow-transaction.enum';
+import { DateUtil } from '@common/utils/date.util';
 
 @Injectable()
 export class WorkflowTransactionService {
@@ -29,53 +30,6 @@ export class WorkflowTransactionService {
         private workflowTransactionRepo: Repository<WorkflowTransaction>,
         private dataSource: DataSource,
     ) { }
-
-    private calculateDueAt(
-        startDate: Date,
-        duration: number,
-        unit: string,
-        useCalendar: boolean,
-        calendars: MasterWorkingCalendar[],
-        holidays: MasterHoliday[],
-    ): Date {
-        const result = new Date(startDate);
-
-        if (!useCalendar) {
-            if (unit === 'DAY') result.setDate(result.getDate() + duration);
-            else if (unit === 'HOUR') result.setHours(result.getHours() + duration);
-            return result;
-        }
-
-        if (unit === 'HOUR') {
-            result.setHours(result.getHours() + duration);
-            return result;
-        }
-
-        let daysAdded = 0;
-        const holidayDates = holidays.map(h => {
-            const d = new Date(h.holidayDate);
-            return d.toISOString().split('T')[0];
-        });
-        const workingDays = new Set(calendars.filter(c => c.isWorkingDay).map(c => c.dayOfWeek));
-
-        while (daysAdded < duration) {
-            result.setDate(result.getDate() + 1);
-            const dateStr = result.toISOString().split('T')[0];
-            const isHoliday = holidayDates.includes(dateStr);
-            const isWorkingDay = workingDays.has(result.getDay());
-
-            if (!isHoliday && isWorkingDay) {
-                daysAdded++;
-            }
-        }
-
-        const calendar = calendars.find(c => c.dayOfWeek === result.getDay());
-        if (calendar && calendar.endTime) {
-            const [hours, minutes] = calendar.endTime.split(':');
-            result.setHours(Number(hours), Number(minutes), 0, 0);
-        }
-        return result;
-    }
 
     async start(data: { workflowCode: string; vendorTempId: number }) {
         const requesterId = RequestContext.userId;
@@ -183,7 +137,14 @@ export class WorkflowTransactionService {
                 let dueAt = null;
                 if (i === 0) {
                     assignedAt = new Date();
-                    dueAt = this.calculateDueAt(assignedAt, step.slaDuration, step.slaUnit, step.useWorkingCalendar, calendars, holidays);
+                    dueAt = DateUtil.calculateDueAt({
+                        startDate: assignedAt,
+                        duration: step.slaDuration,
+                        unit: step.slaUnit,
+                        useCalendar: step.useWorkingCalendar,
+                        calendars,
+                        holidays
+                    });
                 }
 
                 const trxStep = em.create(WorkflowTransactionStep, {

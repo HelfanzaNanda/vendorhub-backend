@@ -10,6 +10,7 @@ import { RoleEnum } from '@common/enums/role.enum';
 import { formatQuery } from 'src/utils/query.util';
 import { JwtPayload } from '@modules/auth/interfaces/jwt-payload.interface';
 import { InjectRepository } from '@nestjs/typeorm';
+import { WorkflowStepCode } from '@common/enums/workflow.enum';
 
 @Injectable()
 export class WorklistRepository {
@@ -45,6 +46,7 @@ export class WorklistRepository {
                 'wtsws.code',
                 'wtsws.name',
                 's.name',
+                's.areaId',
                 'req.id',
                 'req.firstname',
                 'req.lastname',
@@ -70,6 +72,7 @@ export class WorklistRepository {
                 .andWhere('wts.status = :status', { status: 'WAITING'});
         }else{
             qb.andWhere('s.area_id = :areaId', { areaId: user.internalAreaId})
+                .andWhere('wtsws.code = :code', { code: WorkflowStepCode.ADMIN_OPS })
                 .andWhere('wts.status = :status', { status: 'WAITING'});
         }
 

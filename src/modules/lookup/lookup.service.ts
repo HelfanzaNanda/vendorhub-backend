@@ -28,6 +28,8 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { CompetencyCategory } from '@modules/master/competency-category/entities/competency-category.entity';
 import { CompetencySubCategory } from '@modules/master/competency-subcategory/entities/competency-subcategory.entity';
 import { CompetencyItem } from '@modules/master/competency-item/entities/competency-item.entity';
+import { VendorCategoryService } from '@modules/master/vendor-category/vendor-category.service';
+import { VendorCategoryItemService } from '@modules/master/vendor-category-item/vendor-category-item.service';
 
 @Injectable()
 export class LookupService {
@@ -49,10 +51,11 @@ export class LookupService {
         private currencyService: CurrencyService,
         private AffiliateTypeService: AffiliateTypeService,
         private industryClassificationService: IndustryClassificationService,
-        private competencyItemService: CompetencyItemService,
         private financialPeriodService: FinancialPeriodService,
         private companyPersonnelTypeService: CompanyPersonnelTypeService,
         private documentTypeService: DocumentTypeService,
+        private vendorCategoryService: VendorCategoryService,
+        private vendorCategoryItemService: VendorCategoryItemService,
         @InjectEntityManager()
         private entityManager: EntityManager,
     ) {}
@@ -220,5 +223,13 @@ export class LookupService {
 
     async getDocumentTypes() {
         return await this.documentTypeService.findOptions();
+    }
+
+    async getVendorCategories() {
+        return await this.vendorCategoryService.findOptions();
+    }
+
+    async getVendorCategoryItems(vendorCategoryId: number) {
+        return await this.vendorCategoryItemService.findOptions(vendorCategoryId);
     }
 }

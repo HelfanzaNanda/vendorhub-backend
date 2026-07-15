@@ -17,21 +17,16 @@ export class WorklistPersonnelService {
         private readonly tempRepository: Repository<VendorPersonnelTemp>,
     ) {}
 
-    async get(workflowTransactionId: number, personnelType?: string) {
+    async get(workflowTransactionId: number, personnelType: string) {
         const workflow = await this.workflowTransactionRepository.findOneOrFail({
             where: { id: workflowTransactionId },
             relations: { vendorTemp: true },
         });
 
         
-        const whereClause: any = { vendorTempId: workflow.vendorTemp.id };
-        if (personnelType) {
-            // Assume personnelType filtering by code/id if needed, but let's just fetch all or filter by type relation.
-            // Adjust this if personnelType is a relation or string.
-            // For now just pass it to whereClause if it exists.
-        }
         const temps = await this.tempRepository.find({
             select: {
+                id: true,
                 vendorPersonnel: {
                     id: true,
                     title: {
@@ -85,18 +80,61 @@ export class WorklistPersonnelService {
                     name: true,
                 },
             },
-            where: whereClause,
+            where: {
+                vendorTempId: workflow.vendorTemp.id, 
+                personnelType : {
+                    code : personnelType
+                }
+            },
             relations: {
                 vendorPersonnel: true,
                 jobType: true,
                 identityType: true,
+                title: true,
+                personnelType: true,
             },
         });
+        
         const response = WorklistPersonnelMapper.toResponse(temps);
 
         if (response.length === 0 && workflow.vendorTemp?.vendorId) {
             const masterData = await this.workflowTransactionRepository.manager.find(VendorPersonnel, {
-                where: { vendorId: workflow.vendorTemp.vendorId },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phone: true,
+                    identityNumber: true,
+                    position: true,
+                    privyId: true,
+                    enterpriseId: true,                
+                    personnelType: {
+                        id: true,
+                        code: true,
+                        name: true,
+                    },
+                    title: {
+                        id: true,
+                        code: true,
+                        name: true,
+                    },
+                    jobType: {
+                        id: true,
+                        code: true,
+                        name: true,
+                    },
+                    identityType: {
+                        id: true,
+                        code: true,
+                        name: true,
+                    },
+                },
+                where: { 
+                    vendorId: workflow.vendorTemp.vendorId,
+                    personnelType : {
+                        code : personnelType
+                    }
+                },
                 relations: {
                     personnelType: true,
                     title: true,

@@ -10,6 +10,8 @@ import { VENDOR_PRIORITY_FIELDS } from '../vendor-priority/query/vendor-priority
 import { VendorCategoryMapper } from './mapper/vendor-category.mapper';
 import { UpdateVendorCategoryDto } from './dto/update-vendor-category.dto';
 import { VENDOR_CATEGORY_FIELDS } from './query/vendor-category-field.meta';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
+import { VendorCategoryItem } from '../vendor-category-item/entities/vendor-category-item.entity';
 
 @Injectable()
 export class VendorCategoryService {
@@ -82,5 +84,25 @@ export class VendorCategoryService {
         vendorCategory.deletedAt = new Date();
 
         return this.vendorCategoryRepo.save(vendorCategory);
+    }
+
+    async findOptions() {
+        const vendorCategories = await this.vendorCategoryRepo.createQueryBuilder('c')
+            .select(['c.id', 'c.name'])
+            .where((qb) => {
+                const subQuery = qb.subQuery()
+                    .select('1')
+                    .from(VendorCategoryItem, 'vci')
+                    .where('vci.vendor_category_id = c.id')
+                    .andWhere('vci.deleted_at IS NULL')
+                    .getQuery();
+                return 'EXISTS (' + subQuery + ')';
+            })
+            .getMany();
+        return LookupMapper.toResponses(
+            vendorCategories,
+            (vendorCategory) => vendorCategory.id,
+            (vendorCategory) => vendorCategory.name,
+        );
     }
 }

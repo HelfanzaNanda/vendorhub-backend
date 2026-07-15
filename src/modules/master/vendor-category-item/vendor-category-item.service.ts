@@ -9,6 +9,7 @@ import { CreateVendorCategoryItemDto } from './dto/create-vendor-category-item.d
 import { VENDOR_CATEGORY_ITEM_FIELDS } from './query/vendor-category-item-field.meta';
 import { VendorCategoryItemMapper } from './mapper/vendor-category-item.mapper';
 import { UpdateVendorCategoryItemDto } from './dto/update-vendor-category-item.dto';
+import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
 
 @Injectable()
 export class VendorCategoryItemService {
@@ -82,4 +83,21 @@ export class VendorCategoryItemService {
 
         return this.vendorCategoryItemRepo.save(vendorCategoryItem);
     }
+
+    async findOptions(vendorCategoryId: number) {
+            const vendorCategoryItems = await this.vendorCategoryItemRepo.find({
+                select: {
+                    id: true,
+                    name: true,
+                },
+                where: {
+                    vendorCategoryId: vendorCategoryId,
+                },
+            });
+            return LookupMapper.toResponses(
+                vendorCategoryItems,
+                (item) => item.id,
+                (item) => item.name,
+            );
+        }
 }

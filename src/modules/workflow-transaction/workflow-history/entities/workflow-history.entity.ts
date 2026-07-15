@@ -56,6 +56,12 @@ export class WorkflowHistory extends AuditBaseEntity {
     @Column({ name: 'action_at', type: 'timestamp' })
     actionAt: Date;
 
+    @Column({ name: 'assigned_at', type: 'timestamp', nullable: true })
+    assignedAt?: Date;
+
+    @Column({ name: 'due_at', type: 'timestamp', nullable: true })
+    dueAt?: Date;
+
     @ManyToOne(() => User)
     @JoinColumn({ name: 'created_by' })
     createdByUser?: User;

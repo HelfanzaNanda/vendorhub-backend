@@ -4,7 +4,7 @@ import { User } from '@modules/uman/user/entities/user.entity';
 import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';
 import { VendorDocument } from '@modules/vendor/vendor-document/entities/vendor-document.entity';
 import { VendorCategoryItem } from '@modules/master/vendor-category-item/entities/vendor-category-item.entity';
-import { VendorStageEnum, VendorStatusEnum, VendorTypeEnum } from '@common/enums/vendor.enum';
+import { VendorPriorityEnum, VendorStageEnum, VendorStatusEnum, VendorTypeEnum } from '@common/enums/vendor.enum';
 
 @Entity('vendors')
 export class Vendor extends AuditBaseEntity {
@@ -33,6 +33,13 @@ export class Vendor extends AuditBaseEntity {
         nullable: true,
     })
     status?: VendorStatusEnum;
+
+    @Column({
+        type: 'enum',
+        enum: VendorPriorityEnum,
+        nullable: true,
+    })
+    priority?: VendorPriorityEnum;
 
     @Column({ name: 'category_item_id', type: 'int', nullable: true })
     categoryItemId?: number;
