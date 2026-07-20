@@ -1,4 +1,5 @@
 import { AuditBaseEntity } from '@common/entities/audit-base.entity';
+import { StorageDiskEnum } from '@common/enums/storage-disk.enum';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
@@ -6,6 +7,13 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 export class File extends AuditBaseEntity {
     @Column({ name: 'owner_id', type: 'int', nullable: true })
     ownerId?: number;
+
+    @Column({
+        type: 'varchar',
+        length: 36,
+        // unique: true,
+    })
+    uuid?: string;
 
     @Column({ name: 'reference_id', type: 'int', nullable: true })
     referenceId?: number;
@@ -31,11 +39,16 @@ export class File extends AuditBaseEntity {
     @Column({ name: 'storage_path' })
     storagePath: string;
 
-    @Column({ name: 'storage_disk' })
-    storageDisk: string;
+    @Column({ 
+        type: 'enum',
+        name: 'storage_disk',
+        enum: StorageDiskEnum,
+        default: StorageDiskEnum.LOCAL
+    })
+    storageDisk: StorageDiskEnum;
 
-    @Column({ nullable: true })
-    version?: string;
+    @Column({ type: 'int', nullable: true })
+    version?: number;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'created_by' })

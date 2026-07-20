@@ -1,15 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFileDto } from './dto/create-file.dto';
-import { UpdateFileDto } from './dto/update-file.dto';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { File } from './entities/file.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginate } from '@common/pagination/pagination.helper';
-import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
-import { FILE_FIELDS } from './query/file-field.meta';
 import { RequestContext } from '@common/context/request-context';
-import { FileMapper } from './mapper/file.mapper';
-import { LookupMapper } from '@modules/lookup/mapper/lookup.mapper';
+import { randomUUID } from 'crypto';
+import { StorageDiskEnum } from '@common/enums/storage-disk.enum';
 
 @Injectable()
 export class FileService {
@@ -18,89 +14,66 @@ export class FileService {
         private repo: Repository<File>,
     ) {}
 
-    async create(data: CreateFileDto, file?: Express.Multer.File) {
+    async upload(data: CreateFileDto, file?: Express.Multer.File) {
         if (!file) {
             throw new Error('File is required');
         }
 
         const ext = file.originalname.split('.').pop();
-        const fileRecord = this.repo.create({
+        const entity = this.repo.create({
             ...data,
+            uuid: randomUUID(),
             fileName: file.filename,
             originalFileName: file.originalname,
+
             extension: ext ? `.${ext}` : '',
+
             mimeType: file.mimetype,
             fileSize: file.size,
+
             storagePath: file.path,
-            storageDisk: 'local',
+            storageDisk: StorageDiskEnum.LOCAL,
+            version: 1,
         });
 
-        const record = await this.repo.save(fileRecord);
+        const record = await this.repo.save(entity);
 
         return {
-            id : record.id,
-            filename: record.originalFileName,
+            id: record.id,
+            uuid: record.uuid,
+
+            originalFileName: record.originalFileName,
+            fileName: record.fileName,
+
+            extension: record.extension,
+            mimeType: record.mimeType,
+            fileSize: record.fileSize,
         };
     }
 
-    async pagination(query: PaginationQueryDto) {
-        const qb = this.repo.createQueryBuilder('c');
-        qb.leftJoinAndSelect('c.createdByUser', 'createdByUser');
-        qb.leftJoinAndSelect('c.updatedByUser', 'updatedByUser');
-
-        const selectColumns = Object.values(FILE_FIELDS).map((f) => f.column);
-        qb.select(selectColumns);
-        const result = await paginate(qb, query, FILE_FIELDS);
-        return {
-            data: FileMapper.toResponses(result.data),
-            meta: result.meta,
-        };
-    }
-
-    async findOne(id: number) {
+    async findByUuid(uuid: string) {
         const file = await this.repo.findOne({
-            select: {
-                createdByUser: {
-                    username: true,
-                },
-                updatedByUser: {
-                    username: true,
-                },
-            },
-            where: { id },
-            relations: {
-                createdByUser: true,
-                updatedByUser: true,
-            },
+            where: {
+                uuid,
+                deletedAt: IsNull()
+            }
         });
-        if (!file) throw new NotFoundException();
-        return FileMapper.toResponse(file);
+
+        if (!file) {
+            throw new NotFoundException();
+        }
+
+        return file;
     }
 
-    async update(id: number, data: UpdateFileDto) {
-        const file = await this.repo.findOne({ where: { id } });
-        if (!file) throw new NotFoundException(`Data with id ${id} not found`);
-        Object.assign(file, data);
-        return this.repo.save(file);
-    }
-
-    async delete(id: number) {
-        const file = await this.repo.findOne({ where: { id } });
-        if (!file) throw new NotFoundException(`Data with id ${id} not found`);
+    async delete(uuid: string) {
+        const file = await this.repo.findOne({ where: { uuid } });
+        if (!file) throw new NotFoundException(`Data with uuid ${uuid} not found`);
 
         const userId = RequestContext.userId;
         file.deletedBy = userId;
         file.deletedAt = new Date();
 
         return this.repo.save(file);
-    }
-
-    async findOptions() {
-        const files = await this.repo.find();
-        return LookupMapper.toResponses(
-            files,
-            (f) => f.id,
-            (f) => f.fileName,
-        );
     }
 }
