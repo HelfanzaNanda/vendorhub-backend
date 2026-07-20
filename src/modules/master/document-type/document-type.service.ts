@@ -84,4 +84,35 @@ export class DocumentTypeService {
             (i) => i.name,
         );
     }
+
+    async getMetaData() {
+        return await this.repo.find({
+            select : {
+                id: true,
+                code: true,
+                name: true,
+                maxSize: true,
+                accept: true,
+                multiple: true,
+                required : true
+            }
+        });
+    }
+
+    async findOneByCode(code: string) {
+        const item = await this.repo.findOne({
+            select : {
+                id: true,
+                code: true,
+                name: true,
+                maxSize: true,
+                accept: true,
+                multiple: true,
+                required : true
+            },
+            where: { code },
+        });
+        if (!item) throw new NotFoundException();
+        return item;
+    }
 }

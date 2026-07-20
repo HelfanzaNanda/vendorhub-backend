@@ -30,6 +30,7 @@ import { FileModule } from '@modules/master/file/file.module';
 import { NotificationModule } from '@modules/notification/notification.module';
 import { OtpModule } from '@modules/otp/otp.module';
 import { IdentityModule } from '@modules/identity/identity.module';
+import { MetadataModule } from '@modules/metadata/metadata.module';
 
 @Module({
     imports: [
@@ -70,7 +71,8 @@ import { IdentityModule } from '@modules/identity/identity.module';
         WorkflowTransactionStepModule,
         WorkflowHistoryModule,
         WorklistModule,
-        IdentityModule
+        IdentityModule,
+        MetadataModule
     ],
     controllers: [AppController],
     providers: [AppService],
