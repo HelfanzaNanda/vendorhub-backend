@@ -8,8 +8,8 @@ export class LookupMapper {
         extraSelector?: (entity: T) => Record<string, any>,
     ): LookupResponseDto[] {
         return entities.map((entity) => ({
-            value: valueSelector(entity),
-            label: labelSelector(entity),
+            id: valueSelector(entity),
+            name: labelSelector(entity),
             ...(extraSelector ? extraSelector(entity) : {}),
         }));
     }

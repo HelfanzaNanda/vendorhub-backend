@@ -22,7 +22,7 @@ export class PhoneValidationService {
         const prefix4 = localPhone.substring(0, 4);
         const prefix3 = localPhone.substring(0, 3);
 
-        const valid = prefixes.some(x => x.label == prefix4 || x.label == prefix3);
+        const valid = prefixes.some(x => x.name == prefix4 || x.name == prefix3);
 
         if (!valid) {
             throw new BadRequestException(

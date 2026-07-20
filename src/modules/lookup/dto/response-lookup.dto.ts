@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class LookupResponseDto {
     @ApiProperty()
-    value: number | string;
+    id: number | string;
 
     @ApiProperty()
-    label: string;
+    name: string;
 }
