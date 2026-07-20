@@ -84,8 +84,8 @@ export class LookupService {
         return await this.cityService.findOptions(provinceId);
     }
 
-    async getTiles() {
-        return await this.titleService.findOptions();
+    async getTitles(excludeCodes?: string[]) {
+        return await this.titleService.findOptions(excludeCodes);
     }
 
     async getTelcoPrefixes() {

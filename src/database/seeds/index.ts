@@ -31,6 +31,7 @@ import { seedBankBranch } from './bank-branch.seed';
 import { seedTermsCondition } from './terms-condition.seed';
 import { seedCompanyPersonnelType } from './company-personnel-type.seed';
 import { seedDocumentType } from './document-type.seed';
+import { seedNotification } from './notification.seed';
 
 async function runSeeder() {
     await AppDataSource.initialize();
@@ -74,12 +75,14 @@ async function runSeeder() {
     // await seedCompanyPersonnelType(AppDataSource);
     // await seedDocumentType(AppDataSource);
 
-    // await seedCurrency(AppDataSource);
+    await seedCurrency(AppDataSource);
 
     // const { seedWorkflowEngine } = require('./workflow-engine.seed');
     // await seedWorkflowEngine(AppDa?taSource);
 
-    await seedVendorCategoryItems(AppDataSource)
+    // await seedVendorCategoryItems(AppDataSource)
+
+    // await seedNotification(AppDataSource)
 
     await AppDataSource.destroy();
 }

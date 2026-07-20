@@ -21,6 +21,14 @@ export class DateUtil {
         return dayjs(start).add(hours, 'hour').toDate();
     }
 
+    static addMinutes(start: Date, minutes: number): Date {
+        return dayjs(start).add(minutes, 'minute').toDate();
+    }
+
+    static addSeconds(start: Date, seconds: number): Date {
+        return dayjs(start).add(seconds, 'second').toDate();
+    }
+
     static addBusinessDays(start: Date, days: number): Date {
         let date = dayjs(start);
         let count = 0;

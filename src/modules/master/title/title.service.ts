@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTitleDto } from './dto/create-title.dto';
 import { UpdateTitleDto } from './dto/update-title.dto';
-import { Repository } from 'typeorm';
+import { In, Not, Repository } from 'typeorm';
 import { Title } from './entities/title.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from '@common/pagination/pagination.helper';
@@ -74,8 +74,19 @@ export class TitleService {
         return this.titleRepo.save(title);
     }
 
-    async findOptions() {
-        const title = await this.titleRepo.find();
+    async findOptions(excludeCodes?: string[]) {
+        let where: any = {};
+        if (excludeCodes && excludeCodes.length > 0) {
+            const codes = Array.isArray(excludeCodes)
+                ? excludeCodes
+                : (excludeCodes as string).split(',').map(x => x.trim())
+            where = { code: Not(In(codes)) };
+        }
+        
+        const title = await this.titleRepo.find({
+            where,
+        });
+        
         return LookupMapper.toResponses(
             title,
             (title) => title.id,

@@ -79,6 +79,15 @@ export class WorklistPersonnelService {
                     code: true,
                     name: true,
                 },
+                hasAuthorityLimitation: true,
+                authorityLimitationExpiredAt: true,
+                authorityLimitationNotes: true,
+                authorityLimitationFile: {
+                    id: true,
+                    fileName: true,
+                    fileSize: true,
+                    mimeType: true,
+                },
             },
             where: {
                 vendorTempId: workflow.vendorTemp.id, 
@@ -92,6 +101,7 @@ export class WorklistPersonnelService {
                 identityType: true,
                 title: true,
                 personnelType: true,
+                authorityLimitationFile: true,
             },
         });
         
@@ -128,6 +138,15 @@ export class WorklistPersonnelService {
                         code: true,
                         name: true,
                     },
+                    hasAuthorityLimitation: true,
+                    authorityLimitationExpiredAt: true,
+                    authorityLimitationNotes: true,
+                    authorityLimitationFile: {
+                        id: true,
+                        fileName: true,
+                        fileSize: true,
+                        mimeType: true,
+                    },
                 },
                 where: { 
                     vendorId: workflow.vendorTemp.vendorId,
@@ -140,6 +159,7 @@ export class WorklistPersonnelService {
                     title: true,
                     jobType: true,
                     identityType: true,
+                    authorityLimitationFile: true,
                 }
             });
 

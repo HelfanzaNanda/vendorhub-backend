@@ -58,5 +58,6 @@ import { VendorCategoryItemModule } from '@modules/master/vendor-category-item/v
     ],
     controllers: [LookupController],
     providers: [LookupService],
+    exports: [LookupService]
 })
 export class LookupModule {}

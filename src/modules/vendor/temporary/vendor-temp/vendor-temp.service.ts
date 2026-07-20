@@ -36,10 +36,8 @@ export class VendorTempService {
 
         vendorTemp = this.repo.create({
             vendorId: vendorId,
-            requestNo:
-                await this.runningNumberService.generate(RunningNumberCode.VENDOR_REQUEST),
+            requestNo: await this.runningNumberService.generate(RunningNumberCode.VENDOR_REQUEST),
             status: VendorTempStatus.DRAFT,
-            submittedAt: new Date(),
         });
 
         return this.repo.save(vendorTemp);

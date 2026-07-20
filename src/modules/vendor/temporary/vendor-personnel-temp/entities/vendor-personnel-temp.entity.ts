@@ -7,6 +7,7 @@ import { CompanyPersonnelType } from '@modules/master/company-personnel-type/ent
 import { Title } from '@modules/master/title/entities/title.entity';
 import { JobType } from '@modules/master/job-type/entities/job-type.entity';
 import { IdentityType } from '@modules/master/identity-type/entities/identity-type.entity';
+import { File } from '@modules/master/file/entities/file.entity';
 
 @Entity('vendor_personnel_temps')
 export class VendorPersonnelTemp extends AuditBaseEntity {
@@ -22,7 +23,7 @@ export class VendorPersonnelTemp extends AuditBaseEntity {
     @Column({ name: 'review_status', nullable: true })
     reviewStatus?: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'text', name: 'review_notes', nullable: true })
     reviewNotes?: string;
 
     @Column({ name: 'personnel_type_id', type: 'int', nullable: true })
@@ -90,6 +91,26 @@ export class VendorPersonnelTemp extends AuditBaseEntity {
     @ManyToOne(() => IdentityType, { nullable: true })
     @JoinColumn({ name: 'identity_type_id' })
     identityType?: IdentityType;
+
+    @Column({ type: 'boolean', name: 'has_authority_limitation', nullable: true })
+    hasAuthorityLimitation?: boolean;
+
+    @Column({ type: 'text', name: 'authority_limitation_notes', nullable: true })
+    authorityLimitationNotes?: string;
+
+    @Column({ type: 'timestamp', name: 'authority_limitation_expired_at', nullable: true })
+    authorityLimitationExpiredAt?: Date;
+
+    @Column({ type: 'int', name: 'authority_limitation_file_id', nullable: true })
+    authorityLimitationFileId?: number;
+
+    @Column({ type: 'text', name: 'npwp_number', nullable: true })
+    npwpNumber?: string;
+
+
+    @ManyToOne(() => File, { nullable: true })
+    @JoinColumn({ name: 'authority_limitation_file_id' })
+    authorityLimitationFile?: File;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'created_by' })

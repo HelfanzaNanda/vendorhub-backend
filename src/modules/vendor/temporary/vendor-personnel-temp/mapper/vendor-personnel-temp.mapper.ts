@@ -28,6 +28,15 @@ export class VendorPersonnelTempMapper {
             ownershipPercentage: entity.ownershipPercentage ?? null,
             privyId: entity.privyId ?? null,
             enterpriseId: entity.enterpriseId ?? null,
+            hasAuthorityLimitation: entity.hasAuthorityLimitation ?? null,
+            authorityLimitationNotes: entity.authorityLimitationNotes ?? null,
+            authorityLimitationExpiredAt: entity.authorityLimitationExpiredAt ?? null,
+            authorityLimitationFile: entity.authorityLimitationFile ? { 
+                id: entity.authorityLimitationFile.id, 
+                fileName: entity.authorityLimitationFile.fileName, 
+                fileSize: entity.authorityLimitationFile.fileSize, 
+                mimeType: entity.authorityLimitationFile.mimeType
+            } : null,
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,

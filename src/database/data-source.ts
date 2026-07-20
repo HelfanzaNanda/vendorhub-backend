@@ -66,6 +66,8 @@ import { VendorTermCondition } from '@modules/vendor/vendor-term-condition/entit
 import { VendorTermConditionReview } from '@modules/vendor/vendor-term-condition/entities/vendor-term-condition-review.entity';
 import { VendorCategory } from '@modules/master/vendor-category/entities/vendor-category.entity';
 import { VendorCategoryItem } from '@modules/master/vendor-category-item/entities/vendor-category-item.entity';
+import { Notification } from '@modules/notification/entities/notification.entity';
+import { NotificationTemplate } from '@modules/notification/entities/notification-template.entity';
 
 export const AppDataSource = new DataSource({
     type: 'mariadb',
@@ -143,7 +145,9 @@ export const AppDataSource = new DataSource({
         MasterHoliday,
         WorkflowTransaction,
         WorkflowTransactionStep,
-        WorkflowHistory
+        WorkflowHistory,
+        Notification,
+        NotificationTemplate
     ],
     migrations: ['src/database/migrations/*.ts'],
 

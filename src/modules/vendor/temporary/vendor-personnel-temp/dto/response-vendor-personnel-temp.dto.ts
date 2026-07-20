@@ -1,4 +1,5 @@
 import { AuditResponseDto } from '@common/dto/audit-response.dto';
+import { FileResponseDto } from '@common/dto/file-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class VendorPersonnelTempResponseDto {
@@ -76,6 +77,18 @@ export class VendorPersonnelTempResponseDto {
 
     @ApiProperty({ nullable: true })
     enterpriseId?: string | null;
+
+    @ApiProperty({ nullable: true })
+    hasAuthorityLimitation?: boolean | null;
+
+    @ApiProperty({ nullable: true })
+    authorityLimitationNotes?: string | null;
+
+    @ApiProperty({ nullable: true })
+    authorityLimitationExpiredAt?: Date | null;
+
+    @ApiProperty({ nullable: true })
+    authorityLimitationFile?: FileResponseDto | null;
 
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;

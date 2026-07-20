@@ -58,8 +58,8 @@ export class LookupController {
     }
 
     @Get('titles')
-    getTiles() {
-        return this.service.getTiles();
+    getTitles(@Query('excludeCodes') excludeCodes: string[]) {
+        return this.service.getTitles(excludeCodes);
     }
 
     @Get('identity-types')

@@ -1,9 +1,12 @@
+import { Type } from 'class-transformer';
 import {
     IsOptional,
     IsInt,
     IsString,
     IsNumber,
     IsNotEmpty,
+    IsBoolean,
+    IsDate,
 } from 'class-validator';
 
 export class CreateVendorPersonnelTempDto {
@@ -78,4 +81,25 @@ export class CreateVendorPersonnelTempDto {
     @IsString()
     @IsOptional()
     enterpriseId?: string;
+
+    @IsBoolean()
+    @IsOptional()
+    hasAuthorityLimitation?: boolean;
+
+    @IsString()
+    @IsOptional()
+    authorityLimitationNotes?: string;
+
+    @Type(() => Date)
+    @IsDate()
+    @IsOptional()
+    authorityLimitationExpiredAt?: Date;
+
+    @IsInt()
+    @IsOptional()
+    authorityLimitationFileId?: number;
+
+    @IsString()
+    @IsOptional()
+    npwp?: string;
 }

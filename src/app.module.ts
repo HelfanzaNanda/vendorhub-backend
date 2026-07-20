@@ -26,6 +26,10 @@ import { WorkflowTransactionStepModule } from '@modules/workflow-transaction/wor
 import { WorkflowHistoryModule } from '@modules/workflow-transaction/workflow-history/workflow-history.module';
 import { WorklistModule } from '@modules/worklist/worklist.module';
 import { VendorCategoryModule } from '@modules/master/vendor-category/vendor-category.module';
+import { FileModule } from '@modules/master/file/file.module';
+import { NotificationModule } from '@modules/notification/notification.module';
+import { OtpModule } from '@modules/otp/otp.module';
+import { IdentityModule } from '@modules/identity/identity.module';
 
 @Module({
     imports: [
@@ -51,6 +55,9 @@ import { VendorCategoryModule } from '@modules/master/vendor-category/vendor-cat
         CountryModule,
         SiteModule,
         LookupModule,
+        FileModule,
+        OtpModule,
+        NotificationModule,
         VendorCategoryModule,
         TermsConditionModule,
         VendorModule,
@@ -63,6 +70,7 @@ import { VendorCategoryModule } from '@modules/master/vendor-category/vendor-cat
         WorkflowTransactionStepModule,
         WorkflowHistoryModule,
         WorklistModule,
+        IdentityModule
     ],
     controllers: [AppController],
     providers: [AppService],
