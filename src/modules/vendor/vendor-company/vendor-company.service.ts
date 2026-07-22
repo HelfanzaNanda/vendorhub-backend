@@ -87,4 +87,53 @@ export class VendorCompanyService {
 
         return this.repo.save(item);
     }
+
+    async getSingleton(vendorId: number) {
+        const item = await this.repo.findOne({
+            select: {
+                vendorId: true,
+                id : true,
+                companyName: true,
+                staffCount: true,
+                mapUrl: true,
+                address: true,
+                businessType: {
+                    name: true,
+                    id : true,
+                },
+                site : {
+                    name : true,
+                    id : true,
+                },
+                country : {
+                    id : true,
+                    name : true,
+                },
+                province : {
+                    name : true,
+                    id : true,
+                },
+                city : {
+                    name : true,
+                    id : true,
+                },
+                postalCode : true,
+                website : true
+            },
+            where: { vendorId },
+            relations: {
+                vendor: true,
+                site: true,
+                businessType: true,
+                country: true,
+                province: true,
+                city: true,
+            },
+        });
+        
+        if (!item) {
+            return null;
+        }
+        return VendorCompanyMapper.toResponse(item);
+    }
 }

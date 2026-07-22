@@ -14,7 +14,7 @@ export class VendorCompanyBuilder {
             siteId: 1,
             businessTypeId: 1,
             staffCount: 30,
-            countryId: 1,
+            countryId: 27,
             provinceId: 320,
             cityId: 299,
             postalCode: faker.string.numeric(6),

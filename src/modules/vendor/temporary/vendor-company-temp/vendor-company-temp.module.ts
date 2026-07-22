@@ -5,6 +5,7 @@ import { VendorCompanyTemp } from './entities/vendor-company-temp.entity';
 import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';
 import { VendorCompanyTempController } from './vendor-company-temp.controller';
 import { VendorCompanyTempService } from './vendor-company-temp.service';
+import { VendorCompanyService } from '@modules/vendor/vendor-company/vendor-company.service';
 
 @Module({
     imports: [

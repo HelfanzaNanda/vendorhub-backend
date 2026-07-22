@@ -1,32 +1,46 @@
-import { VendorDocumentTempResponseDto } from '../dto/response-vendor-document-temp.dto';
+import {
+    VendorDocumentItemResponseDto,
+} from '../dto/response-vendor-document-temp.dto';
+
 import { VendorDocumentTemp } from '../entities/vendor-document-temp.entity';
 
 export class VendorDocumentTempMapper {
     static toResponse(
         entity: VendorDocumentTemp,
-    ): VendorDocumentTempResponseDto {
+    ): VendorDocumentItemResponseDto {
         return {
             id: entity.id,
+
             vendorTempId: entity.vendorTempId ?? null,
             vendorDocumentId: entity.vendorDocumentId ?? null,
+
             action: entity.action ?? null,
             reviewStatus: entity.reviewStatus ?? null,
             reviewNotes: entity.reviewNotes ?? null,
+
             documentTypeId: entity.documentTypeId ?? null,
+
             documentNumber: entity.documentNumber ?? null,
             address: entity.address ?? null,
-            status: entity.taxpayerStatus === 'true' ? true : (entity.taxpayerStatus === 'false' ? false : (entity.taxpayerStatus ?? null)),
-            published_date: entity.publishDate ?? null,
+
+            taxpayerStatus: entity.taxpayerStatus ?? null,
+
+            publishedDate: entity.publishDate ?? null,
             expiredDate: entity.expiredDate ?? null,
+
             fileId: entity.fileId ?? null,
-            file: entity.file ? {
-                id: entity.file.id,
-                originalName: entity.file.originalFileName,
-                filename: entity.file.fileName,
-                mimeType: entity.file.mimeType,
-                size: entity.file.fileSize,
-                url: `/files/download/${entity.file.id}`,
-            } : null,
+
+            file: entity.file
+                ? {
+                      id: entity.file.id,
+                      originalName: entity.file.originalFileName,
+                      filename: entity.file.fileName,
+                      mimeType: entity.file.mimeType,
+                      size: entity.file.fileSize,
+                      url: `/files/download/${entity.file.id}`,
+                  }
+                : null,
+
             audit: {
                 createdAt: entity.createdAt,
                 updatedAt: entity.updatedAt,
@@ -34,11 +48,5 @@ export class VendorDocumentTempMapper {
                 updatedBy: entity.updatedByUser?.username ?? null,
             },
         };
-    }
-
-    static toResponses(
-        entities: VendorDocumentTemp[],
-    ): VendorDocumentTempResponseDto[] {
-        return entities.map(this.toResponse);
     }
 }

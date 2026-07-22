@@ -12,10 +12,10 @@ export class VendorCompanyResponseDto {
     companyName?: string | null;
 
     @ApiProperty({ nullable: true })
-    siteId?: number | null;
+    site?: RelationResponseDto | null;
 
     @ApiProperty({ nullable: true })
-    businessTypeId?: number | null;
+    businessType?: RelationResponseDto | null;
 
     @ApiProperty({ nullable: true })
     staffCount?: number | null;
@@ -24,13 +24,13 @@ export class VendorCompanyResponseDto {
     address?: string | null;
 
     @ApiProperty({ nullable: true })
-    countryId?: number | null;
+    country?: RelationResponseDto | null;
 
     @ApiProperty({ nullable: true })
-    provinceId?: number | null;
+    province?: RelationResponseDto | null;
 
     @ApiProperty({ nullable: true })
-    cityId?: number | null;
+    city?: RelationResponseDto | null;
 
     @ApiProperty({ nullable: true })
     mapUrl?: string | null;
@@ -41,6 +41,6 @@ export class VendorCompanyResponseDto {
     @ApiProperty({ nullable: true })
     website?: string | null;
 
-    @ApiProperty({ type: () => AuditResponseDto })
-    audit: AuditResponseDto;
+    // @ApiProperty({ type: () => AuditResponseDto })
+    // audit: AuditResponseDto;
 }

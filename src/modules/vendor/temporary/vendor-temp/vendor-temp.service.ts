@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateVendorTempDto } from './dto/create-vendor-temp.dto';
 import { UpdateVendorTempDto } from './dto/update-vendor-temp.dto';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { VendorTemp } from './entities/vendor-temp.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from '@common/pagination/pagination.helper';
@@ -12,6 +12,7 @@ import { VendorTempMapper } from './mapper/vendor-temp.mapper';
 import { RunningNumberService } from '@modules/running-number/running-number.service';
 import { VendorTempStatus } from '@common/enums/vendor-temp-status.enum';
 import { RunningNumberCode } from '@common/enums/running-number-code.enum';
+import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 
 @Injectable()
 export class VendorTempService {
@@ -20,27 +21,41 @@ export class VendorTempService {
         private repo: Repository<VendorTemp>,
 
         private readonly runningNumberService: RunningNumberService,
+        private dataSource: DataSource,
     ) {}
 
     async getOrCreateDraft(vendorId : number) : Promise<VendorTemp> {
-        let vendorTemp = await this.repo.findOne({
-            where: {
-            vendorId,
-            status: VendorTempStatus.DRAFT,
-            },
+
+        return this.dataSource.transaction(async manager => {
+            // Lock parent vendor
+            await manager
+                .getRepository(Vendor)
+                .createQueryBuilder('vendor')
+                .setLock('pessimistic_write')
+                .where('vendor.id = :vendorId', { vendorId })
+                .getOneOrFail();
+
+            // Check existing draft
+            let vendorTemp = await manager.findOne(VendorTemp, {
+                where: {
+                    vendorId,
+                    status: VendorTempStatus.DRAFT,
+                },
+            });
+
+            if (vendorTemp) {
+                return vendorTemp;
+            }
+
+            // Create draft
+            vendorTemp = manager.create(VendorTemp, {
+                vendorId,
+                status: VendorTempStatus.DRAFT,
+                requestNo: await this.runningNumberService.generate(RunningNumberCode.VENDOR_REQUEST),
+            });
+
+            return await manager.save(vendorTemp);
         });
-
-        if (vendorTemp) {
-            return vendorTemp;
-        }
-
-        vendorTemp = this.repo.create({
-            vendorId: vendorId,
-            requestNo: await this.runningNumberService.generate(RunningNumberCode.VENDOR_REQUEST),
-            status: VendorTempStatus.DRAFT,
-        });
-
-        return this.repo.save(vendorTemp);
     }
 
     async pagination(query: PaginationQueryDto) {

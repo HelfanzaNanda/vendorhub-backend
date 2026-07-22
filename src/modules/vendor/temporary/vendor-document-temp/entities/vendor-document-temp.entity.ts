@@ -32,8 +32,8 @@ export class VendorDocumentTemp extends AuditBaseEntity {
     @Column({ type: 'text', nullable: true })
     address?: string;
 
-    @Column({ name: 'taxpayer_status', nullable: true })
-    taxpayerStatus?: string;
+    @Column({ name: 'taxpayer_status', type : 'tinyint', nullable: true })
+    taxpayerStatus?: boolean;
 
     @Column({ name: 'publish_date', type: 'date', nullable: true })
     publishDate?: Date;

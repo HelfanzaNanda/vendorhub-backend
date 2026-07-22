@@ -11,22 +11,16 @@ export class VendorCompanyTempMapper {
             reviewStatus: entity.reviewStatus ?? null,
             reviewNotes: entity.reviewNotes ?? null,
             companyName: entity.companyName ?? null,
-            siteId: entity.siteId ?? null,
-            businessTypeId: entity.businessTypeId ?? null,
+            site: entity.site,
+            businessType: entity.businessType ?? null,
             staffCount: entity.staffCount ?? null,
             address: entity.address ?? null,
-            countryId: entity.countryId ?? null,
-            provinceId: entity.provinceId ?? null,
-            cityId: entity.cityId ?? null,
+            country: entity.country ?? null,
+            province: entity.province ?? null,
+            city: entity.city ?? null,
             mapUrl: entity.mapUrl ?? null,
             postalCode: entity.postalCode ?? null,
             website: entity.website ?? null,
-            audit: {
-                createdAt: entity.createdAt,
-                updatedAt: entity.updatedAt,
-                createdBy: entity.createdByUser?.username ?? null,
-                updatedBy: entity.updatedByUser?.username ?? null,
-            },
         };
     }
 

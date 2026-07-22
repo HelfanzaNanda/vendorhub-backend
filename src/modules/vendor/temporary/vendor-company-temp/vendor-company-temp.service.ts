@@ -8,6 +8,7 @@ import { VendorCompanyTempMapper } from './mapper/vendor-company-temp.mapper';
 import { VendorTempService } from '../vendor-temp/vendor-temp.service';
 import { VendorCompany } from '@modules/vendor/vendor-company/entities/vendor-company.entity';
 import { VendorTempAction } from '@common/enums/temp-action.enum';
+import { VendorCompanyService } from '@modules/vendor/vendor-company/vendor-company.service';
 
 @Injectable()
 export class VendorCompanyTempService {
@@ -23,17 +24,41 @@ export class VendorCompanyTempService {
         const draft = await this.vendorTempService.getOrCreateDraft(vendorId);
         const item = await this.repo.findOne({
             select: {
-                createdByUser: {
-                    username: true,
+                vendorTempId : true,
+                vendorCompanyId : true,
+                id : true,
+                companyName: true,
+                staffCount: true,
+                mapUrl: true,
+                address: true,
+                businessType: {
+                    name: true,
+                    id : true,
                 },
-                updatedByUser: {
-                    username: true,
+                site : {
+                    name : true,
+                    id : true,
                 },
+                country : {
+                    name : true,
+                    id : true,
+                },
+                province : {
+                    name : true,
+                    id : true,
+                },
+                city : {
+                    name : true,
+                    id : true,
+                },
+                postalCode : true,
+                website : true,
+                action : true,
+                reviewNotes: true,
+                reviewStatus : true
             },
             where: { vendorTempId: draft.id },
             relations: {
-                createdByUser: true,
-                updatedByUser: true,
                 vendorTemp: true,
                 vendorCompany: true,
                 site: true,
@@ -44,8 +69,55 @@ export class VendorCompanyTempService {
             },
         });
 
-        if (!item) return null;
-        return VendorCompanyTempMapper.toResponse(item);
+        if (item) {
+            return VendorCompanyTempMapper.toResponse(item);
+        }
+        const master = await this.masterRepo.findOne({
+            select: {
+                vendorId: true,
+                id : true,
+                companyName: true,
+                staffCount: true,
+                mapUrl: true,
+                address: true,
+                businessType: {
+                    name: true,
+                    id : true,
+                },
+                site : {
+                    name : true,
+                    id : true,
+                },
+                country : {
+                    id : true,
+                    name : true,
+                },
+                province : {
+                    name : true,
+                    id : true,
+                },
+                city : {
+                    name : true,
+                    id : true,
+                },
+                postalCode : true,
+                website : true
+            },
+            where: { vendorId },
+            relations: {
+                vendor: true,
+                site: true,
+                businessType: true,
+                country: true,
+                province: true,
+                city: true,
+            },
+        });
+        
+        if (!master) {
+            return null;
+        }
+        return VendorCompanyTempMapper.toResponse(master);
     }
 
     async upsert(vendorId: number, data: UpdateVendorCompanyTempDto) {
@@ -55,12 +127,14 @@ export class VendorCompanyTempService {
 
         if (item) {
             Object.assign(item, data);
+            item.countryId = master?.countryId;
             item.vendorCompanyId = master ? master.id : undefined;
             item.action = VendorTempAction.UPDATE;
         } else {
             item = this.repo.create({
                 ...data,
                 vendorTempId: draft.id,
+                countryId : master?.countryId,
                 vendorCompanyId: master ? master.id : undefined,
                 action: VendorTempAction.UPDATE,
             });

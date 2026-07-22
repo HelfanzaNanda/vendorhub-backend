@@ -1,48 +1,26 @@
-import { AuditResponseDto } from '@common/dto/audit-response.dto';
-import { ApiProperty } from '@nestjs/swagger';
-
-export class VendorDocumentTempResponseDto {
-    @ApiProperty()
+export interface VendorDocumentItemResponseDto {
     id: number;
 
-    @ApiProperty({ nullable: true })
-    vendorTempId?: number | null;
+    vendorTempId: number | null;
+    vendorDocumentId: number | null;
 
-    @ApiProperty({ nullable: true })
-    vendorDocumentId?: number | null;
+    action: string | null;
+    reviewStatus: string | null;
+    reviewNotes: string | null;
 
-    @ApiProperty({ nullable: true })
-    action?: string | null;
+    documentTypeId: number | null;
 
-    @ApiProperty({ nullable: true })
-    reviewStatus?: string | null;
+    documentNumber: string | null;
+    address: string | null;
 
-    @ApiProperty({ nullable: true })
-    reviewNotes?: string | null;
+    taxpayerStatus: boolean | null;
 
-    @ApiProperty({ nullable: true })
-    documentTypeId?: number | null;
+    publishedDate: Date | null;
+    expiredDate: Date | null;
 
-    @ApiProperty({ nullable: true })
-    documentNumber?: string | null;
+    fileId: number | null;
 
-    @ApiProperty({ nullable: true })
-    address?: string | null;
-
-    @ApiProperty({ nullable: true })
-    status?: boolean | string | null;
-
-    @ApiProperty({ nullable: true })
-    published_date?: Date | null;
-
-    @ApiProperty({ nullable: true })
-    expiredDate?: Date | null;
-
-    @ApiProperty({ nullable: true })
-    fileId?: number | null;
-
-    @ApiProperty({ nullable: true })
-    file?: {
+    file: {
         id: number;
         originalName: string;
         filename: string;
@@ -51,6 +29,18 @@ export class VendorDocumentTempResponseDto {
         url: string;
     } | null;
 
-    @ApiProperty({ type: () => AuditResponseDto })
-    audit: AuditResponseDto;
+    audit: {
+        createdAt: Date;
+        updatedAt: Date;
+        createdBy: string | null;
+        updatedBy: string | null;
+    };
+}
+
+export interface VendorDocumentTempResponseDto {
+    npwp?: VendorDocumentItemResponseDto;
+    taxpayer?: VendorDocumentItemResponseDto;
+    deedOfEstablishment?: VendorDocumentItemResponseDto;
+    deedOfAmendment?: VendorDocumentItemResponseDto;
+    organizationStructure?: VendorDocumentItemResponseDto;
 }

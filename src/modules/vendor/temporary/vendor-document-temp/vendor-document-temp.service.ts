@@ -8,6 +8,7 @@ import { VendorDocumentTempMapper } from './mapper/vendor-document-temp.mapper';
 import { VendorTempService } from '../vendor-temp/vendor-temp.service';
 import { VendorDocument } from '@modules/vendor/vendor-document/entities/vendor-document.entity';
 import { VendorTempAction } from '@common/enums/temp-action.enum';
+import { DocumentTypeForVendorDocEnum, VendorDocumentPropertyMap } from '@common/enums/document-type.enum';
 
 @Injectable()
 export class VendorDocumentTempService {
@@ -22,15 +23,9 @@ export class VendorDocumentTempService {
     async getSingleton(vendorId: number) {
         const draft = await this.vendorTempService.getOrCreateDraft(vendorId);
         const items = await this.repo.find({
-            select: {
-                createdByUser: {
-                    username: true,
-                },
-                updatedByUser: {
-                    username: true,
-                },
+            where: {
+                vendorTempId: draft.id,
             },
-            where: { vendorTempId: draft.id },
             relations: {
                 createdByUser: true,
                 updatedByUser: true,
@@ -41,8 +36,47 @@ export class VendorDocumentTempService {
             },
         });
 
-        if (!items || items.length === 0) return [];
-        return VendorDocumentTempMapper.toResponses(items);
+        let result: Record<string, any> = {};
+        if (items.length) {
+            for (const item of items) {
+                const key = VendorDocumentPropertyMap[
+                    item.documentType?.code as DocumentTypeForVendorDocEnum
+                ];
+
+                if (!key) continue;
+
+                result[key] = VendorDocumentTempMapper.toResponse(item);
+            }
+            return result;
+        }
+        const master = await this.masterRepo.find({
+            where: {
+                vendorId,
+            },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+                documentType: true,
+                file: true,
+            },
+        });
+
+        if (!master) {
+            return {};
+        }
+
+        result = {};
+        for (const item of master) {
+            const key = VendorDocumentPropertyMap[
+                item.documentType?.code as DocumentTypeForVendorDocEnum
+            ];
+
+            if (!key) continue;
+
+            result[key] = VendorDocumentTempMapper.toResponse(item);
+        }
+        return result;
+
     }
 
     async upsert(vendorId: number, data: UpdateVendorDocumentTempDto[]) {
@@ -57,7 +91,7 @@ export class VendorDocumentTempService {
                 documentTypeId: doc.documentTypeId,
                 documentNumber: doc.documentNumber ?? undefined,
                 address: doc.address ?? undefined,
-                taxpayerStatus: doc.status !== undefined && doc.status !== null ? String(doc.status) : undefined,
+                taxpayerStatus: doc.status ? true : false,
                 publishDate: doc.published_date ?? undefined,
                 fileId: doc.fileId?.id ?? undefined,
                 vendorDocumentId: master ? master.id : undefined,
