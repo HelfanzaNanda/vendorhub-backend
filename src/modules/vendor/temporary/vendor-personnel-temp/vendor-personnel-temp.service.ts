@@ -62,11 +62,11 @@ export class VendorPersonnelTempService extends BaseDraftCrudService<VendorPerso
         const { personnelTypeCode, ...data } = dto;
         (data as any).personnelTypeId = personnelType.id;
         
-        return this.createDraft(vendorId, data);
+        // return this.createDraft(vendorId, data);
     }
 
     async update(vendorId: number, id: number, data: UpdateVendorPersonnelTempDto, isMaster: boolean) {
-        return this.updateDraft(vendorId, id, data, isMaster);
+        // return this.updateDraft(vendorId, id, data, isMaster);
     }
 
     async delete(vendorId: number, id: number, isMaster: boolean) {

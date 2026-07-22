@@ -7,7 +7,10 @@ import {
     IsNotEmpty,
     IsBoolean,
     IsDate,
+    IsArray,
+    ValidateNested,
 } from 'class-validator';
+import { CreateVendorPersonnelDocumentTempDto } from './create-vendor-personnel-document-temp.dto';
 
 export class CreateVendorPersonnelTempDto {
     @IsInt()
@@ -102,4 +105,10 @@ export class CreateVendorPersonnelTempDto {
     @IsString()
     @IsOptional()
     npwp?: string;
+
+    @IsArray()
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => CreateVendorPersonnelDocumentTempDto)
+    documents?: CreateVendorPersonnelDocumentTempDto[];
 }

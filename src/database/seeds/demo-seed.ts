@@ -496,7 +496,7 @@ async function runDemoSeed() {
                             field.fileId = randomArrayElement(files)?.id;
                             break;
                         case 2:
-                            field.taxpayerStatus = faker.datatype.boolean().toString();
+                            field.taxpayerStatus = faker.datatype.boolean();
                             field.publishDate = faker.date.past();
                             field.fileId = randomArrayElement(files)?.id;
                             break;

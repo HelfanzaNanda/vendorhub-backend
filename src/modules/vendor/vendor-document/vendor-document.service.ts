@@ -18,7 +18,7 @@ export class VendorDocumentService {
     ) {}
 
     async create(data: CreateVendorDocumentDto) {
-        return this.repo.save(this.repo.create(data));
+        // return this.repo.save(this.repo.create(data));
     }
 
     async pagination(query: PaginationQueryDto) {

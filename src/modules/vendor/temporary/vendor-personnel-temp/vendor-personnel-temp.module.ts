@@ -7,10 +7,12 @@ import { CompanyPersonnelType } from '@modules/master/company-personnel-type/ent
 import { VendorTempModule } from '../vendor-temp/vendor-temp.module';
 import { VendorPersonnel } from '@modules/vendor/vendor-personnel/entities/vendor-personnel.entity';
 import { File } from '@modules/master/file/entities/file.entity';
+import { VendorPersonnelDocumentTemp } from './entities/vendor-personnel-document-temp.entity';
+import { VendorPersonnelDocument } from '@modules/vendor/vendor-personnel/entities/vendor-personnel-document.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([VendorPersonnel, VendorPersonnelTemp, CompanyPersonnelType, File]),
+        TypeOrmModule.forFeature([VendorPersonnel, VendorPersonnelTemp, CompanyPersonnelType, File, VendorPersonnelDocument, VendorPersonnelDocumentTemp]),
         VendorTempModule
     ],
     controllers: [VendorPersonnelTempController],

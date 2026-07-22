@@ -3,3 +3,10 @@ export enum PersonnelCode {
     SHAREHOLDER = 'SHAREHOLDER',
     AUTHORIZED_SIGNER = 'AUTHORIZED_SIGNER',
 }
+
+export enum PersonnelDocumentEnum {
+    KONTRAK = 'KONTRAK',
+    BAST = 'BAST',
+    BAUT = 'BAUT',
+    BAPK = 'BAPK'
+}

@@ -11,6 +11,7 @@ import { VendorDocumentBuilder } from './builders/vendor-document.builder';
 import { VendorFinancialReportBuilder } from './builders/vendor-financial-report.builder';
 import { VendorUserAccessBuilder } from './builders/vendor-user-access.builder';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { VendorAffiliateBuilder } from './builders/vendor-affiliate.builder';
 
 @Module({
     imports: [
@@ -23,11 +24,25 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         VendorCompanyBuilder,
         VendorPersonnelBuilder,
         VendorBankBuilder,
+        VendorAffiliateBuilder,
         VendorBusinessLicenseBuilder,
         VendorCompetencyBuilder,
         VendorDocumentBuilder,
         VendorFinancialReportBuilder,
         VendorUserAccessBuilder,
     ],
+    exports : [
+        DevVendorService,
+        VendorBuilder,
+        VendorCompanyBuilder,
+        VendorPersonnelBuilder,
+        VendorBankBuilder,
+        VendorAffiliateBuilder,
+        VendorBusinessLicenseBuilder,
+        VendorCompetencyBuilder,
+        VendorDocumentBuilder,
+        VendorFinancialReportBuilder,
+        VendorUserAccessBuilder,
+    ]
 })
 export class DevVendorModule {}

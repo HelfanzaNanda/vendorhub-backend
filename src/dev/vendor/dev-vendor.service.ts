@@ -17,9 +17,9 @@ export class DevVendorService {
         await queryRunner.startTransaction();
 
         try {
-            const scenarioConfig = SCENARIOS[dto.scenario] || SCENARIOS.SMALL_VENDOR;
-            const finalConfig = { ...scenarioConfig, ...dto.override };
-
+            // const scenarioConfig = SCENARIOS[dto.scenario] || SCENARIOS.SMALL_VENDOR;
+            // const finalConfig = { ...scenarioConfig, ...dto.override };
+            const finalConfig = {}
             const result = await this.vendorBuilder.build(queryRunner.manager, finalConfig);
             
             await queryRunner.commitTransaction();

@@ -4,7 +4,7 @@ import { DevVendorService } from './dev-vendor.service';
 import { CreateMasterVendorDto } from './dto/create-master-vendor.dto';
 
 @ApiTags('Dev Vendor')
-@Controller('dev/vendors')
+@Controller('/dev/vendors')
 export class DevVendorController {
     constructor(private readonly devVendorService: DevVendorService) {}
 

@@ -18,7 +18,7 @@ export class VendorDocumentResponseDto {
     address?: string | null;
 
     @ApiProperty({ nullable: true })
-    taxpayerStatus?: string | null;
+    taxpayerStatus?: boolean | null;
 
     @ApiProperty({ nullable: true })
     publishDate?: Date | null;

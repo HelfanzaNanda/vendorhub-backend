@@ -118,7 +118,7 @@ export class VendorCompetencyTempService extends BaseDraftCrudService<VendorComp
 
         for (const incoming of incomingRefs) {
             const areaIdsString = incoming.areaIds?.join(',');
-            const fileId = incoming.fileId?.id;
+            const fileId = incoming.fileId;
 
 
             let existing : VendorCustomerReferenceTemp | undefined = undefined;

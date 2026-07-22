@@ -88,14 +88,13 @@ export class IndustryClassificationService {
     }
 
     async findOptions() {
-        const industryClassification =
-            await this.industryClassificationRepo.find();
+        const industryClassification = await this.industryClassificationRepo.find();
         return LookupMapper.toResponses(
             industryClassification,
             (industryClassification) => industryClassification.id,
-            (industryClassification) => industryClassification.number,
+            (industryClassification) => industryClassification.name,
             (industryClassification) => ({
-                name: industryClassification.name,
+                number: industryClassification.number,
                 description: industryClassification.description,
             }),
         );

@@ -11,6 +11,7 @@ import { VendorUserAccessBuilder } from './vendor-user-access.builder';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 import { VendorStageEnum, VendorTypeEnum, VendorStatusEnum, VendorPriorityEnum } from '@common/enums/vendor.enum';
 import { faker } from '@faker-js/faker';
+import { VendorAffiliateBuilder } from './vendor-affiliate.builder';
 
 @Injectable()
 export class VendorBuilder {
@@ -18,6 +19,7 @@ export class VendorBuilder {
         private readonly companyBuilder: VendorCompanyBuilder,
         private readonly personnelBuilder: VendorPersonnelBuilder,
         private readonly bankBuilder: VendorBankBuilder,
+        private readonly affiliateBuilder: VendorAffiliateBuilder,
         private readonly licenseBuilder: VendorBusinessLicenseBuilder,
         private readonly competencyBuilder: VendorCompetencyBuilder,
         private readonly documentBuilder: VendorDocumentBuilder,
@@ -37,14 +39,15 @@ export class VendorBuilder {
         });
         vendor = await vendorRepo.save(vendor);
 
-        await this.companyBuilder.build(manager, vendor.id, config);
-        await this.personnelBuilder.build(manager, vendor.id, config.personnel);
-        await this.userAccessBuilder.build(manager, vendor.id, config.userAccess);
-        await this.bankBuilder.build(manager, vendor.id, config.banks);
-        await this.licenseBuilder.build(manager, vendor.id, config);
-        await this.competencyBuilder.build(manager, vendor.id, config.competencies);
-        await this.documentBuilder.build(manager, vendor.id, config.documents);
-        await this.financialReportBuilder.build(manager, vendor.id, config.financialReports);
+        await this.companyBuilder.build(manager, vendor, config);
+        await this.personnelBuilder.build(manager, vendor, config.personnel);
+        await this.userAccessBuilder.build(manager, vendor, config.userAccess);
+        await this.bankBuilder.build(manager, vendor, config.banks);
+        await this.affiliateBuilder.build(manager, vendor, config);
+        await this.licenseBuilder.build(manager, vendor, config);
+        await this.competencyBuilder.build(manager, vendor, config.competencies);
+        await this.documentBuilder.build(manager, vendor, config.documents);
+        await this.financialReportBuilder.build(manager, vendor, config.financialReports);
 
         return {
             vendorId: vendor.id,

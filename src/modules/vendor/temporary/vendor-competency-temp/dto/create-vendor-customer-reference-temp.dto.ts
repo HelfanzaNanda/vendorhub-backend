@@ -24,9 +24,9 @@ export class CreateVendorCustomerReferenceTempDto {
     @IsInt()
     year: number;
 
-    @ValidateNested()
-    @Type(() => EntityIdDto)
-    fileId: EntityIdDto;
+    @IsInt()
+    @IsOptional()
+    fileId: number;
 
     @IsArray()
     @IsInt({ each: true })

@@ -1,5 +1,5 @@
 import { AuditBaseEntity } from '@common/entities/audit-base.entity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 import { CompanyPersonnelType } from '@modules/master/company-personnel-type/entities/company-personnel-type.entity';
@@ -7,6 +7,7 @@ import { Title } from '@modules/master/title/entities/title.entity';
 import { JobType } from '@modules/master/job-type/entities/job-type.entity';
 import { IdentityType } from '@modules/master/identity-type/entities/identity-type.entity';
 import { File } from '@modules/master/file/entities/file.entity';
+import { VendorPersonnelDocument } from './vendor-personnel-document.entity';
 
 @Entity('vendor_personnels')
 export class VendorPersonnel extends AuditBaseEntity {
@@ -90,6 +91,9 @@ export class VendorPersonnel extends AuditBaseEntity {
     @ManyToOne(() => File, { nullable: true })
     @JoinColumn({ name: 'authority_limitation_file_id' })
     authorityLimitationFile?: File;
+
+    @OneToMany(() => VendorPersonnelDocument, (vcr) => vcr.vendorPersonnel)
+    documents?: VendorPersonnelDocument[];
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'created_by' })

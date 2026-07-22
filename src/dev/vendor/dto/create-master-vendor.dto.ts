@@ -8,9 +8,9 @@ export enum VendorScenario {
 }
 
 export class CreateMasterVendorDto {
-    @ApiProperty({ enum: VendorScenario })
-    @IsEnum(VendorScenario)
-    scenario: VendorScenario;
+    // @ApiProperty({ enum: VendorScenario })
+    // @IsEnum(VendorScenario)
+    // scenario: VendorScenario;
 
     @ApiProperty({ required: false })
     @IsOptional()

@@ -9,6 +9,16 @@ export class DateUtil {
     private static readonly DATETIME_FORMAT = 'DD MMM YYYY HH:mm';
     private static readonly DATETIME_SECOND_FORMAT = 'DD MMM YYYY HH:mm:ss';
 
+    static now() : Date {
+        return new Date();
+    }
+
+    static addYears(date : Date, years : number) : Date {
+        const result = new Date(date);
+        result.setFullYear(result.getFullYear() + years);
+        return result;
+    }
+
     static diffDays(start: Date, end: Date): number {
         return dayjs(end).diff(dayjs(start), 'day');
     }

@@ -1,5 +1,6 @@
 import { AuditBaseEntity } from '@common/entities/audit-base.entity';
 import { AuditColumns } from '@common/entities/audit.embedded';
+import { File } from '@modules/master/file/entities/file.entity';
 import { Position } from '@modules/master/position/entities/position.entity';
 import { Site } from '@modules/master/site/entities/site.entity';
 import { UserHasRole } from '@modules/uman/user-has-roles/entities/user-has-role.entity';
@@ -96,6 +97,13 @@ export class User extends AuditBaseEntity {
         type: 'boolean',
     })
     isActive: boolean;
+
+    @Column({ name: 'file_id', type: 'int', nullable: true })
+    fileId?: number;
+
+    @ManyToOne(() => File, { nullable: true })
+    @JoinColumn({ name: 'file_id' })
+    file?: File;
 
     @Column({
         name: 'effective_start_date',

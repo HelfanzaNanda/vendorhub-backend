@@ -31,6 +31,7 @@ import { NotificationModule } from '@modules/notification/notification.module';
 import { OtpModule } from '@modules/otp/otp.module';
 import { IdentityModule } from '@modules/identity/identity.module';
 import { MetadataModule } from '@modules/metadata/metadata.module';
+import { DevVendorModule } from './dev/vendor/dev-vendor.module';
 
 @Module({
     imports: [
@@ -72,7 +73,8 @@ import { MetadataModule } from '@modules/metadata/metadata.module';
         WorkflowHistoryModule,
         WorklistModule,
         IdentityModule,
-        MetadataModule
+        MetadataModule,
+        DevVendorModule
     ],
     controllers: [AppController],
     providers: [AppService],
