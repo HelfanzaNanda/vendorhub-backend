@@ -51,10 +51,10 @@ export class VendorUserTempResponseDto {
     position?: { id: number; name: string } | null;
 
     @ApiProperty({ nullable: true })
-    effectiveStartDate?: Date | null;
+    effectiveStartDate?: string | null;
 
     @ApiProperty({ nullable: true })
-    effectiveEndDate?: Date | null;
+    effectiveEndDate?: string | null;
 
     @ApiProperty({ nullable: true })
     phone?: string | null;
@@ -70,6 +70,12 @@ export class VendorUserTempResponseDto {
 
     @ApiProperty()
     file?: { id: number; name: string } | null;
+
+    @ApiProperty({ type: () => Array<{ id: number; name: string }>, nullable: true })
+    roles?: Array<{ id: number; name: string }> | null;
+
+    @ApiProperty({ type: () => Array<{ id: number; name: string }>, nullable: true })
+    areas?: Array<{ id: number; name: string }> | null;
 
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;

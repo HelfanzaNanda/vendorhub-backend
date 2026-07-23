@@ -1,3 +1,4 @@
+import { DateUtil } from '@common/utils/date.util';
 import { VendorUserTempResponseDto } from '../dto/response-vendor-user-temp.dto';
 import { VendorUserTemp } from '../entities/vendor-user-temp.entity';
 
@@ -17,8 +18,8 @@ export class VendorUserTempMapper {
             jobTitle: entity.jobTitle ?? null,
             positionId: entity.positionId ?? null,
             position: entity.position ? { id: entity.position.id, name: entity.position.name } : null,
-            effectiveStartDate: entity.effectiveStartDate ?? null,
-            effectiveEndDate: entity.effectiveEndDate ?? null,
+            effectiveStartDate: DateUtil.formatDate(entity.effectiveStartDate),
+            effectiveEndDate: DateUtil.formatDate(entity.effectiveEndDate),
             phone: entity.phone ?? null,
             areaIds: entity.areaIds ?? null,
             roleIds: entity.roleIds ?? null,

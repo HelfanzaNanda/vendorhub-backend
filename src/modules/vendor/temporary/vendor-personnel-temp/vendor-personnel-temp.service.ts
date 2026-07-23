@@ -330,11 +330,9 @@ export class VendorPersonnelTempService extends BaseDraftCrudService<VendorPerso
 
 
         const vendorTemp = await this.vendorTempService.getOrCreateDraft(vendorId);
-        const { source, personnelTypeCode } = dto;
+        const { personnelTypeCode } = dto;
 
         return this.tempRepo.manager.transaction(async (manager) => {
-            let savedTemp: VendorPersonnelTemp;
-
             if (isMaster) {
                 const master = await manager.findOne(VendorPersonnel, { where: { id } as any });
                 if (!master) throw new NotFoundException(`Master data with id ${id} not found`);
@@ -343,7 +341,7 @@ export class VendorPersonnelTempService extends BaseDraftCrudService<VendorPerso
                     where: { 
                         vendorPicId: id,
                         vendorTempId: vendorTemp.id,
-                    } as any
+                    }
                 });
 
                 if (!temp) {
@@ -353,43 +351,61 @@ export class VendorPersonnelTempService extends BaseDraftCrudService<VendorPerso
                             master,
                             vendorTemp.id,
                             VendorTempAction.DELETE,
-                        ) as any,
+                        ),
                     );
                 }
 
                 temp.personnelTypeId = personnelType.id;
                 temp.action = VendorTempAction.DELETE;
 
-                savedTemp = await manager.save(temp);
+                const savedTemp = await manager.save(temp);
 
                 if (personnelTypeCode === PersonnelCode.AUTHORIZED_SIGNER) {
-                    await this.processDeleteDocuments(manager, savedTemp.id);
+                    await this.processDeleteDocuments(manager, master.id, savedTemp.id);
                 }
 
                 return savedTemp;
-            } else {
-                const temp = await manager.findOne(VendorPersonnelTemp, { where: { id } as any });
-                if (!temp) throw new NotFoundException(`Temp data with id ${id} not found`);
-
-                const tempId = temp.id;
-
-                if (personnelTypeCode === PersonnelCode.AUTHORIZED_SIGNER) {
-                    await this.processDeleteDocuments(manager, tempId);
-                }
-
-                savedTemp = await manager.remove(temp);
             }
 
-            return savedTemp;
+            const temp = await manager.findOne(VendorPersonnelTemp, { where: { id } as any });
+            if (!temp) throw new NotFoundException(`Temp data with id ${id} not found`);
+
+            if (personnelTypeCode === PersonnelCode.AUTHORIZED_SIGNER) {
+                await this.processDeleteDocuments(manager, temp.vendorPicId!!, temp.id);
+            }
+
+            return await manager.remove(temp);
         });
     }
 
-    private async processDeleteDocuments( manager: EntityManager, vendorPersonnelTempId: number, ) {
-        const existingTemps = await manager.find(VendorPersonnelDocumentTemp, {
-            where: {
-                vendorPersonnelTempId,
+    private async processDeleteDocuments( manager: EntityManager, vendorPersonnelId: number, vendorPersonnelTempId: number, ) {
+        let existingTemps = await manager.find(
+            VendorPersonnelDocumentTemp,
+            {
+                where: {
+                    vendorPersonnelTempId,
+                },
             },
-        });
+        );
+
+        // Belum pernah copy child dari master
+        if (!existingTemps.length) {
+
+            await this.copyDocumentsToTemp(
+                manager,
+                vendorPersonnelId,
+                vendorPersonnelTempId,
+            );
+
+            existingTemps = await manager.find(
+                VendorPersonnelDocumentTemp,
+                {
+                    where: {
+                        vendorPersonnelTempId,
+                    },
+                },
+            );
+        }
 
         if (!existingTemps.length) {
             return;
@@ -400,10 +416,13 @@ export class VendorPersonnelTempService extends BaseDraftCrudService<VendorPerso
 
         for (const item of existingTemps) {
 
+            // Child baru dibuat di draft
             if (item.action === VendorTempAction.CREATE) {
                 removeItems.push(item);
                 continue;
             }
+
+            // Child dari master
             item.action = VendorTempAction.DELETE;
             updateItems.push(item);
         }

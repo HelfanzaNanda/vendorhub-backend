@@ -45,8 +45,8 @@ export class CreateVendorUserTempDto {
     @IsOptional()
     positionId?: number;
 
-    @IsOptional()
-    effectiveStartDate?: Date;
+    // @IsOptional()
+    // effectiveStartDate?: Date;
 
     @IsOptional()
     effectiveEndDate?: Date;
