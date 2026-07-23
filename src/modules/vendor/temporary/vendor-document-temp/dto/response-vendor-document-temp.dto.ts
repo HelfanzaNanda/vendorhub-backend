@@ -1,3 +1,5 @@
+import { FileResponseDto } from "@common/dto/file-response.dto";
+
 export interface VendorDocumentItemResponseDto {
     id: number;
 
@@ -20,14 +22,7 @@ export interface VendorDocumentItemResponseDto {
 
     fileId: number | null;
 
-    file: {
-        id: number;
-        originalName: string;
-        filename: string;
-        mimeType: string;
-        size: number;
-        url: string;
-    } | null;
+    file: FileResponseDto | null;
 
     audit: {
         createdAt: Date;

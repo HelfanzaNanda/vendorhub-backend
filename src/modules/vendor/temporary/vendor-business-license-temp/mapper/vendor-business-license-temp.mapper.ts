@@ -14,19 +14,24 @@ export class VendorBusinessLicenseTempMapper {
             action: entity.action ?? null,
             reviewStatus: entity.reviewStatus ?? null,
             reviewNotes: entity.reviewNotes ?? null,
-            nibFileId: entity.fileId ? { id: entity.fileId } : null,
+            // nibFileId: entity.fileId ? { id: entity.fileId } : null,
+            file: entity.file
+                ? {
+                      id: entity.file.id,
+                      uuid : entity.file.uuid,
+                      originalName: entity.file.originalFileName,
+                      filename: entity.file.fileName,
+                      mimeType: entity.file.mimeType,
+                      size: entity.file.fileSize,
+                      url: `/files/download/${entity.file.id}`,
+                  }
+                : null,
             industryClassifications: industryClassifications.map(ic => ({
-                industryClassificationId: ic.id,
+                id: ic.id,
                 number: ic.number,
-                title: ic.name,
+                name: ic.name,
                 description: ic.description,
-            })),
-            audit: {
-                createdAt: entity.createdAt,
-                updatedAt: entity.updatedAt,
-                createdBy: entity.createdByUser?.username ?? null,
-                updatedBy: entity.updatedByUser?.username ?? null,
-            },
+            }))
         };
     }
 

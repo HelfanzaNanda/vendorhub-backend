@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { PermissionsGuard } from 'src/common/guards/permissions.guard';
 import { CreateVendorPersonnelTempDto } from './dto/create-vendor-personnel-temp.dto';
-import { UpdateVendorPersonnelTempDto } from './dto/update-vendor-personnel-temp.dto';
+import { DeleteVendorPersonnelTempDto, UpdateVendorPersonnelTempDto } from './dto/update-vendor-personnel-temp.dto';
 import { VendorPersonnelTempService } from './vendor-personnel-temp.service';
 import { PaginationQueryDto } from '@common/pagination/pagination-query.dto';
 import { Public } from '@common/decorators/public.decorator';
@@ -66,8 +66,8 @@ export class VendorPersonnelTempController {
     remove(
         @CurrentVendorId() vendorId: number, 
         @Param('id') id: number,
-        @Body('source') source: DataSource
+        @Body() dto: DeleteVendorPersonnelTempDto
     ) {
-        return this.service.delete(vendorId, id, source === DataSource.MASTER);
+        return this.service.delete(vendorId, id, dto, dto.source === DataSource.MASTER);
     }
 }

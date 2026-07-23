@@ -1,6 +1,4 @@
 import { CalculateDueDateOptions } from "@common/dto/date.dto";
-import { MasterHoliday } from "@modules/master/holiday/entities/holiday.entity";
-import { MasterWorkingCalendar } from "@modules/master/working-calendar/entities/working-calendar.entity";
 import dayjs from "dayjs";
 
 export class DateUtil {
@@ -8,6 +6,13 @@ export class DateUtil {
     private static readonly DATE_FORMAT = 'DD MMM YYYY';
     private static readonly DATETIME_FORMAT = 'DD MMM YYYY HH:mm';
     private static readonly DATETIME_SECOND_FORMAT = 'DD MMM YYYY HH:mm:ss';
+
+    static toDate(str?: string) : Date | undefined {
+        if (!str) {
+            return undefined;
+        }
+        return dayjs(str).toDate();
+    }
 
     static now() : Date {
         return new Date();

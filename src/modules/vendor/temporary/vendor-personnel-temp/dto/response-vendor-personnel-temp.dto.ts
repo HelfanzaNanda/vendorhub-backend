@@ -1,6 +1,7 @@
 import { AuditResponseDto } from '@common/dto/audit-response.dto';
 import { FileResponseDto } from '@common/dto/file-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { VendorPersonnelDocumentTempResponseDto } from './response-vendor-personnel-document-temp.dto.';
 
 export class VendorPersonnelTempResponseDto {
     @ApiProperty()
@@ -89,6 +90,9 @@ export class VendorPersonnelTempResponseDto {
 
     @ApiProperty({ nullable: true })
     authorityLimitationFile?: FileResponseDto | null;
+
+    @ApiProperty({ nullable: true, type: () => [VendorPersonnelDocumentTempResponseDto] })
+    documents?: VendorPersonnelDocumentTempResponseDto[];
 
     @ApiProperty({ type: () => AuditResponseDto })
     audit: AuditResponseDto;

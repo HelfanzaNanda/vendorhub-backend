@@ -16,12 +16,12 @@ export class VendorPersonnelDocumentTemp extends AuditBaseEntity {
     vendorPersonnelDocumentId?: number;
 
     @Column({ 
-        name: 'document_type', 
+        name: 'type', 
         type: 'enum',
         enum : PersonnelDocumentEnum ,
         nullable: true
     })
-    documentType?: PersonnelDocumentEnum;
+    type?: PersonnelDocumentEnum;
 
     @Column({ name: 'valid_from', type: 'date', nullable: true })
     validFrom?: Date;

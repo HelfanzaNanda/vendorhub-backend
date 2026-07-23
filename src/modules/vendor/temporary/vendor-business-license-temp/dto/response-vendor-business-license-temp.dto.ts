@@ -1,4 +1,5 @@
 import { AuditResponseDto } from '@common/dto/audit-response.dto';
+import { FileResponseDto } from '@common/dto/file-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class VendorBusinessLicenseTempResponseDto {
@@ -24,8 +25,11 @@ export class VendorBusinessLicenseTempResponseDto {
     nibFileId?: { id: number } | null;
 
     @ApiProperty({ nullable: true })
+    file?: FileResponseDto | null;
+
+    @ApiProperty({ nullable: true })
     industryClassifications?: any[] | null;
 
     @ApiProperty({ type: () => AuditResponseDto })
-    audit: AuditResponseDto;
+    audit?: AuditResponseDto;
 }

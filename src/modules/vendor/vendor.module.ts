@@ -14,7 +14,6 @@ import { VendorPersonnelModule } from './vendor-personnel/vendor-personnel.modul
 import { VendorBankModule } from './vendor-bank/vendor-bank.module';
 import { VendorAffiliationModule } from './vendor-affiliation/vendor-affiliation.module';
 import { VendorBusinessLicenseModule } from './vendor-business-license/vendor-business-license.module';
-import { VendorBusinessLicenseItemModule } from './vendor-business-license-item/vendor-business-license-item.module';
 import { VendorFinancialReportModule } from './vendor-financial-report/vendor-financial-report.module';
 import { VendorDocumentModule } from './vendor-document/vendor-document.module';
 import { VendorTermConditionModule } from './vendor-term-condition/vendor-term-condition.module';
@@ -48,7 +47,6 @@ import { VendorCompetencyTempModule } from './temporary/vendor-competency-temp/v
         VendorBankModule,
         VendorAffiliationModule,
         VendorBusinessLicenseModule,
-        VendorBusinessLicenseItemModule,
         VendorFinancialReportModule,
         VendorDocumentModule,
         VendorTermConditionModule,
@@ -80,7 +78,6 @@ import { VendorCompetencyTempModule } from './temporary/vendor-competency-temp/v
         VendorBankModule,
         VendorAffiliationModule,
         VendorBusinessLicenseModule,
-        VendorBusinessLicenseItemModule,
         VendorFinancialReportModule,
         VendorDocumentModule,
         VendorTermConditionModule,

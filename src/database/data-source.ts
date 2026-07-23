@@ -34,7 +34,6 @@ import { VendorPersonnel } from '@modules/vendor/vendor-personnel/entities/vendo
 import { VendorBank } from '@modules/vendor/vendor-bank/entities/vendor-bank.entity';
 import { VendorAffiliation } from '@modules/vendor/vendor-affiliation/entities/vendor-affiliation.entity';
 import { VendorBusinessLicense } from '@modules/vendor/vendor-business-license/entities/vendor-business-license.entity';
-import { VendorBusinessLicenseItem } from '@modules/vendor/vendor-business-license-item/entities/vendor-business-license-item.entity';
 import { VendorFinancialReport } from '@modules/vendor/vendor-financial-report/entities/vendor-financial-report.entity';
 import { VendorDocument } from '@modules/vendor/vendor-document/entities/vendor-document.entity';
 import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendor-temp.entity';
@@ -118,7 +117,6 @@ export const AppDataSource = new DataSource({
         VendorBank,
         VendorAffiliation,
         VendorBusinessLicense,
-        VendorBusinessLicenseItem,
         VendorFinancialReport,
         VendorDocument,
         VendorTemp,

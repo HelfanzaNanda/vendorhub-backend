@@ -7,6 +7,7 @@ import { CreateVendorPersonnelTempDto } from '@modules/vendor/temporary/vendor-p
 import { PersonnelDocumentEnum } from '@common/enums/personnel-type.enum';
 import { VendorPersonnelDocument } from '@modules/vendor/vendor-personnel/entities/vendor-personnel-document.entity';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
+import { VendorTempAction } from '@common/enums';
 
 @Injectable()
 export class VendorPersonnelBuilder {
@@ -107,24 +108,28 @@ export class VendorPersonnelBuilder {
                 }),
                 documents : [
                     {
-                        documentType : PersonnelDocumentEnum.KONTRAK,
+                        type : PersonnelDocumentEnum.KONTRAK,
                         validFrom : faker.date.past(),
                         validTo : faker.date.future({ years : 5}),
+                        action : VendorTempAction.NO_ACTION
                     },
                     {
-                        documentType : PersonnelDocumentEnum.BAPK,
+                        type : PersonnelDocumentEnum.BAPK,
                         validFrom : faker.date.past(),
                         validTo : faker.date.future({ years : 5}),
+                        action : VendorTempAction.NO_ACTION
                     },
                     {
-                        documentType : PersonnelDocumentEnum.BAST,
+                        type : PersonnelDocumentEnum.BAST,
                         validFrom : faker.date.past(),
                         validTo : faker.date.future({ years : 5}),
+                        action : VendorTempAction.NO_ACTION
                     },
                     {
-                        documentType : PersonnelDocumentEnum.BAUT,
+                        type : PersonnelDocumentEnum.BAUT,
                         validFrom : faker.date.past(),
                         validTo : faker.date.future({ years : 5}),
+                        action : VendorTempAction.NO_ACTION
                     },
                 ]
             };
@@ -143,7 +148,7 @@ export class VendorPersonnelBuilder {
                 for (const doc of documents) {
                     const newTemp = manager.create(VendorPersonnelDocument, {
                         vendorPersonnelId : savedPersonnel.id,
-                        documentType : doc.documentType,
+                        type : doc.type,
                         validFrom : doc.validFrom,
                         validTo : doc.validTo,
                     });

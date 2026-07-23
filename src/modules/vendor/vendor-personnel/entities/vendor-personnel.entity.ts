@@ -47,6 +47,11 @@ export class VendorPersonnel extends AuditBaseEntity {
         precision: 18,
         scale: 2,
         nullable: true,
+        transformer: {
+            to: (value?: number | null) => value,
+            from: (value?: string | null) =>
+                value == null ? null : Number(value),
+        },
     })
     ownershipPercentage?: number;
 

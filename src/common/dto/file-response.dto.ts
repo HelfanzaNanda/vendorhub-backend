@@ -5,10 +5,13 @@ export class FileResponseDto {
     id: number;
 
     @ApiProperty()
-    fileName: string;
+    originalName: string;
 
     @ApiProperty()
-    fileSize: number;
+    filename: string;
+
+    @ApiProperty()
+    size: number;
 
     @ApiProperty()
     mimeType?: string;
@@ -18,4 +21,7 @@ export class FileResponseDto {
 
     @ApiProperty()
     url?: string;
+
+    @ApiProperty()
+    uuid?: string;
 }

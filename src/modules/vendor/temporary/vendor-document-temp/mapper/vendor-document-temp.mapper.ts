@@ -33,6 +33,7 @@ export class VendorDocumentTempMapper {
             file: entity.file
                 ? {
                       id: entity.file.id,
+                      uuid : entity.file.uuid,
                       originalName: entity.file.originalFileName,
                       filename: entity.file.fileName,
                       mimeType: entity.file.mimeType,

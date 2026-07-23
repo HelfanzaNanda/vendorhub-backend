@@ -10,9 +10,9 @@ import {
 } from '@nestjs/common';
 import { CurrentVendorId } from '@common/decorators/current-vendor-id.decorator';
 import { PermissionsGuard } from 'src/common/guards/permissions.guard';
-import { UpdateVendorDocumentTempDto } from './dto/update-vendor-document-temp.dto';
 import { VendorDocumentTempService } from './vendor-document-temp.service';
 import { Public } from '@common/decorators/public.decorator';
+import { SaveVendorDocumentTempDto } from './dto/save-vendor-document-temp.dto';
 
 @Controller('vendor-document-temps')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -27,10 +27,10 @@ export class VendorDocumentTempController {
 
     @Put()
     // @RequirePermission('vendor-document-temp.update')
-    upsert(
+    saveSingleton(
         @CurrentVendorId() vendorId: number,
-        @Body(new ParseArrayPipe({ items: UpdateVendorDocumentTempDto })) dto: UpdateVendorDocumentTempDto[],
+        @Body() dto: SaveVendorDocumentTempDto,
     ) {
-        return this.service.upsert(vendorId, dto);
+        return this.service.saveSingletion(vendorId, dto);
     }
 }

@@ -33,8 +33,10 @@ export class VendorPersonnelTempMapper {
             authorityLimitationExpiredAt: entity.authorityLimitationExpiredAt ?? null,
             authorityLimitationFile: entity.authorityLimitationFile ? { 
                 id: entity.authorityLimitationFile.id, 
-                fileName: entity.authorityLimitationFile.fileName, 
-                fileSize: entity.authorityLimitationFile.fileSize, 
+                uuid : entity.authorityLimitationFile.uuid,
+                originalName : entity.authorityLimitationFile.originalFileName,
+                filename: entity.authorityLimitationFile.fileName, 
+                size: entity.authorityLimitationFile.fileSize, 
                 mimeType: entity.authorityLimitationFile.mimeType
             } : null,
             audit: {

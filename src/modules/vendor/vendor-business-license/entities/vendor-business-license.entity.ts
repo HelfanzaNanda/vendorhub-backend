@@ -1,5 +1,5 @@
 import { AuditBaseEntity } from '@common/entities/audit-base.entity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
 import { File } from '@modules/master/file/entities/file.entity';
@@ -22,6 +22,9 @@ export class VendorBusinessLicense extends AuditBaseEntity {
     @ManyToOne(() => File, { nullable: true })
     @JoinColumn({ name: 'file_id' })
     file?: File;
+
+    @Column({ name: 'industry_classification_ids', type: 'text', nullable: true })
+    industryClassificationIds?: string;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'created_by' })

@@ -26,12 +26,12 @@ export class VendorBusinessLicenseTempService {
         const draft = await this.vendorTempService.getOrCreateDraft(vendorId);
         const item = await this.repo.findOne({
             select: {
-                createdByUser: {
-                    username: true,
-                },
-                updatedByUser: {
-                    username: true,
-                },
+                id : true,
+                file : true,
+                action : true,
+                reviewNotes: true,
+                reviewStatus : true,
+                industryClassificationIds : true,
             },
             where: { vendorTempId: draft.id },
             relations: {
@@ -43,11 +43,39 @@ export class VendorBusinessLicenseTempService {
             },
         });
 
-        if (!item) return null;
+        if (item) {
+            let industryClassifications: IndustryClassification[] = [];
+            if (item.industryClassificationIds) {
+                const ids = item.industryClassificationIds.split(',').map(id => parseInt(id.trim(), 10)).filter(id => !isNaN(id));
+                if (ids.length > 0) {
+                    industryClassifications = await this.icRepo.find({
+                        where: { id: In(ids) }
+                    });
+                }
+            }
+            return VendorBusinessLicenseTempMapper.toResponse(item, industryClassifications);
+        }
+
+        const master = await this.masterRepo.findOne({
+            select: {
+                id : true,
+                vendorId : true,
+                file : true,
+                industryClassificationIds : true
+            },
+            where: { vendorId },
+            relations: {
+                createdByUser: true,
+                updatedByUser: true,
+                file: true,
+            },
+        });
+
+        if (!master) return null;
 
         let industryClassifications: IndustryClassification[] = [];
-        if (item.industryClassificationIds) {
-            const ids = item.industryClassificationIds.split(',').map(id => parseInt(id.trim(), 10)).filter(id => !isNaN(id));
+        if (master.industryClassificationIds) {
+            const ids = master.industryClassificationIds.split(',').map(id => parseInt(id.trim(), 10)).filter(id => !isNaN(id));
             if (ids.length > 0) {
                 industryClassifications = await this.icRepo.find({
                     where: { id: In(ids) }
@@ -55,7 +83,7 @@ export class VendorBusinessLicenseTempService {
             }
         }
 
-        return VendorBusinessLicenseTempMapper.toResponse(item, industryClassifications);
+        return VendorBusinessLicenseTempMapper.toResponse(master, industryClassifications);
     }
 
     async upsert(vendorId: number, data: UpdateVendorBusinessLicenseTempDto) {
