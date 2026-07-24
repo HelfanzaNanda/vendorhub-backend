@@ -8,6 +8,7 @@ import { faker } from '@faker-js/faker';
 import { CreateVendorCustomerReferenceTempDto } from '@modules/vendor/temporary/vendor-competency-temp/dto/create-vendor-customer-reference-temp.dto';
 import { Area } from '@modules/master/area/entities/area.entity';
 import { VendorCustomerReference } from '@modules/vendor/vendor-competency/entities/vendor-customer-reference.entity';
+import { VendorTempAction } from '@common/enums';
 
 @Injectable()
 export class VendorCompetencyBuilder {
@@ -35,12 +36,13 @@ export class VendorCompetencyBuilder {
 
             for (let j = 0; j < 4; j++) {
                 customers.push({
-                    name : faker.commerce.productName(),
-                    projectValue : faker.number.float({min : 1000000, max : 1000000000}),
-                    fileId : 1,
-                    description : faker.lorem.words(10),
-                    year : faker.number.int({min : 2023, max : 2025}),
-                    areaIds : faker.helpers.arrayElements(areas.map(a => a.id), 2)
+                    name: faker.commerce.productName(),
+                    projectValue: faker.number.float({ min: 1000000, max: 1000000000 }),
+                    fileId: 1,
+                    description: faker.lorem.words(10),
+                    year: faker.number.int({ min: 2023, max: 2025 }),
+                    areaIds : faker.helpers.arrayElements(areas.map(a => a.id), 2),
+                    action: VendorTempAction.NO_ACTION
                 });
             }
 

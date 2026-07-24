@@ -3,6 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/uman/user/entities/user.entity';
 import { VendorCompetency } from './vendor-competency.entity';
 import { File } from '@modules/master/file/entities/file.entity';
+import { Area } from '@modules/master/area/entities/area.entity';
 
 @Entity('vendor_customer_references')
 export class VendorCustomerReference extends AuditBaseEntity {
@@ -53,4 +54,8 @@ export class VendorCustomerReference extends AuditBaseEntity {
     @ManyToOne(() => User)
     @JoinColumn({ name: 'updated_by' })
     updatedByUser?: User;
+
+
+    
+    areas?: Area[];
 }

@@ -4,6 +4,7 @@ import { User } from '@modules/uman/user/entities/user.entity';
 import { VendorCompetencyTemp } from './vendor-competency-temp.entity';
 import { VendorCustomerReference } from '@modules/vendor/vendor-competency/entities/vendor-customer-reference.entity';
 import { File } from '@modules/master/file/entities/file.entity';
+import { Area } from '@modules/master/area/entities/area.entity';
 
 @Entity('vendor_customer_reference_temps')
 export class VendorCustomerReferenceTemp extends AuditBaseEntity {
@@ -70,4 +71,6 @@ export class VendorCustomerReferenceTemp extends AuditBaseEntity {
     @ManyToOne(() => User)
     @JoinColumn({ name: 'updated_by' })
     updatedByUser?: User;
+    
+    areas?: Area[];
 }

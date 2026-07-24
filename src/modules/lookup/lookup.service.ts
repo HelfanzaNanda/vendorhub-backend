@@ -155,7 +155,7 @@ export class LookupService {
         for (const cat of categories) {
             const catNode = {
                 id: cat.id,
-                label: cat.name,
+                name: cat.name,
                 type: 'CATEGORY',
                 selectable: false,
                 children: [] as any[],
@@ -167,7 +167,7 @@ export class LookupService {
             for (const sub of catSubs) {
                 const subNode = {
                     id: sub.id,
-                    label: sub.name,
+                    name: sub.name,
                     type: 'SUB_CATEGORY',
                     selectable: false,
                     children: [] as any[],
@@ -179,7 +179,7 @@ export class LookupService {
                 for (const item of subItems) {
                     subNode.children.push({
                         id: item.id,
-                        label: item.name,
+                        name: item.name,
                         type: 'SUB_CATEGORY_ITEM',
                         selectable: true,
                     });

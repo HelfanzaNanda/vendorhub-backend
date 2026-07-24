@@ -6,11 +6,12 @@ import { VendorCustomerReferenceTemp } from './entities/vendor-customer-referenc
 import { VendorCompetencyTempService } from './vendor-competency-temp.service';
 import { VendorCompetencyTempController } from './vendor-competency-temp.controller';
 import { VendorTempModule } from '../vendor-temp/vendor-temp.module';
+import { Area } from '@modules/master/area/entities/area.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([VendorCompetency, VendorCompetencyTemp, VendorCustomerReferenceTemp]),
-        VendorTempModule,
+        TypeOrmModule.forFeature([VendorCompetency, VendorCompetencyTemp, VendorCustomerReferenceTemp, Area]),
+        VendorTempModule
     ],
     controllers: [VendorCompetencyTempController],
     providers: [VendorCompetencyTempService],
