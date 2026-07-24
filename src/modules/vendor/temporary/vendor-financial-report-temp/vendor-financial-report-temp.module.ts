@@ -5,10 +5,11 @@ import { VendorFinancialReportTempController } from './vendor-financial-report-t
 import { VendorFinancialReportTempService } from './vendor-financial-report-temp.service';
 import { VendorTempModule } from '../vendor-temp/vendor-temp.module';
 import { VendorFinancialReport } from '@modules/vendor/vendor-financial-report/entities/vendor-financial-report.entity';
+import { FinancialPeriod } from '@modules/master/financial-period/entities/financial-period.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([VendorFinancialReport, VendorFinancialReportTemp]),
+        TypeOrmModule.forFeature([VendorFinancialReport, VendorFinancialReportTemp, FinancialPeriod]),
         VendorTempModule
     ],
     controllers: [VendorFinancialReportTempController],

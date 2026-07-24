@@ -15,7 +15,18 @@ export class VendorCustomerReference extends AuditBaseEntity {
     @Column({ name: 'description', type: 'text', nullable: true })
     description?: string;
 
-    @Column({ name: 'project_value', type: 'decimal', precision: 20, scale: 2, nullable: true })
+    @Column({ 
+        name: 'project_value', 
+        type: 'decimal', 
+        precision: 20, 
+        scale: 2, 
+        nullable: true,
+        transformer: {
+            to: (value?: number | null) => value,
+            from: (value?: string | null) =>
+                value == null ? null : Number(value),
+        },
+    })
     projectValue?: number;
 
     @Column({ name: 'year', type: 'int', nullable: true })

@@ -98,9 +98,11 @@ export class VendorUserTempService extends BaseDraftCrudService<User, VendorUser
             const tempId = source === 'TEMP' ? entity.id : null;
             
             let id = null;
-            if (source === 'MASTER') id = masterId;
-            else if (source === 'TEMP' && action === VendorTempAction.UPDATE) id = masterId;
-            else if (source === 'TEMP' && action === VendorTempAction.CREATE) id = tempId;
+            if (source === 'MASTER') {
+                id = masterId;
+            } else if (source === 'TEMP') {
+                id = tempId;
+            }
 
             let resolvedRoles = [];
             if (entity.userHasRoles && source === 'MASTER') {

@@ -5,6 +5,7 @@ import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendo
 import { VendorFinancialReport } from '@modules/vendor/vendor-financial-report/entities/vendor-financial-report.entity';
 import { File } from '@modules/master/file/entities/file.entity';
 import { Currency } from '@modules/master/currency/entities/currency.entity';
+import { FinancialPeriod } from '@modules/master/financial-period/entities/financial-period.entity';
 
 @Entity('vendor_financial_report_temps')
 export class VendorFinancialReportTemp extends AuditBaseEntity {
@@ -49,12 +50,20 @@ export class VendorFinancialReportTemp extends AuditBaseEntity {
     @Column({ name: 'currency_id', type: 'int', nullable: true })
     currencyId?: number;
 
+    @Column({ name: 'financial_period_id', type: 'int', nullable: true })
+    financialPeriodId?: number;
+
     @Column({
         name: 'current_assets',
         type: 'decimal',
         precision: 18,
         scale: 2,
         nullable: true,
+        transformer: {
+            to: (value?: number | null) => value,
+            from: (value?: string | null) =>
+                value == null ? null : Number(value),
+        },
     })
     currentAssets?: number;
 
@@ -64,6 +73,11 @@ export class VendorFinancialReportTemp extends AuditBaseEntity {
         precision: 18,
         scale: 2,
         nullable: true,
+        transformer: {
+            to: (value?: number | null) => value,
+            from: (value?: string | null) =>
+                value == null ? null : Number(value),
+        },
     })
     totalAssets?: number;
 
@@ -73,6 +87,11 @@ export class VendorFinancialReportTemp extends AuditBaseEntity {
         precision: 18,
         scale: 2,
         nullable: true,
+        transformer: {
+            to: (value?: number | null) => value,
+            from: (value?: string | null) =>
+                value == null ? null : Number(value),
+        },
     })
     currentLiabilities?: number;
 
@@ -82,6 +101,11 @@ export class VendorFinancialReportTemp extends AuditBaseEntity {
         precision: 18,
         scale: 2,
         nullable: true,
+        transformer: {
+            to: (value?: number | null) => value,
+            from: (value?: string | null) =>
+                value == null ? null : Number(value),
+        },
     })
     totalLiabilities?: number;
 
@@ -91,6 +115,11 @@ export class VendorFinancialReportTemp extends AuditBaseEntity {
         precision: 18,
         scale: 2,
         nullable: true,
+        transformer: {
+            to: (value?: number | null) => value,
+            from: (value?: string | null) =>
+                value == null ? null : Number(value),
+        },
     })
     totalRevenue?: number;
 
@@ -100,6 +129,11 @@ export class VendorFinancialReportTemp extends AuditBaseEntity {
         precision: 18,
         scale: 2,
         nullable: true,
+        transformer: {
+            to: (value?: number | null) => value,
+            from: (value?: string | null) =>
+                value == null ? null : Number(value),
+        },
     })
     netProfitLossAfterTax?: number;
 
@@ -121,6 +155,10 @@ export class VendorFinancialReportTemp extends AuditBaseEntity {
     @ManyToOne(() => Currency, { nullable: true })
     @JoinColumn({ name: 'currency_id' })
     currency?: Currency;
+
+    @ManyToOne(() => FinancialPeriod, { nullable: true })
+    @JoinColumn({ name: 'financial_period_id' })
+    financialPeriod?: FinancialPeriod;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'created_by' })

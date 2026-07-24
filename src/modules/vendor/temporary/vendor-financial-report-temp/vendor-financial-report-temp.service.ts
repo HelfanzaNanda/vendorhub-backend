@@ -52,6 +52,9 @@ export class VendorFinancialReportTempService extends BaseDraftCrudService<Vendo
     async update(vendorId: number, id: number, data: UpdateVendorFinancialReportTempDto, isMaster: boolean) {
         // Exclude 'source' from data when saving
         const { source, ...updateData } = data;
+        if (updateData.financialPeriodId == 3) {
+            updateData.year = undefined;
+        }
         return this.updateDraft(vendorId, id, updateData as any, isMaster);
     }
 
@@ -65,7 +68,8 @@ export class VendorFinancialReportTempService extends BaseDraftCrudService<Vendo
             .leftJoinAndSelect('m.createdByUser', 'createdByUser')
             .leftJoinAndSelect('m.updatedByUser', 'updatedByUser')
             .leftJoinAndSelect('m.file', 'file')
-            .leftJoinAndSelect('m.currency', 'currency');
+            .leftJoinAndSelect('m.currency', 'currency')
+            .leftJoinAndSelect('m.financialPeriod', 'financialPeriod');
 
         const tempQb = this.tempRepo.createQueryBuilder('t')
             .innerJoin('t.vendorTemp', 'vendorTemp', 'vendorTemp.vendorId = :vendorId', { vendorId })
@@ -73,16 +77,20 @@ export class VendorFinancialReportTempService extends BaseDraftCrudService<Vendo
             .leftJoinAndSelect('t.updatedByUser', 'updatedByUser')
             .leftJoinAndSelect('t.vendorFinancialReport', 'vendorFinancialReport')
             .leftJoinAndSelect('t.file', 'file')
-            .leftJoinAndSelect('t.currency', 'currency');
+            .leftJoinAndSelect('t.currency', 'currency')
+            .leftJoinAndSelect('t.financialPeriod', 'financialPeriod');
+
 
         const mapToResponse = (entity: any, source: 'MASTER' | 'TEMP', action: string | null) => {
             const masterId = source === 'MASTER' ? entity.id : entity.vendorFinancialReportId;
             const tempId = source === 'TEMP' ? entity.id : null;
             
             let id = null;
-            if (source === 'MASTER') id = masterId;
-            else if (source === 'TEMP' && action === VendorTempAction.UPDATE) id = masterId;
-            else if (source === 'TEMP' && action === VendorTempAction.CREATE) id = tempId;
+            if (source === 'MASTER') {
+                id = masterId;
+            } else if (source === 'TEMP') {
+                id = tempId;
+            }
 
             const res = source === 'TEMP' 
                 ? VendorFinancialReportTempMapper.toResponse(entity) 
@@ -110,7 +118,7 @@ export class VendorFinancialReportTempService extends BaseDraftCrudService<Vendo
         if (isMaster) {
             const item = await this.masterRepo.findOne({
                 where: { id, vendorId } as any,
-                relations: ['createdByUser', 'updatedByUser', 'file', 'currency'],
+                relations: ['createdByUser', 'updatedByUser', 'file', 'currency', 'financialPeriod'],
             });
             if (!item) throw new NotFoundException();
             const res = VendorFinancialReportTempMapper.toResponse({ ...item, vendorFinancialReportId: item.id } as any);
@@ -119,10 +127,12 @@ export class VendorFinancialReportTempService extends BaseDraftCrudService<Vendo
             const vendorTemp = await this.vendorTempService.getOrCreateDraft(vendorId);
             const item = await this.tempRepo.findOne({
                 where: { id, vendorTempId: vendorTemp.id } as any,
-                relations: ['createdByUser', 'updatedByUser', 'file', 'currency'],
+                relations: ['createdByUser', 'updatedByUser', 'file', 'currency', 'financialPeriod'],
             });
             if (!item) throw new NotFoundException();
             const res = VendorFinancialReportTempMapper.toResponse(item);
+            // console.log('item :', item);
+            // console.log('res :', res);
             
             const masterId = item.vendorFinancialReportId;
             const tempId = item.id;

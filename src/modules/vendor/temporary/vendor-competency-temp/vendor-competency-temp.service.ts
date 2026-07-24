@@ -203,9 +203,11 @@ export class VendorCompetencyTempService extends BaseDraftCrudService<VendorComp
             const tempId = source === 'TEMP' ? entity.id : null;
             
             let id = null;
-            if (source === 'MASTER') id = masterId;
-            else if (source === 'TEMP' && action === VendorTempAction.UPDATE) id = masterId;
-            else if (source === 'TEMP' && action === VendorTempAction.CREATE) id = tempId;
+            if (source === 'MASTER') {
+                id = masterId;
+            } else if (source === 'TEMP') {
+                id = tempId;
+            }
 
             const res = source === 'TEMP' 
                 ? VendorCompetencyTempMapper.toResponse(entity) 

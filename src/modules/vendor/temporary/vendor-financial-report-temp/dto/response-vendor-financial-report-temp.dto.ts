@@ -1,4 +1,5 @@
 import { AuditResponseDto } from '@common/dto/audit-response.dto';
+import { FileResponseDto } from '@common/dto/file-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class VendorFinancialReportTempResponseDto {
@@ -30,10 +31,22 @@ export class VendorFinancialReportTempResponseDto {
     reviewNotes?: string | null;
 
     @ApiProperty({ nullable: true })
-    reportType?: string | null;
+    reportType?: {
+        id: string;
+        name: string;
+    } | null;
 
     @ApiProperty({ nullable: true })
-    year?: number | null;
+    financialPeriod?: {
+        id: number;
+        name: string;
+    } | null;
+
+    @ApiProperty({ nullable: true })
+    year?: {
+        id : number;
+        name : number
+    } | null;
 
     @ApiProperty({ nullable: true })
     periodFrom?: Date | null;
@@ -42,20 +55,16 @@ export class VendorFinancialReportTempResponseDto {
     periodTo?: Date | null;
 
     @ApiProperty({ nullable: true })
-    auditStatus?: 'AUDITED' | 'UNAUDITED' | null;
+    auditStatus?: {
+        id : string;
+        name : string
+    } | null;
 
     @ApiProperty({ nullable: true })
     fileId?: number | null;
 
     @ApiProperty({ nullable: true })
-    file?: {
-        id: number;
-        originalName: string;
-        filename: string;
-        mimeType: string;
-        size: number;
-        url: string;
-    } | null;
+    file?: FileResponseDto | null;
 
     @ApiProperty({ nullable: true })
     currencyId?: number | null;

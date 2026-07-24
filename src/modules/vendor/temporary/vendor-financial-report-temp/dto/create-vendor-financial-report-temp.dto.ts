@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, IsString, IsEnum, IsNumber } from 'class-validator';
+import { IsOptional, IsInt, IsString, IsEnum, IsNumber, ValidateIf } from 'class-validator';
 
 export class CreateVendorFinancialReportTempDto {
     @IsInt()
@@ -21,17 +21,24 @@ export class CreateVendorFinancialReportTempDto {
     @IsOptional()
     reviewNotes?: string;
 
-    @IsString()
+    @IsEnum(['INTERIM','ANNUAL'])
     @IsOptional()
-    reportType?: string;
+    reportType?: 'INTERIM'|'ANNUAL';
 
+    @ValidateIf(o => o.reportType === 'ANNUAL')
     @IsInt()
     @IsOptional()
     year?: number;
 
+    @ValidateIf(o => o.reportType === 'ANNUAL')
+    @IsOptional()
+    financialPeriodId?: number;
+
+    @ValidateIf(o => o.reportType === 'INTERIM' || o.financialPeriodId == 3)
     @IsOptional()
     periodFrom?: Date;
 
+    @ValidateIf(o => o.reportType === 'INTERIM' || o.financialPeriodId == 3)
     @IsOptional()
     periodTo?: Date;
 
