@@ -1,5 +1,3 @@
-
-import { VendorRegistrationModule } from './business-process/vendor-registration/vendor-registration.module';
 import { VendorUpdateModule } from './business-process/vendor-update/vendor-update.module';
 import { DigitalSignatureModule } from './business-process/digital-signature/digital-signature.module';
 import { ProposedToRejectModule } from './business-process/proposed-to-reject/proposed-to-reject.module';
@@ -32,7 +30,6 @@ import { VendorCompetencyTempModule } from './temporary/vendor-competency-temp/v
 
 @Module({
     imports: [
-        VendorRegistrationModule,
         VendorUpdateModule,
         DigitalSignatureModule,
         ProposedToRejectModule,
@@ -63,7 +60,6 @@ import { VendorCompetencyTempModule } from './temporary/vendor-competency-temp/v
         VendorCompetencyTempModule,
     ],
     exports: [
-        VendorRegistrationModule,
         VendorUpdateModule,
         DigitalSignatureModule,
         ProposedToRejectModule,

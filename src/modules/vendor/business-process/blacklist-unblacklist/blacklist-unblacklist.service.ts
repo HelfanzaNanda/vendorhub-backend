@@ -33,6 +33,7 @@ export class BlacklistUnblacklistService {
 
         // 3. Panggil Generic Workflow Engine
         return this.workflowService.start({
+            userId: userId,
             workflowCode: WorkflowCode.BLACKLIST_UNBLACKLIST,
             vendorTempId: vendorTemp.id,
         });

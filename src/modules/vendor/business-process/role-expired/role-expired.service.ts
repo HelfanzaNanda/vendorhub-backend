@@ -33,6 +33,7 @@ export class RoleExpiredService {
 
         // 3. Panggil Generic Workflow Engine
         return this.workflowService.start({
+            userId: userId,
             workflowCode: WorkflowCode.ROLE_EXPIRED,
             vendorTempId: vendorTemp.id,
         });

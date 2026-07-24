@@ -13,6 +13,7 @@ import { RunningNumberService } from '@modules/running-number/running-number.ser
 import { VendorTempStatus } from '@common/enums/vendor-temp-status.enum';
 import { RunningNumberCode } from '@common/enums/running-number-code.enum';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
+import { VendorStatusEnum } from '@common/enums/vendor.enum';
 
 @Injectable()
 export class VendorTempService {
@@ -20,13 +21,40 @@ export class VendorTempService {
         @InjectRepository(VendorTemp)
         private repo: Repository<VendorTemp>,
 
+        @InjectRepository(Vendor)
+        private vendorRepo: Repository<Vendor>,
+
         private readonly runningNumberService: RunningNumberService,
         private dataSource: DataSource,
     ) {}
 
     async getOrCreateDraft(vendorId : number) : Promise<VendorTemp> {
 
+        const vendor = await this.vendorRepo.findOne({ where: { id: vendorId } });
+        if (!vendor) {
+            throw new NotFoundException(`Vendor with id ${vendorId} not found`);
+        }
+
+        if(vendor.status === VendorStatusEnum.WAITING_FOR_APPROVAL) {
+            let vendorTemp = await this.repo.findOne({
+                where: {
+                    vendorId,
+                    status: VendorTempStatus.SUBMITTED,
+                },
+                order: {
+                    createdAt: 'DESC',
+                },
+            });
+
+            if (!vendorTemp) {
+                throw new NotFoundException(`Vendor Temp with id ${vendorId} not found`);
+            }
+            return vendorTemp;
+
+        }
+
         return this.dataSource.transaction(async manager => {
+
             // Lock parent vendor
             await manager
                 .getRepository(Vendor)
@@ -40,6 +68,9 @@ export class VendorTempService {
                 where: {
                     vendorId,
                     status: VendorTempStatus.DRAFT,
+                },
+                order: {
+                    createdAt: 'DESC',
                 },
             });
 
@@ -56,6 +87,22 @@ export class VendorTempService {
 
             return await manager.save(vendorTemp);
         });
+    }
+
+    async getDraft(vendorId : number) : Promise<VendorTemp> {
+        const vendorTemp = await this.repo.findOne({
+            where: {
+                vendorId,
+            },
+            order: {
+                createdAt: 'DESC',
+            },
+        });
+
+        if (!vendorTemp) {
+            throw new NotFoundException(`Vendor Temp with id ${vendorId} not found`);
+        }
+        return vendorTemp;
     }
 
     async pagination(query: PaginationQueryDto) {

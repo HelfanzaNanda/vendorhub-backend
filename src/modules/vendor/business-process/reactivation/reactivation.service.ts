@@ -33,6 +33,7 @@ export class ReactivationService {
 
         // 3. Panggil Generic Workflow Engine
         return this.workflowService.start({
+            userId: userId,
             workflowCode: WorkflowCode.REACTIVATION,
             vendorTempId: vendorTemp.id,
         });

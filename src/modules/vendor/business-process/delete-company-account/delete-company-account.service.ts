@@ -33,6 +33,7 @@ export class DeleteCompanyAccountService {
 
         // 3. Panggil Generic Workflow Engine
         return this.workflowService.start({
+            userId: userId,
             workflowCode: WorkflowCode.DELETE_COMPANY_ACCOUNT,
             vendorTempId: vendorTemp.id,
         });

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreateVendorUserTempDto } from './dto/create-vendor-user-temp.dto';
 import { UpdateVendorUserTempDto } from './dto/update-vendor-user-temp.dto';
 import { In, Repository } from 'typeorm';
@@ -47,7 +47,87 @@ export class VendorUserTempService extends BaseDraftCrudService<User, VendorUser
         };
     }
 
+    async validateAdminVendor(vendorId: number, positionId?: number, roleIdsString?: string | null, ignoreTempId?: number) {
+        if (!positionId) return;
+
+        const position = await this.masterRepo.manager.findOne(this.masterRepo.metadata.target, { where: { id: positionId } }) as any;
+        const pos = await this.masterRepo.manager.getRepository('Position').findOne({ where: { id: positionId } }) as any;
+        
+        if (pos?.name === 'Admin Vendor') {
+            // Count existing Admin Vendors in TEMP and MASTER (if not deleted/updated in TEMP)
+            const temps = await this.tempRepo.find({
+                where: { vendorTemp: { vendorId } },
+                relations: ['position'],
+            });
+            const masters = await this.masterRepo.find({
+                where: { vendor: { id: vendorId } } as any,
+                relations: ['position', 'userHasRoles', 'userHasRoles.role'],
+            });
+
+            let adminCount = 0;
+            let vendorRoleCount = 0;
+
+            for (const temp of temps) {
+                if (temp.id === ignoreTempId) continue;
+                if (temp.action === VendorTempAction.DELETE) continue;
+                
+                if (temp.position?.name === 'Admin Vendor') {
+                    adminCount++;
+                }
+
+                if (temp.roleIds) {
+                    const rIds = temp.roleIds.split(',').map(r => parseInt(r.trim(), 10));
+                    // we don't have the role names, but wait, the prompt says:
+                    // "If Role = Vendor already exists, prevent another user from becoming Admin Vendor."
+                }
+            }
+
+            for (const master of masters) {
+                const hasTemp = temps.find(t => t.vendorUserId === master.id && t.id !== ignoreTempId);
+                if (hasTemp) continue; // Temp action overrides master
+
+                if (master.position?.name === 'Admin Vendor') {
+                    adminCount++;
+                }
+
+                const hasVendorRole = master.userHasRoles?.some((u: any) => u.role?.name === 'Vendor');
+                if (hasVendorRole) {
+                    vendorRoleCount++;
+                }
+            }
+
+            if (adminCount > 0) {
+                throw new BadRequestException('Only one Admin Vendor is allowed.');
+            }
+
+            // Wait, "If Role = Vendor already exists, prevent another user from becoming Admin Vendor."
+            // But we need to check if ANY other user has Role = Vendor. 
+            // We just counted masters. What about temps?
+            // To be accurate, we'd fetch all Roles.
+            const allRoles = await this.roleRepo.find();
+            const vendorRole = allRoles.find(r => r.name === 'Vendor');
+            if (vendorRole) {
+                for (const temp of temps) {
+                    if (temp.id === ignoreTempId) continue;
+                    if (temp.action === VendorTempAction.DELETE) continue;
+                    if (temp.roleIds) {
+                        const rIds = temp.roleIds.split(',').map(r => parseInt(r.trim(), 10));
+                        if (rIds.includes(vendorRole.id)) {
+                            vendorRoleCount++;
+                        }
+                    }
+                }
+            }
+
+            if (vendorRoleCount > 0) {
+                throw new BadRequestException('A user with Vendor role already exists. Cannot add Admin Vendor.');
+            }
+        }
+    }
+
     async create(vendorId: number, data: CreateVendorUserTempDto) {
+        await this.validateAdminVendor(vendorId, data.positionId, data.roleIds?.join(','));
+
         const payload = {
             ...data,
             roleIds: data.roleIds?.join(',') ?? null,
@@ -57,6 +137,8 @@ export class VendorUserTempService extends BaseDraftCrudService<User, VendorUser
     }
 
     async update(vendorId: number, id: number, data: UpdateVendorUserTempDto, isMaster: boolean) {
+        await this.validateAdminVendor(vendorId, data.positionId, data.roleIds?.join(','), isMaster ? undefined : id);
+
         // Exclude 'source' from data when saving
         const { source, ...updateData } = data;
         const payload = {

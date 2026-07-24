@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, BadRequestException } from '@nestjs/common';
+import { Controller, Post, UseGuards, BadRequestException, Get } from '@nestjs/common';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { PermissionsGuard } from '@common/guards/permissions.guard';
 import { CurrentUserId } from '@common/decorators/current-user-id.decorator';
@@ -16,5 +16,13 @@ export class VendorUpdateController {
         @CurrentVendorId() vendorId: number,
     ) {
         return this.service.submit(userId, vendorId);
+    }
+
+    @Get("context")
+    async getContext(
+        @CurrentUserId() userId: number,
+        @CurrentVendorId() vendorId: number,
+    ) {
+        return this.service.getContext(userId, vendorId);
     }
 }

@@ -1,6 +1,6 @@
 import { SubmitWorklistDto, WorklistSubmitStatus } from './dto/submit-worklist.dto';
 import { Vendor } from '@modules/vendor/vendor/entities/vendor.entity';
-import { VendorStageEnum, VendorStatusEnum } from '@common/enums/vendor.enum';
+import { VendorStageEnum, VendorStatusEnum, VendorTypeEnum } from '@common/enums/vendor.enum';
 import { WorklistCompanyService } from './review/company/worklist-company.service';
 import { WorklistPersonnelService } from './review/personnel/worklist-personnel.service';
 import { WorklistBankService } from './review/bank/worklist-bank.service';
@@ -52,6 +52,9 @@ import { WorkflowTransactionStatus, WorkflowTransactionStepStatus } from '@commo
 import { WorkflowStepCode } from '@common/enums/workflow.enum';
 import { MasterWorkingCalendar } from '@modules/master/working-calendar/entities/working-calendar.entity';
 import { MasterHoliday } from '@modules/master/holiday/entities/holiday.entity';
+import { VendorTempAction } from '@common/enums';
+import { VendorTempStatus } from '@common/enums/vendor-temp-status.enum';
+import { VendorTemp } from '@modules/vendor/temporary/vendor-temp/entities/vendor-temp.entity';
 
 @Injectable()
 export class WorklistService {
@@ -592,6 +595,9 @@ export class WorklistService {
             if (vendor) {
                 vendor.status = VendorStatusEnum.REVISION;
                 await manager.save(Vendor, vendor);
+
+                wt.vendorTemp.status = VendorTempStatus.DRAFT;
+                await manager.save(VendorTemp, wt.vendorTemp);
             }
             
             // Mark all steps as complete

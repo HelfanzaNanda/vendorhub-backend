@@ -33,12 +33,18 @@ export class VendorPersonnelTempController {
         return this.service.pagination(vendorId, query);
     }
 
+    @Get('ownership-summary')
+    ownershipCalculate( @CurrentVendorId() vendorId: number) {
+        return this.service.ownershipCalculate(vendorId);
+    }
+
     @Post()
     // @Public()
     // @RequirePermission('vendor-personnel-temp.create')
     create(@CurrentVendorId() vendorId: number, @Body() dto: CreateVendorPersonnelTempDto) {
         return this.service.create(vendorId, dto);
     }
+    
 
     @Get(':id')
     findOne(
@@ -70,4 +76,7 @@ export class VendorPersonnelTempController {
     ) {
         return this.service.delete(vendorId, id, dto, dto.source === DataSource.MASTER);
     }
+
+
+    
 }

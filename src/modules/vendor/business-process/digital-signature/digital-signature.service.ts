@@ -33,6 +33,7 @@ export class DigitalSignatureService {
 
         // 3. Panggil Generic Workflow Engine
         return this.workflowService.start({
+            userId: userId,
             workflowCode: WorkflowCode.DIGITAL_SIGNATURE,
             vendorTempId: vendorTemp.id,
         });

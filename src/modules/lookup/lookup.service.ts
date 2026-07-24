@@ -101,7 +101,22 @@ export class LookupService {
     }
 
     async getPositions() {
-        return await this.positionService.findOptions();
+        const positions = await this.positionService.findOptions();
+        try {
+            const roles = await this.roleService.findOptions('EXTERNAL');
+            const vendorRole = roles.find((r: any) => r.name === 'Vendor');
+            if (vendorRole) {
+                return positions.map((p: any) => {
+                    if (p.name === 'Admin Vendor') {
+                        return { ...p, defaultRoles: [vendorRole.id] };
+                    }
+                    return p;
+                });
+            }
+        } catch (e) {
+            // ignore
+        }
+        return positions;
     }
 
     async getRoles(type: 'INTERNAL' | 'EXTERNAL') {

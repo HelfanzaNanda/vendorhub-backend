@@ -77,6 +77,11 @@ export class VendorPersonnelTempService extends BaseDraftCrudService<VendorPerso
             throw new BadRequestException(`Documents are required`);
         }
 
+        
+        if (personnelTypeCode === PersonnelCode.SHAREHOLDER) {
+            await this.ownershipCalculate(vendorId, 'VALIDATE');
+        }
+
         const vendorTemp = await this.vendorTempService.getOrCreateDraft(vendorId);
 
 
@@ -125,10 +130,17 @@ export class VendorPersonnelTempService extends BaseDraftCrudService<VendorPerso
             throw new BadRequestException(`Personnel type '${data.personnelTypeCode}' not found`);
         }
 
+        
+
 
 
         const vendorTemp = await this.vendorTempService.getOrCreateDraft(vendorId);
         const { source, documents, personnelTypeCode, ...updateData } = data;
+
+        if (personnelTypeCode === PersonnelCode.SHAREHOLDER) {
+            await this.ownershipCalculate(vendorId, 'VALIDATE');
+        }
+
         updateData.personnelTypeId = personnelType.id;
 
         return this.tempRepo.manager.transaction(async (manager) => {
@@ -585,5 +597,73 @@ export class VendorPersonnelTempService extends BaseDraftCrudService<VendorPerso
                 validTo: doc.validTo,
             };
         });
+    }
+
+    async ownershipCalculate(vendorId: number, type : 'CALCULATE' | 'VALIDATE' = 'CALCULATE') {
+        const vendorTemp = await this.vendorTempService.getDraft(vendorId);
+
+        if (!vendorTemp) {
+            throw new BadRequestException('Draft vendor not found');
+        }
+
+        const masters = await this.masterRepo.find({
+            where: {
+                vendorId,
+                personnelType: {
+                    code: PersonnelCode.SHAREHOLDER,
+                },
+            },
+        });
+
+        const temps = await this.tempRepo.find({
+            where: {
+                vendorTempId: vendorTemp.id,
+                personnelType: {
+                    code: PersonnelCode.SHAREHOLDER,
+                },
+            },
+        });
+
+        let total = 0;
+        
+
+        // Master
+        for (const master of masters) {
+            const temp = temps.find( x => x.vendorPicId === master.id);
+
+            if (!temp) {
+                total += Number(master.ownershipPercentage ?? 0);
+                continue;
+            }
+
+            switch (temp.action) {
+                case VendorTempAction.UPDATE:
+                    total += Number(temp.ownershipPercentage ?? 0);
+                    break;
+
+                case VendorTempAction.DELETE:
+                    break;
+
+                default:
+                    total += Number(master.ownershipPercentage ?? 0);
+            }
+        }
+
+        // Temp CREATE
+        for (const temp of temps) {
+            if (temp.action === VendorTempAction.CREATE) {
+                total += Number(temp.ownershipPercentage ?? 0);
+            }
+        }
+
+        if (type == 'VALIDATE') {
+            if (total != 100) {
+                throw new BadRequestException(`Total ownership percentage must be 100%`);
+            }
+        }
+
+        return {
+            total,
+        };
     }
 }

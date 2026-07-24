@@ -33,6 +33,7 @@ export class ProposedToRejectService {
 
         // 3. Panggil Generic Workflow Engine
         return this.workflowService.start({
+            userId: userId,
             workflowCode: WorkflowCode.PROPOSED_TO_REJECT,
             vendorTempId: vendorTemp.id,
         });
