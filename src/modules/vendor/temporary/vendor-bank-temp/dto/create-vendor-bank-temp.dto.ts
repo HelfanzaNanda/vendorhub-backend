@@ -23,6 +23,14 @@ export class CreateVendorBankTempDto {
 
     @IsInt()
     @IsOptional()
+    countryId?: number;
+
+    @IsInt()
+    @IsOptional()
+    bankId?: number;
+
+    @IsInt()
+    @IsOptional()
     bankBranchId?: number;
 
     @IsInt()

@@ -38,13 +38,14 @@ export class VendorBankTempService extends BaseDraftCrudService<VendorBank, Vend
     }
 
     async create(vendorId: number, data: CreateVendorBankTempDto) {
-        return this.createDraft(vendorId, data as any);
+        const {bankId, countryId, ...paylod} = data;
+        return this.createDraft(vendorId, paylod);
     }
 
     async update(vendorId: number, id: number, data: UpdateVendorBankTempDto, isMaster: boolean) {
         // Exclude 'source' from data when saving
-        const { source, ...updateData } = data;
-        return this.updateDraft(vendorId, id, updateData as any, isMaster);
+        const { source, bankId, countryId, ...updateData } = data;
+        return this.updateDraft(vendorId, id, updateData, isMaster);
     }
 
     async delete(vendorId: number, id: number, isMaster: boolean) {
@@ -83,8 +84,8 @@ export class VendorBankTempService extends BaseDraftCrudService<VendorBank, Vend
             else if (source === 'TEMP' && action === VendorTempAction.CREATE) id = tempId;
 
             const res = source === 'TEMP' 
-                ? VendorBankTempMapper.toResponse(entity) 
-                : VendorBankTempMapper.toResponse({ ...entity, vendorBankId: entity.id } as any);
+                ? VendorBankTempMapper.pagination(entity) 
+                : VendorBankTempMapper.pagination({ ...entity, vendorBankId: entity.id } as any);
             return {
                 ...res,
                 id,
@@ -108,7 +109,17 @@ export class VendorBankTempService extends BaseDraftCrudService<VendorBank, Vend
         if (isMaster) {
             const item = await this.masterRepo.findOne({
                 where: { id, vendorId } as any,
-                relations: ['createdByUser', 'updatedByUser', 'bankBranch', 'currency', 'file'],
+                relations: {
+                    createdByUser : true,
+                    updatedByUser : true,
+                    bankBranch : {
+                        bank : {
+                            country : true
+                        }
+                    },
+                    currency : true,
+                    file : true
+                },
             });
             if (!item) throw new NotFoundException();
             const res = VendorBankTempMapper.toResponse({ ...item, vendorBankId: item.id } as any);
@@ -117,7 +128,17 @@ export class VendorBankTempService extends BaseDraftCrudService<VendorBank, Vend
             const vendorTemp = await this.vendorTempService.getOrCreateDraft(vendorId);
             const item = await this.tempRepo.findOne({
                 where: { id, vendorTempId: vendorTemp.id } as any,
-                relations: ['createdByUser', 'updatedByUser', 'bankBranch', 'currency', 'file'],
+                relations: {
+                    createdByUser : true,
+                    updatedByUser : true,
+                    bankBranch : {
+                        bank : {
+                            country : true
+                        }
+                    },
+                    currency : true,
+                    file : true
+                }
             });
             if (!item) throw new NotFoundException();
             const res = VendorBankTempMapper.toResponse(item);
